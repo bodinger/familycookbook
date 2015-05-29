@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <title>FamilyCookBook</title>
+    <%= stylesheet_link_tag 'bootstrap.min', 'application' %>
+    <%= csrf_meta_tags %>
+</head>
+<body>
+<div id="main">
+    <div class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav pull-left">
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <%= flash_messages %>
+    </div>
+    <div class="container">
+        <div class="page-header clearfix">
+            <div class="pull-right">
+                <%= yield_content :actions %>
+                <%- if route.path_for_generation.include? "inspector" %>
+
+                <% end %>
+            </div>
+            <div class="page-title">
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <%= yield %>
+    </div>
+</div>
+<%= javascript_include_tag 'jquery', 'jquery-ujs', 'bootstrap.min' %>
+<%= javascript_include_tag 'application' %>
+</body>
+</html>

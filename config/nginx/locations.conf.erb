@@ -1,0 +1,15 @@
+location <%= fetch(:api_root_path, "/") %> {
+  proxy_pass http://<%= fetch(:application, nil) %>_puma;
+
+  # proxy_http_version 1.1; # activate when switching to puma
+  # proxy_set_header Connection ""; # activate when switching to puma
+  #
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+  proxy_redirect off;
+  proxy_buffer_size         16k;   # Buffer for the initial response packets
+  proxy_buffers             32 8k; # Buffer for subsequent response packets
+                                   # Note: Memory usage will be
+                                   # this value times number of client connections!
+}

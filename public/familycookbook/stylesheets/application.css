@@ -1,0 +1,43 @@
+/* -- Begin Layout -- */
+html, body {
+  height: 100%;
+}
+body {
+  font-size: 14px;
+}
+
+.field-errors {
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.field-errors ul {
+  margin-bottom: 0;
+}
+
+.field-errors h2 {
+  margin-top: 0;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: bold;
+}
+
+.page-header .page-title {
+  padding-top: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+pre.pre-max-width {
+  width: 75em;
+}
+
+pre.pre-max-height {
+  max-height: 20em;
+}
+
+td a {
+    padding: 0
+}
+
+

@@ -1,0 +1,4 @@
+upstream <%= fetch(:application) %>_puma {
+  server 127.0.0.1:<%= fetch(:puma_port) %> max_fails=1 fail_timeout=20s;
+  keepalive 32;
+}

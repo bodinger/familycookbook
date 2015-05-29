@@ -1,0 +1,21 @@
+development: &default
+  database:
+    host: 127.0.0.1
+    name: fcb
+    user: thm0001m
+  max_connections: 10
+  pg_options:
+    tcp_keepalives_idle: 60
+    tcp_keepalives_interval: 60
+    tcp_keepalives_count: 100
+  redis:
+    host: 127.0.0.1:6379
+    database: 3
+
+test:
+  <<: *default
+  database:
+    host: 127.0.0.1
+    db: fcb_test
+    user: thm0001m
+

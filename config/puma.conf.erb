@@ -1,0 +1,12 @@
+environment "<%= fetch(:rack_env) %>"
+bind "tcp://0.0.0.0:<%= fetch(:puma_port) %>"
+rackup "<%= fetch(:deploy_to) %>/current/config.ru"
+workers <%= fetch(:puma_workers) %>
+threads <%= fetch(:puma_threads) %>
+pidfile "<%= fetch(:puma_pidfile) %>"
+activate_control_app "<%= fetch(:puma_activate_control_app) %>", { no_token: true }
+state_path "<%= fetch(:puma_state_path) %>"
+
+stdout_redirect "<%= shared_path %>/log/puma.stdout.log",
+                "<%= shared_path %>/log/puma.stderr.log",
+                true # Append to logs, if they exist already

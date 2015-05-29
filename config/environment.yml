@@ -1,0 +1,19 @@
+development: &default
+  app:
+    name: familycookbook
+    version: 0
+    api_path: /familycookbook
+    config:
+      default_pagination_limit: 50
+
+test:
+  <<: *default
+
+integration:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default
