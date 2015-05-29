@@ -2,45 +2,63 @@ Sequel.migration do
   change do
     create_table(:ingredients) do
       primary_key :id
-      String :title, :null => false
-      String :description
-      timestamptz :created_at
-      timestamptz :updated_at
+
+      column :title,       String, :null => false
+      column :description, String
+      column :created_at, :timestamptz
+      column :updated_at, :timestamptz
 
       index :title
     end
 
     create_table(:recipes) do
       primary_key :id
-      String :title, :null => false
-      String :description, :null => false
-      timestamptz :created_at
-      timestamptz :updated_at
+
+      column :title,       String, :null => false
+      column :description, String, :null => false
+      column :created_at,  :timestamptz
+      column :updated_at,  :timestamptz
 
       index :title
     end
 
     create_join_table(:ingredient_id => :ingredients, :recipe_id => :recipes)
 
+    create_table(:recipe_ingredient_amounts) do
+      primary_key :id
+
+      foreign_key :recipe_id,     :recipes, :deferrable => true, :null => false
+      foreign_key :ingredient_id, :ingredients, :deferrable => true, :null => false
+
+      column :amount,     String, :null => false
+      column :created_at, :timestamptz
+      column :updated_at, :timestamptz
+
+      index [:recipe_id, :ingredient_id]
+      index :amount
+    end
+
     create_table(:units) do
       primary_key :id
-      String :name, :null => false
-      String :description
-      timestamptz :created_at
-      timestamptz :updated_at
+
+      column :name,        String
+      column :description, String
+      column :created_at,  :timestamptz
+      column :updated_at,  :timestamptz
 
       index :name
     end
 
     create_table(:foodcalendar) do
       primary_key :id
-      integer :date_range, :null => false
-      String :title, :null => false
-      String :description
-      timestamptz :created_at
-      timestamptz :updated_at
 
-      index :title
+      column :date_range,  Integer, :null => false
+      column :name,        String
+      column :description, String
+      column :created_at,  :timestamptz
+      column :updated_at,  :timestamptz
+
+      index :name
     end
 
 

@@ -1,0 +1,57 @@
+<%- actions({ 'Cancel' => url(:recipe, :show, :id => @recipe.id) }) %>
+
+<%- form_for :recipe, url(:recipe, :update, :id => @recipe.id), :method => :put, :class => 'form-horizontal' do |f| %>
+  <%= render_partial 'recipe/form_fields', :object => f %>
+  <%= f.submit 'Update', :class => 'btn btn-primary' %>
+<% end %>
+
+<div class="page-header">
+  <div class="page-title">Providers and channels</div>
+</div>
+
+<% form_tag url(:recipe, :add_ingredient_and_amount, :id => @recipe.id), :method => :post, :class => 'form-inline' do %>
+  <table class="table">
+    <thead>
+    <td>
+      <strong>
+        Provider
+      </strong>
+    </td>
+    <td>
+      <strong>
+        Channel
+      </strong>
+    </td>
+    </thead>
+    <tbody>
+    <tr>
+      <td>
+        <%= select_tag :ingredient_id, :options => ingredients_options, :include_blank => true, :selected => params[:ingredient_id], :class => 'form-control' %>
+      </td>
+      <td>
+
+      </td>
+      <td class="text-right">
+        <%= submit_tag 'Add', :class => 'btn btn-success' %>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+<% end %>
+
+<div class="ingredients-and-amounts">
+  <% @recipe.ingredients.sort_by { |a| a.title.downcase }.each do |ingredient| %>
+    <table class="table">
+      <thead>
+      <td><strong><%= ingredient.title %></strong></td>
+      <td class="text-right">
+        <%= link_to 'Remove ingredient', url(:recipe, :remove_ingredient, :id => @recipe.id, :ingredient_id => ingredient.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient?' %>
+      </td>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  <% end %>
+</div>
+

@@ -1,0 +1,25 @@
+<%- actions({ 'Add recipe' => url(:recipe, :new) }) %>
+
+<table class="table">
+    <thead>
+    <td>
+        Title
+    </td>
+    <td>
+        Anzahl Zutaten
+    </td>
+    </thead>
+    <tbody>
+    <% @items.each do |recipe| %>
+        <tr>
+            <td>
+                <%= link_to recipe.title, url(:recipe, :show, id: recipe.id) %>
+            </td>
+            <td>
+                <%= recipe.ingredients.size %>
+            </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+

@@ -1,4 +1,3 @@
-alert('loaded');
 // Put your application scripts here
 var isMobile = {
   Android: function() {

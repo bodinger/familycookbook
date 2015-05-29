@@ -10,7 +10,11 @@
 <div id="main">
     <div class="navbar navbar-inverse navbar-static-top">
         <div class="container">
+            <%= link_to 'FamilyCookBook', url(:index, :index), :class => 'navbar-brand', :title => 'FamilyCookBook' %>
             <ul class="nav navbar-nav">
+              <%= navigation_item(:index, url(:index, :index), 'Übersicht') %>
+              <%= navigation_item(:recipe, url(:recipe, :index), 'Rezepte') %>
+              <%= navigation_item(:ingredient, url(:ingredient, :index), 'Zutaten') %>
             </ul>
             <ul class="nav navbar-nav pull-left">
             </ul>
@@ -24,11 +28,10 @@
             <div class="pull-right">
                 <%= yield_content :actions %>
                 <%- if route.path_for_generation.include? "inspector" %>
-
                 <% end %>
             </div>
             <div class="page-title">
-
+                <%= page_header_from_current_route %>
             </div>
         </div>
     </div>

@@ -1,0 +1,43 @@
+<%- actions({ 'Show all' => url(:recipe, :index) }) %>
+
+<table class="table">
+  <thead>
+  <%= attribute_row(@recipe, :title) %>
+  </thead>
+  <tbody>
+  <%= attribute_row(@recipe, :description) %>
+  </tbody>
+</table>
+
+<table class="table">
+    <tbody>
+    <tr>
+        <td>
+            <%= link_to 'Edit', url(:recipe, :edit, id: @recipe.id), class: 'btn btn-primary' %>
+        </td>
+        <td>
+            <div class="pull-right">
+            <%= link_to 'Delete', url(:recipe, :destroy, id: @recipe.id), class: 'btn btn-danger', :method => :delete, confirm: 'Are you sure?' %>
+            </div>
+        </td>
+    </tr>
+                    </tbody>
+</table>
+
+
+<table class="table">
+    <thead>
+    <th><strong>Ingredients</strong></th>
+    <th><strong>Channels</strong></th>
+    </thead>
+    <tbody>
+  <tr>
+    <% @recipe.ingredients.each do |ingredient| %>
+    <tr>
+      <td><%= ingredient.title %></td>
+      <td>ARGH</td>
+    </tr>
+  <% end %>
+  </tr>
+    </tbody>
+</table>

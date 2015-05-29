@@ -1,0 +1,6 @@
+<%- actions({ 'Cancel' => url(:recipe, :index) }) %>
+
+<%- form_for :recipe, url(:recipe, :create), :method => :post, :class => 'form-horizontal' do |f| %>
+  <%= render_partial 'recipe/form_fields', :object => f %>
+  <%= f.submit 'Create', :class => 'btn btn-primary' %>
+<% end %>

@@ -3,6 +3,15 @@
 module MTMD
   module FamilyCookBook
       module ApplicationHelper
+        def check_recipe_id(recipe_id)
+          if recipe_id.blank?
+            flash[:error] = "Please provide a recipe id!"
+            redirect_to url(:recipe, :index)
+          end
+
+
+        end
+
         def page_header_from_current_route
           singular_actions = [:show, :edit]
           title = route.controller.humanize
@@ -49,6 +58,29 @@ module MTMD
           end
         end
 
+        def attribute_row(model, attr, opts = {}, &block)
+          attr_value = eval_model_attribute(model, attr, &block)
+
+          cell_options = opts.fetch(:cell, {})
+          cell_tag = cell_options.delete(:tag) || :td
+
+          html = content_tag(cell_tag, cell_options) do
+            content_tag(:strong) { opts.fetch(:label, attr.to_s.humanize) }
+          end
+
+          html << content_tag(cell_tag, cell_options) do
+            attr_value
+          end
+
+          content_tag(:tr) { html }
+        end
+
+        def eval_model_attribute(model, attr, &block)
+          attr_value = model.send(attr)
+          return attr_value unless block
+          block.call(attr_value)
+        end
+
         def error_messages(&block)
           content_tag(:div, :class => 'errors bg-danger') do
             block.call
@@ -88,6 +120,8 @@ module MTMD
         def flash_messages
           css_class = 'alert-info'
           keys = flash.keys
+
+          puts "=====> #{flash}"
 
           return if keys.empty?
 
