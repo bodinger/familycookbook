@@ -14,12 +14,19 @@ Sequel.migration do
     create_table(:recipes) do
       primary_key :id
 
-      column :title,       String, :null => false
-      column :description, String, :null => false
+      column :title,                String, :null => false
+      column :description,          String, :null => false
+      column :tips_and_tricks,      String
+      column :type,                 String
+      column :difficulty,           Integer
+      column :duration_cooking,     Integer
+      column :duration_preparation, Integer
+      column :cookware_amount,      Integer
       column :created_at,  :timestamptz
       column :updated_at,  :timestamptz
 
       index :title
+      index :type
     end
 
     create_join_table(:ingredient_id => :ingredients, :recipe_id => :recipes)

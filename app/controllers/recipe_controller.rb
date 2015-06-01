@@ -1,12 +1,14 @@
 MTMD::FamilyCookBook::App.controllers :recipe do
 
-  get :show, :with => '(:id)' do
-    recipe_id = params.fetch('id', nil)
-    check_recipe_id(recipe_id)
+  before do
+    @logic_class = MTMD::FamilyCookBook::RecipeActions.new(params)
+  end
 
-    @recipe = MTMD::FamilyCookBook::Recipe[recipe_id]
-    if @recipe.nil?
-      flash[:error] = "No recipe with that id found!"
+  get :show, :with => '(:id)' do
+    @recipe = @logic_class.check_id
+
+    unless @recipe
+      flash[:error] = "Please provide a valid recipe id!"
       redirect_to url(:recipe, :index)
     end
 
@@ -14,30 +16,32 @@ MTMD::FamilyCookBook::App.controllers :recipe do
   end
 
   get :index  do
-    @items = MTMD::FamilyCookBook::Recipe.all
-
+    @items = @logic_class.recipes
     render 'recipe/index'
   end
 
   get :new do
-    @recipe = MTMD::FamilyCookBook::Recipe.new
+    @recipe = @logic_class.new
     render 'recipe/new'
   end
 
   post :create do
-    puts params.keys.first.inspect
-    puts params.keys.first.constantize
-    puts params.inspect
-    render 'shared/not_implemented'
+    recipe      = @logic_class.create
+
+    unless recipe
+      flash[:error] = "An error has occurred!"
+    else
+      flash[:success] = "Recipe has been created."
+    end
+
+    redirect_to url(:recipe, :index)
   end
 
   get :edit, :with => '(:id)' do
-    recipe_id = params.fetch('id', nil)
-    check_recipe_id(recipe_id)
+    @recipe = @logic_class.check_id
 
-    @recipe = MTMD::FamilyCookBook::Recipe[recipe_id]
-    if @recipe.nil?
-      flash[:error] = "No recipe with that id found!"
+    unless @recipe
+      flash[:error] = "Please provide a valid recipe id!"
       redirect_to url(:recipe, :index)
     end
 
@@ -45,11 +49,39 @@ MTMD::FamilyCookBook::App.controllers :recipe do
   end
 
   delete :destroy, :with => :id do
-    render 'shared/not_implemented'
+    recipe = @logic_class.check_id
+
+    unless recipe
+      flash[:error] = "Please provide a valid recipe id!"
+      redirect_to url(:recipe, :index)
+    end
+
+    status = @logic_class.destroy
+
+    if status == true
+      flash[:success] = "Recipe has been deleted."
+    else
+      flash[:error] = "An error has occurred!"
+    end
+
+    redirect_to url(:recipe, :index)
   end
 
   put :update, :with => :id do
-    render 'shared/not_implemented'
+    recipe = @logic_class.check_id
+
+    unless recipe
+      flash[:error] = "Please provide a valid recipe id!"
+      redirect_to url(:recipe, :index)
+    end
+
+    status = @logic_class.update
+    if status == true
+      flash[:success] = "Recipe has been save successfully."
+    else
+      flash[:error] = "Nothing has been saved/changed!"
+    end
+    redirect_to url(:recipe, :show, recipe.id)
   end
 
   post :add_ingredient_and_amount, :with => :id do

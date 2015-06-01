@@ -3,14 +3,7 @@
 module MTMD
   module FamilyCookBook
       module ApplicationHelper
-        def check_recipe_id(recipe_id)
-          if recipe_id.blank?
-            flash[:error] = "Please provide a recipe id!"
-            redirect_to url(:recipe, :index)
-          end
 
-
-        end
 
         def page_header_from_current_route
           singular_actions = [:show, :edit]
@@ -120,8 +113,6 @@ module MTMD
         def flash_messages
           css_class = 'alert-info'
           keys = flash.keys
-
-          puts "=====> #{flash}"
 
           return if keys.empty?
 
