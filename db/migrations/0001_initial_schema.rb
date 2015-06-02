@@ -31,21 +31,44 @@ Sequel.migration do
 
     create_join_table(:ingredient_id => :ingredients, :recipe_id => :recipes)
 
-    create_table(:recipe_ingredient_amounts) do
+    create_table(:units) do
       primary_key :id
 
-      foreign_key :recipe_id,     :recipes, :deferrable => true, :null => false
+      column :name,        String
+      column :short_name,  String
+      column :description, String
+      column :created_at,  :timestamptz
+      column :updated_at,  :timestamptz
+
+      index :name
+    end
+
+    create_table(:ingredient_quantities) do
+      primary_key :id
+
+      foreign_key :recipe_id,     :recipes,     :deferrable => true, :null => false
       foreign_key :ingredient_id, :ingredients, :deferrable => true, :null => false
+      foreign_key :unit_id,       :units,       :deferrable => true, :null => false
 
-      column :amount,     String, :null => false
-      column :created_at, :timestamptz
-      column :updated_at, :timestamptz
+      column :amount,      String, :null => false
+      column :portions,    String, :null => false
+      column :description, String
+      column :created_at,  :timestamptz
+      column :updated_at,  :timestamptz
 
+      index [:recipe_id, :ingredient_id, :unit_id]
       index [:recipe_id, :ingredient_id]
+      index [:recipe_id, :unit_id]
+      index [:ingredient_id, :portions]
+      index [:ingredient_id, :portions, :unit_id]
       index :amount
     end
 
-    create_table(:units) do
+    create_join_table(:ingredient_quantities_id => :ingredient_quantities, :recipe_id => :recipes)
+    create_join_table(:ingredient_quantities_id => :ingredient_quantities, :ingredient_id => :ingredients)
+    create_join_table(:unit_id => :units, :ingredient_quantities_id => :ingredient_quantities)
+
+    create_table(:tags) do
       primary_key :id
 
       column :name,        String
@@ -55,6 +78,8 @@ Sequel.migration do
 
       index :name
     end
+
+    create_join_table(:tag_id => :tags, :recipe_id => :recipes)
 
     create_table(:foodcalendar) do
       primary_key :id

@@ -2,10 +2,16 @@
 
 <table class="table">
   <thead>
+  <%= attribute_row(@recipe, :type) %>
   <%= attribute_row(@recipe, :title) %>
+  <%= attribute_row(@recipe, :difficulty) %>
   </thead>
   <tbody>
   <%= attribute_row(@recipe, :description) %>
+  <%= attribute_row(@recipe, :duration_preparation) %>
+  <%= attribute_row(@recipe, :duration_cooking) %>
+  <%= attribute_row(@recipe, :cookware_amount) %>
+  <%= attribute_row(@recipe, :tips_and_tricks) %>
   </tbody>
 </table>
 

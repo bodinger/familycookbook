@@ -26,7 +26,7 @@ MTMD::FamilyCookBook::App.controllers :recipe do
   end
 
   post :create do
-    recipe      = @logic_class.create
+    recipe = @logic_class.create
 
     unless recipe
       flash[:error] = "An error has occurred!"
@@ -69,7 +69,6 @@ MTMD::FamilyCookBook::App.controllers :recipe do
 
   put :update, :with => :id do
     recipe = @logic_class.check_id
-
     unless recipe
       flash[:error] = "Please provide a valid recipe id!"
       redirect_to url(:recipe, :index)
@@ -85,6 +84,22 @@ MTMD::FamilyCookBook::App.controllers :recipe do
   end
 
   post :add_ingredient_and_amount, :with => :id do
+    puts "===============> #{params}"
+
+    recipe = @logic_class.check_id
+    unless recipe
+      flash[:error] = "Please provide a valid recipe id!"
+      redirect_to url(:recipe, :index)
+    end
+
+    ingredient = @logic_class.check_ingredient_id
+    unless ingredient
+      flash[:error] = "Please provide a valid ingredient id!"
+      redirect_to url(:recipe, :edit, recipe.id)
+    end
+
+    @logic_class.add_amount_and_ingredient(recipe, ingredient)
+
     render 'shared/not_implemented'
   end
 

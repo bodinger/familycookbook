@@ -1,6 +1,7 @@
 module MTMD
   module FamilyCookBook
     class RecipeActions
+      include MTMD::FamilyCookBook::SharedActions
 
       def initialize(params)
         @params = params
@@ -12,6 +13,14 @@ module MTMD
           return nil
         end
         MTMD::FamilyCookBook::Recipe[recipe_id]
+      end
+
+      def check_ingredient_id
+        ingredient_id = @params.fetch('ingredient_id', nil)
+        if ingredient_id.blank?
+          return nil
+        end
+        MTMD::FamilyCookBook::Ingredient[ingredient_id]
       end
 
       def new
@@ -38,6 +47,11 @@ module MTMD
 
       def recipes
         MTMD::FamilyCookBook::Recipe.all
+      end
+
+      def add_amount_and_ingredient(recipe, ingredient)
+        recipe.add_ingredient(ingredient)
+        create_recipe_ingredient_amount(@params[:amount], recipe, ingredient)
       end
 
     end

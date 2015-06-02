@@ -9,8 +9,15 @@ module MTMD
                    :left_key => :ingredient_id,
                    :right_key => :recipe_id
 
+      many_to_many :ingredient_quantities,
+                   :class => 'MTMD::FamilyCookBook::IngredientQuantity',
+                   :join_table => :ingredient_quantities_ingredients,
+                   :left_key => :ingredient_id,
+                   :right_key => :ingredient_quantities_id
+
       plugin :association_dependencies,
-             :recipes => :nullify
+             :recipes               => :nullify,
+             :ingredient_quantities => :nullify
 
     end
   end

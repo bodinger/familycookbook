@@ -6,7 +6,7 @@
 <% end %>
 
 <div class="page-header">
-  <div class="page-title">Providers and channels</div>
+  <div class="page-title">Ingredients for <%= input_tag :amount_portions, :name => :amount_portions, :value => params[:amount_portions], :class => 'form-control' %> persons</div>
 </div>
 
 <% form_tag url(:recipe, :add_ingredient_and_amount, :id => @recipe.id), :method => :post, :class => 'form-inline' do %>
@@ -14,22 +14,22 @@
     <thead>
     <td>
       <strong>
-        Provider
+        Amount
       </strong>
     </td>
     <td>
       <strong>
-        Channel
+        Ingredient
       </strong>
     </td>
     </thead>
     <tbody>
     <tr>
       <td>
-        <%= select_tag :ingredient_id, :options => ingredients_options, :include_blank => true, :selected => params[:ingredient_id], :class => 'form-control' %>
+        <%= input_tag :amount, :name => :amount, :value => params[:amount], :class => 'form-control' %>
       </td>
       <td>
-
+        <%= select_tag :ingredient_id, :options => ingredients_options, :include_blank => true, :selected => params[:ingredient_id], :class => 'form-control' %>
       </td>
       <td class="text-right">
         <%= submit_tag 'Add', :class => 'btn btn-success' %>
