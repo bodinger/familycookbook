@@ -1,0 +1,31 @@
+<%- actions({ 'Add tag' => url(:tag, :new) }) %>
+
+<table class="table">
+    <thead>
+    <th>
+        Name
+    </th>
+    <th>
+        Description
+    </th>
+    <th>
+        Action
+    </th>
+    </thead>
+    <tbody>
+    <% @items.each do |tag| %>
+        <tr>
+            <td>
+                <%= link_to tag.name, url(:tag, :show, id: tag.id) %>
+            </td>
+            <td>
+                <%= tag.description %>
+            </td>
+            <td>
+                <%= link_to 'Delete tag', url(:tag, :destroy, :id => tag.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this tag?' %>
+            </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+

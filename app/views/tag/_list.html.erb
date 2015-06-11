@@ -1,0 +1,41 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h3><span class="label label-default">Tags</span></h3>
+<table class="table ">
+  <tbody>
+
+
+<%- if route.path_for_generation.include? "edit" %>
+  <% form_tag url(:recipe, :add_tag, :id => @recipe.id), :id => 'recipe-add-tag-form', :method => :post, :class => 'form-inline' do %>
+    <tr>
+      <td width="10%">
+        <label for="tag_name">Add Tag: </label>
+      </td>
+      <td width="10%">
+          <%= input_tag :tag_name, :name => :tag_name, :class => 'form-inline typeahead', :id => 'tag_name', 'data-provide' => 'typeahead', :autocomplete => "off" %>
+      </td>
+      <td class="text-left">
+        <%= submit_tag 'Add tag', :id => 'recipe-add-tag-submit', :class => 'btn btn-success btn-xs' %>
+      </td>
+    </tr>
+  <% end %>
+<% end %>
+
+
+
+    <tr>
+      <td colspan="3">
+    <% @recipe.tags.sort_by { |a| a.name.downcase }.each do |tag| %>
+      <div class="btn-group">
+        <button type="button" class="btn btn-info btn-sm recipe-remove-tag"><%= tag.name %></button>
+        <%- if route.path_for_generation.include? "edit" %>
+        <%= link_to remove_icon, url(:recipe, :remove_tag, :id => @recipe.id, :tag_id => tag.id), :method => :delete, :class => 'btn btn-info btn-sm ', :confirm => 'Do you really want to delete this tag from the recipe?' %>
+        <% end %>
+      </div>
+    <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+</div>

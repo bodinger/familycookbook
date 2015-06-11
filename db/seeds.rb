@@ -28,6 +28,7 @@ recipe = MTMD::FamilyCookBook::Recipe.new(
   :duration_cooking     => 45,
   :duration_preparation => 45,
   :cookware_amount      => 2,
+  :calorie_indication   => 200,
   :tips_and_tricks      => 'Tips and tricks'
 ).save
 
@@ -83,6 +84,18 @@ ingredient_quantitiy.add_recipe(recipe)
 ingredient_quantitiy.add_ingredient(tofu)
 ingredient_quantitiy.add_unit(grams)
 
+ingredient_quantitiy = MTMD::FamilyCookBook::IngredientQuantity.new(
+  :amount        => 3,
+  :portions      => 4,
+  :description   => 'Anderer schlauer Kommentar',
+  :unit_id       => pieces.id,
+  :ingredient_id => wildreis.id,
+  :recipe_id     => recipe.id
+).save
+ingredient_quantitiy.add_recipe(recipe)
+ingredient_quantitiy.add_ingredient(wildreis)
+ingredient_quantitiy.add_unit(pieces)
+
 puts "Amount of ingredient quantities: #{recipe.ingredient_quantities.size}"
 
 
@@ -98,6 +111,36 @@ tag = MTMD::FamilyCookBook::Tag.new(
   :description => 'Gerichte mit Tofu'
 ).save
 recipe.add_tag(tag)
+
+tag = MTMD::FamilyCookBook::Tag.new(
+    :name        => 'Seitan',
+    :description => 'Gerichte mit Seitan'
+).save
+
+tag = MTMD::FamilyCookBook::Tag.new(
+    :name        => 'Reis',
+    :description => 'Gerichte mit Reis'
+).save
+
+tag = MTMD::FamilyCookBook::Tag.new(
+    :name        => 'Kohlenhydrate',
+    :description => 'Gerichte mit Kohlenhydraten'
+).save
+
+tag = MTMD::FamilyCookBook::Tag.new(
+    :name        => 'Eiweiß',
+    :description => 'Gerichte mit Eiweiß'
+).save
+
+tag = MTMD::FamilyCookBook::Tag.new(
+    :name        => 'Sommerlich',
+    :description => 'Sommerliche Gerichte'
+).save
+
+tag = MTMD::FamilyCookBook::Tag.new(
+    :name        => 'Suppe',
+    :description => 'Suppen'
+).save
 
 puts "Amount of tags: #{recipe.tags.size}"
 ####################################################

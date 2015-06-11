@@ -78,14 +78,12 @@ MTMD::FamilyCookBook::App.controllers :recipe do
     if status == true
       flash[:success] = "Recipe has been save successfully."
     else
-      flash[:error] = "Nothing has been saved/changed!"
+      flash[:message] = "Nothing has been saved/changed!"
     end
     redirect_to url(:recipe, :show, recipe.id)
   end
 
-  post :add_ingredient_and_amount, :with => :id do
-    puts "===============> #{params}"
-
+  post :add_ingredient_quantity, :with => :id do
     recipe = @logic_class.check_id
     unless recipe
       flash[:error] = "Please provide a valid recipe id!"
@@ -98,13 +96,77 @@ MTMD::FamilyCookBook::App.controllers :recipe do
       redirect_to url(:recipe, :edit, recipe.id)
     end
 
-    @logic_class.add_amount_and_ingredient(recipe, ingredient)
+    unit = @logic_class.check_unit_id
+    unless unit
+      flash[:error] = "Please provide a valid unit id!"
+      redirect_to url(:recipe, :edit, recipe.id)
+    end
 
-    render 'shared/not_implemented'
+    @logic_class.add_amount_and_ingredient
+    redirect_to url(:recipe, :edit, recipe.id)
   end
 
-  delete :remove_ingredient, :with => :id do
-    render 'shared/not_implemented'
+  delete :remove_ingredient_quantity, :with => :id do
+    recipe = @logic_class.check_id
+    unless recipe
+      flash[:error] = "Please provide a valid recipe id!"
+      redirect_to url(:recipe, :index)
+    end
+
+    ingredient_quantity = @logic_class.check_ingredient_quantity_id
+    unless ingredient_quantity
+      flash[:error] = "Please provide a valid ingredient!"
+      redirect_to url(:recipe, :edit, recipe.id)
+    end
+
+    status = @logic_class.remove_amount_and_ingredient
+    if status == true
+      flash[:success] = "Ingredient has been removed from recipe."
+    else
+      flash[:error] = "An error has occurred!"
+    end
+    redirect_to url(:recipe, :edit, recipe.id)
+  end
+
+  post :add_tag, :with => :id do
+    recipe = @logic_class.check_id
+    unless recipe
+      flash[:error] = "Please provide a valid recipe id!"
+      redirect_to url(:recipe, :index)
+    end
+
+    tag = @logic_class.add_tag
+    if tag.nil?
+      flash[:error] = "Invalid tag provided."
+      redirect_to url(:recipe, :edit, recipe.id)
+    end
+
+    if tag.new?
+      flash[:success] = "A new tag has been added."
+    else
+      flash[:success] = "The tag has been added."
+    end
+
+    redirect_to url(:recipe, :edit, recipe.id)
+  end
+
+  delete :remove_tag, :with => :id do
+    recipe = @logic_class.check_id
+    unless recipe
+      flash[:error] = "Please provide a valid recipe id!"
+      redirect_to url(:recipe, :index)
+    end
+
+    tag = @logic_class.check_tag_id
+    unless tag
+      flash[:error] = "Please provide a valid tag id!"
+      redirect_to url(:recipe, :edit, recipe.id)
+    end
+
+    @logic_class.remove_tag
+    flash[:success] = "The tag has been removed."
+
+    redirect_to url(:recipe, :edit, recipe.id)
   end
 
 end

@@ -40,4 +40,6 @@ td a {
     padding: 0
 }
 
-
+button.recipe-remove-tag {
+    cursor: default;
+}

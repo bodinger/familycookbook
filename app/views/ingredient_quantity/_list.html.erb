@@ -1,0 +1,43 @@
+<table class="table">
+  <thead>
+    <th><strong>Amount</strong></th>
+    <th colspan="2"><strong>Ingredient</strong></th>
+    <th><strong>Details</strong></th>
+    <th class="text-right">&nbsp;</th>
+  </thead>
+  <tbody>
+
+    <%- if route.path_for_generation.include? "edit" %>
+    <tr>
+      <td width="10%">
+          <%= input_tag :amount, :name => :amount, :value => params[:amount], :class => 'form-inline', :style => 'width: 5em;' %>
+      </td>
+      <td width="10%">
+        <%= select_tag :unit_id, :options => units_options, :include_blank => true, :selected => params[:unit_id], :class => 'form-inline' %>
+      </td>
+      <td width="10%">
+        <%= select_tag :ingredient_id, :options => ingredients_options, :include_blank => true, :selected => params[:ingredient_id], :class => 'form-inline' %>
+      </td>
+      <td width="10%">
+        <%= input_tag :description, :name => :description, :class => 'form-inline' %>
+      </td>
+      <td class="text-right">
+        <%= submit_tag 'Add ingredient', :class => 'btn btn-success btn-xs' %>
+      </td>
+    </tr>
+    <% end %>
+
+    <% @recipe.ingredient_quantities.sort_by { |a| a.ingredients.first.title.downcase }.each do |ingredient_quantity| %>
+      <tr>
+        <td><%= ingredient_quantity.amount %> <%= ingredient_quantity.units.first.short_name %> </td>
+        <td colspan="2"><%= ingredient_quantity.ingredients.first.title %> (Angabe für <%= ingredient_quantity.portions %> Pers.)</td>
+        <td><%= ingredient_quantity.description %> </td>
+        <td class="text-right">
+        <%- if route.path_for_generation.include? "edit" %>
+          <%= link_to 'Remove ingredient', url(:recipe, :remove_ingredient_quantity, :id => @recipe.id, :ingredient_quantity_id => ingredient_quantity.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient from the recipe?' %>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

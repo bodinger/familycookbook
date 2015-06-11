@@ -5,53 +5,19 @@
   <%= f.submit 'Update', :class => 'btn btn-primary' %>
 <% end %>
 
+
+<% form_tag url(:recipe, :add_ingredient_quantity, :id => @recipe.id), :method => :post, :class => 'form-inline' do %>
 <div class="page-header">
-  <div class="page-title">Ingredients for <%= input_tag :amount_portions, :name => :amount_portions, :value => params[:amount_portions], :class => 'form-control' %> persons</div>
+  <div class="page-title">Ingredients for <%= input_tag :portions, :name => :portions, :value => portions_value(@recipe), :class => 'form-inline', :style => 'width:2.5em;' %> persons</div>
 </div>
 
-<% form_tag url(:recipe, :add_ingredient_and_amount, :id => @recipe.id), :method => :post, :class => 'form-inline' do %>
-  <table class="table">
-    <thead>
-    <td>
-      <strong>
-        Amount
-      </strong>
-    </td>
-    <td>
-      <strong>
-        Ingredient
-      </strong>
-    </td>
-    </thead>
-    <tbody>
-    <tr>
-      <td>
-        <%= input_tag :amount, :name => :amount, :value => params[:amount], :class => 'form-control' %>
-      </td>
-      <td>
-        <%= select_tag :ingredient_id, :options => ingredients_options, :include_blank => true, :selected => params[:ingredient_id], :class => 'form-control' %>
-      </td>
-      <td class="text-right">
-        <%= submit_tag 'Add', :class => 'btn btn-success' %>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<div class="ingredient-quantities">
+  <%= partial 'ingredient_quantity/list', :object => @recipe.ingredient_quantities %>
+</div>
 <% end %>
 
-<div class="ingredients-and-amounts">
-  <% @recipe.ingredients.sort_by { |a| a.title.downcase }.each do |ingredient| %>
-    <table class="table">
-      <thead>
-      <td><strong><%= ingredient.title %></strong></td>
-      <td class="text-right">
-        <%= link_to 'Remove ingredient', url(:recipe, :remove_ingredient, :id => @recipe.id, :ingredient_id => ingredient.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient?' %>
-      </td>
-      </thead>
-      <tbody>
 
-      </tbody>
-    </table>
-  <% end %>
+<div class="recipe-tags">
+  <%= partial 'tag/list', :object => @recipe.tags %>
 </div>
 

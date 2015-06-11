@@ -1,6 +1,8 @@
 module MTMD
   module FamilyCookBook
     class IngredientQuantity < Sequel::Model(:ingredient_quantities)
+      DEFAULT_PORTIONS = 4
+
       plugin :timestamps, :update_on_create => true
 
       many_to_many :recipes,
@@ -22,7 +24,6 @@ module MTMD
              :recipes     => :nullify,
              :ingredients => :nullify,
              :units       => :nullify
-
     end
   end
 end

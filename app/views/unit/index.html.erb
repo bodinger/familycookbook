@@ -1,0 +1,37 @@
+<%- actions({ 'Add unit' => url(:unit, :new) }) %>
+
+<table class="table">
+    <thead>
+    <th>
+        Name
+    </th>
+    <th>
+        Short name
+    </th>
+    <th>
+        Description
+    </th>
+    <th>
+        Action
+    </th>
+    </thead>
+    <tbody>
+    <% @items.each do |unit| %>
+        <tr>
+            <td>
+                <%= link_to unit.name, url(:unit, :show, id: unit.id) %>
+            </td>
+            <td>
+                <%= unit.short_name %>
+            </td>
+            <td>
+                <%= unit.description %>
+            </td>
+            <td>
+                <%= link_to 'Delete unit', url(:unit, :destroy, :id => unit.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this unit?' %>
+            </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+

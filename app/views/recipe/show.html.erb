@@ -12,8 +12,15 @@
   <%= attribute_row(@recipe, :duration_cooking) %>
   <%= attribute_row(@recipe, :cookware_amount) %>
   <%= attribute_row(@recipe, :tips_and_tricks) %>
+  <%= attribute_row(@recipe, :calorie_indication) %>
   </tbody>
 </table>
+
+
+<div class="tags">
+    <%= partial 'tag/list', :object => @recipe.tags %>
+</div>
+
 
 <table class="table">
     <tbody>
@@ -31,19 +38,6 @@
 </table>
 
 
-<table class="table">
-    <thead>
-    <th><strong>Ingredients</strong></th>
-    <th><strong>Channels</strong></th>
-    </thead>
-    <tbody>
-  <tr>
-    <% @recipe.ingredients.each do |ingredient| %>
-    <tr>
-      <td><%= ingredient.title %></td>
-      <td>ARGH</td>
-    </tr>
-  <% end %>
-  </tr>
-    </tbody>
-</table>
+<div class="ingredient-quantities">
+  <%= partial 'ingredient_quantity/list', :object => @recipe.ingredient_quantities, :switch => 'show' %>
+</div>

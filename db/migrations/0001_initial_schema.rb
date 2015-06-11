@@ -22,6 +22,7 @@ Sequel.migration do
       column :duration_cooking,     Integer
       column :duration_preparation, Integer
       column :cookware_amount,      Integer
+      column :calorie_indication,   Integer
       column :created_at,  :timestamptz
       column :updated_at,  :timestamptz
 

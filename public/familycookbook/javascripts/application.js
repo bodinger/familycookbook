@@ -33,3 +33,27 @@ if(isMobile.any()) {
       }
   );
 }
+
+$(document).ready(
+  function () {
+    $('#tag_name').typeahead({
+      name:   'tag_name',
+      source: function (query, process) {
+        return $.get('/familycookbook/tag/as_array', { q: query }, function (data) {
+          return process(data);
+        });
+      }
+      //updater: function(item) {
+      //  $(this).value = item;
+      //  console.log(this);
+      //  console.log('Fired with: '+$(this).attr);
+      //  //$('#recipe-add-tag-submit').click();
+      //  return item;
+      //}
+    });
+    $('.remove-tag').bind('click', function(){
+      alert('Posting to '+$(this).data('url'));
+      $.post($(this).data('url'), $(this).data);
+    });
+  }
+);

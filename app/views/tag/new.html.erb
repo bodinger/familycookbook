@@ -1,0 +1,6 @@
+<%- actions({ 'Cancel' => url(:tag, :index) }) %>
+
+<%- form_for :tag, url(:tag, :create), :method => :post, :class => 'form-horizontal' do |f| %>
+  <%= render_partial 'tag/form_fields', :object => f %>
+  <%= f.submit 'Create', :class => 'btn btn-primary' %>
+<% end %>

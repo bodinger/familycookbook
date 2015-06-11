@@ -1,0 +1,7 @@
+<%- actions({ 'Cancel' => url(:unit, :show, :id => @unit.id) }) %>
+
+<%- form_for :unit, url(:unit, :update, :id => @unit.id), :method => :put, :class => 'form-horizontal' do |f| %>
+  <%= render_partial 'unit/form_fields', :object => f %>
+  <%= f.submit 'Update', :class => 'btn btn-primary' %>
+<% end %>
+

@@ -32,6 +32,12 @@ module MTMD
           end
         end
 
+        def remove_icon
+          content_tag(:span, :class => 'glyphicon glyphicon-remove') do
+
+          end
+        end
+
         def active_nav_class_for_controller(controller)
           request.controller == controller.to_s ? 'active' : ''
         end

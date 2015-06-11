@@ -4,6 +4,8 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     <title>FamilyCookBook</title>
     <%= stylesheet_link_tag 'bootstrap.min', 'application' %>
+    <%= javascript_include_tag 'jquery', 'jquery-ujs', 'bootstrap.min' %>
+    <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
 </head>
 <body>
@@ -15,6 +17,8 @@
               <%= navigation_item(:index, url(:index, :index), 'Übersicht') %>
               <%= navigation_item(:recipe, url(:recipe, :index), 'Rezepte') %>
               <%= navigation_item(:ingredient, url(:ingredient, :index), 'Zutaten') %>
+              <%= navigation_item(:tag, url(:tag, :index), 'Tags') %>
+              <%= navigation_item(:tag, url(:unit, :index), 'Units') %>
             </ul>
             <ul class="nav navbar-nav pull-left">
             </ul>
@@ -39,7 +43,5 @@
         <%= yield %>
     </div>
 </div>
-<%= javascript_include_tag 'jquery', 'jquery-ujs', 'bootstrap.min' %>
-<%= javascript_include_tag 'application' %>
 </body>
 </html>
