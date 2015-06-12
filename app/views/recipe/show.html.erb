@@ -7,7 +7,12 @@
   <%= attribute_row(@recipe, :difficulty) %>
   </thead>
   <tbody>
-  <%= attribute_row(@recipe, :description) %>
+  <tr>
+      <td>
+          <strong>Description</strong>
+      </td>
+      <td><%= @recipe.description.html_safe %></td>
+  </tr>
   <%= attribute_row(@recipe, :duration_preparation) %>
   <%= attribute_row(@recipe, :duration_cooking) %>
   <%= attribute_row(@recipe, :cookware_amount) %>

@@ -46,13 +46,20 @@ module MTMD
           input_type = opts.fetch(:input_type, :text_field)
           html = ''.html_safe
           html << form.label(opts.fetch(:label, attr), :class => 'col-sm-2')
-          html << content_tag(:div, :class => 'col-sm-4') do
+          html << content_tag(:div, :class => 'col-sm-9') do
             text_field_opts = { :class => 'form-control' }
             text_field_opts.merge!(opts.slice(:value))
             form.send(input_type, attr, text_field_opts)
           end
 
-          content_tag(:div, :class => 'form-group') do
+          outer_opts = opts.fetch(:form_group, nil)
+          outer_opts[:class] = outer_opts[:class] + ' form-group' if outer_opts
+          if outer_opts.nil?
+            outer_opts = {}
+            outer_opts[:class] = 'form-group'
+          end
+
+          content_tag(:div, outer_opts) do
             html
           end
         end

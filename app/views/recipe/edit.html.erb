@@ -1,6 +1,6 @@
 <%- actions({ 'Cancel' => url(:recipe, :show, :id => @recipe.id) }) %>
 
-<%- form_for :recipe, url(:recipe, :update, :id => @recipe.id), :method => :put, :class => 'form-horizontal' do |f| %>
+<%- form_for :recipe, url(:recipe, :update, :id => @recipe.id), :method => :put, :class => 'form-horizontal', :id => 'recipe' do |f| %>
   <%= render_partial 'recipe/form_fields', :object => f %>
   <%= f.submit 'Update', :class => 'btn btn-primary' %>
 <% end %>

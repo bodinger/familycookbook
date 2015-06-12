@@ -43,3 +43,15 @@ td a {
 button.recipe-remove-tag {
     cursor: default;
 }
+
+.wysiwyg-editor {
+    overflow:scroll;
+    max-height:300px;
+    border: 1px solid red;
+}
+
+.so-small-you-cant-see {
+    /*width: 1px;
+    height: 1px;
+    overflow: hidden;*/
+}

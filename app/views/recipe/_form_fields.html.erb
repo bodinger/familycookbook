@@ -2,7 +2,14 @@
 
 <%= error_messages { f.error_messages } %>
 <%= form_group(f, :title) %>
-<%= form_group(f, :description) %>
+<%= form_group(f, :description, { :input_type => :text_area, :form_group => { :class => 'hidden' } }) %>
+
+<div class="form-group">
+    <label class="col-sm-2" for="recipe-description">Description: </label>
+    <div class="col-sm-9">
+        <div id="recipe-description" class="wysiwyg-editor"></div>
+    </div>
+</div>
 
 <%= form_group(f, :type) %>
 
@@ -13,3 +20,16 @@
 <%= form_group(f, :calorie_indication) %>
 
 <%= form_group(f, :tips_and_tricks) %>
+
+
+
+
+
+
+<script type="text/javascript">
+$(document).ready(
+  function () {
+    WysiwygEditor.prototype.initialize('recipe', 'mtmd_family_cook_book_recipe_description', 'recipe-description');
+  }
+);
+</script>

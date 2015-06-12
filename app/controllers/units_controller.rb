@@ -52,7 +52,7 @@ MTMD::FamilyCookBook::App.controllers :unit do
     unit = @logic_class.check_id
 
     unless unit
-      flash[:error] = "Please provide a valid Uúnit id!"
+      flash[:error] = "Please provide a valid Unit id!"
       redirect_to url(:unit, :index)
     end
 

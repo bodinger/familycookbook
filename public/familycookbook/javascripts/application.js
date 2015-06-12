@@ -43,17 +43,91 @@ $(document).ready(
           return process(data);
         });
       }
-      //updater: function(item) {
-      //  $(this).value = item;
-      //  console.log(this);
-      //  console.log('Fired with: '+$(this).attr);
-      //  //$('#recipe-add-tag-submit').click();
-      //  return item;
-      //}
     });
     $('.remove-tag').bind('click', function(){
       alert('Posting to '+$(this).data('url'));
       $.post($(this).data('url'), $(this).data);
     });
+
+    //WysiwygEditor.prototype.initialize('ingredient', 'mtmd_family_cook_book_ingredient_description', 'ingredient-description');
   }
 );
+
+function WysiwygEditor() {
+
+}
+
+WysiwygEditor.prototype = {
+  targetDomId: '',
+  formDomId:   '',
+  editorDomId: '',
+
+  editorOptions: {
+    height: 300,                 // set editor height
+
+    minHeight: null,             // set minimum height of editor
+    maxHeight: null,             // set maximum height of editor
+
+    focus: true,                 // set focus to editable area after initializing summernote
+
+    toolbar: [
+      //[groupname, [button list]]
+
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['font', ['strikethrough', 'superscript', 'subscript']],
+      ['fontsize', ['fontsize']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['height', ['height']],
+    ]
+  },
+
+  setForm: function(formDomId) {
+    this.formDomId = formDomId;
+  },
+
+  getForm: function() {
+    return $('#'+this.formDomId)
+  },
+
+  setTarget: function(targetDomId) {
+    this.targetDomId = targetDomId;
+  },
+
+  getTarget: function() {
+    return $('#'+this.targetDomId)
+  },
+
+  setEditor: function(editorDomId) {
+    this.editorDomId = editorDomId;
+  },
+
+  getEditor: function() {
+    return $('#'+this.editorDomId)
+  },
+
+  initialize: function(formDomId, targetDomId, editorDomId) {
+    this.setForm(formDomId);
+    this.setTarget(targetDomId);
+    this.setEditor(editorDomId);
+
+    this.setUpEditor();
+    this.setInitialValue();
+    this.setUpFormBinding();
+    self = this;
+  },
+
+  setUpEditor: function() {
+    this.getEditor().summernote(this.editorOptions);
+  },
+
+  setInitialValue: function() {
+    this.getEditor().code(this.getTarget().text());
+  },
+
+  setUpFormBinding: function() {
+    this.getForm().bind('submit', function( event ){
+      self.getTarget().val(self.getEditor().code());
+    });
+  }
+}
