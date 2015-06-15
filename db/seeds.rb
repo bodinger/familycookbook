@@ -2,7 +2,6 @@ MTMD::FamilyCookBook::Tag.all.each do |tag|
   tag.destroy
 end
 
-
 MTMD::FamilyCookBook::IngredientQuantity.all.each do |ingredient_quantity|
   ingredient_quantity.destroy
 end
@@ -58,14 +57,41 @@ puts "Amount of ingredients: #{recipe.ingredients.size}"
 ####################################################
 grams = MTMD::FamilyCookBook::Unit.new(
   :name        => 'Gramm',
-  :short_name  => 'g',
-  :description => 'Nothing alter'
+  :short_name  => 'g'
 ).save
 
 pieces = MTMD::FamilyCookBook::Unit.new(
-    :name        => 'Stück',
-    :short_name  => 'St.',
-    :description => 'Nothing alter'
+  :name        => 'Stück',
+  :short_name  => 'St.'
+).save
+
+MTMD::FamilyCookBook::Unit.new(
+  :name        => 'Messerspitze',
+  :short_name  => 'Msp.'
+).save
+MTMD::FamilyCookBook::Unit.new(
+  :name        => 'Teelöffel',
+  :short_name  => 'TL'
+).save
+MTMD::FamilyCookBook::Unit.new(
+  :name        => 'Esslöffel',
+  :short_name  => 'EL'
+).save
+MTMD::FamilyCookBook::Unit.new(
+  :name        => 'Kilogramm',
+  :short_name  => 'kg'
+).save
+MTMD::FamilyCookBook::Unit.new(
+  :name        => 'Tasse',
+  :short_name  => 'Tasse'
+).save
+MTMD::FamilyCookBook::Unit.new(
+  :name        => 'Milliliter',
+  :short_name  => 'ml'
+).save
+MTMD::FamilyCookBook::Unit.new(
+  :name        => 'Liter',
+  :short_name  => 'l'
 ).save
 
 puts "Amount of units: #{MTMD::FamilyCookBook::Unit.count}"
@@ -112,34 +138,29 @@ tag = MTMD::FamilyCookBook::Tag.new(
 ).save
 recipe.add_tag(tag)
 
-tag = MTMD::FamilyCookBook::Tag.new(
-    :name        => 'Seitan',
-    :description => 'Gerichte mit Seitan'
+MTMD::FamilyCookBook::Tag.new(
+  :name        => 'Seitan',
+  :description => 'Gerichte mit Seitan'
 ).save
-
-tag = MTMD::FamilyCookBook::Tag.new(
-    :name        => 'Reis',
-    :description => 'Gerichte mit Reis'
+MTMD::FamilyCookBook::Tag.new(
+  :name        => 'Reis',
+  :description => 'Gerichte mit Reis'
 ).save
-
-tag = MTMD::FamilyCookBook::Tag.new(
-    :name        => 'Kohlenhydrate',
-    :description => 'Gerichte mit Kohlenhydraten'
+MTMD::FamilyCookBook::Tag.new(
+  :name        => 'Kohlenhydrate',
+  :description => 'Gerichte mit Kohlenhydraten'
 ).save
-
-tag = MTMD::FamilyCookBook::Tag.new(
-    :name        => 'Eiweiß',
-    :description => 'Gerichte mit Eiweiß'
+MTMD::FamilyCookBook::Tag.new(
+  :name        => 'Eiweiß',
+  :description => 'Gerichte mit Eiweiß'
 ).save
-
-tag = MTMD::FamilyCookBook::Tag.new(
-    :name        => 'Sommerlich',
-    :description => 'Sommerliche Gerichte'
+MTMD::FamilyCookBook::Tag.new(
+  :name        => 'Sommerlich',
+  :description => 'Sommerliche Gerichte'
 ).save
-
-tag = MTMD::FamilyCookBook::Tag.new(
-    :name        => 'Suppe',
-    :description => 'Suppen'
+MTMD::FamilyCookBook::Tag.new(
+  :name        => 'Suppe',
+  :description => 'Suppen'
 ).save
 
 puts "Amount of tags: #{recipe.tags.size}"

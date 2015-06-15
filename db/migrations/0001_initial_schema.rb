@@ -82,16 +82,31 @@ Sequel.migration do
 
     create_join_table(:tag_id => :tags, :recipe_id => :recipes)
 
-    create_table(:foodcalendar) do
+    create_table(:menu) do
       primary_key :id
 
-      column :date_range,  Integer, :null => false
+      tstzrange :date_range
       column :name,        String
       column :description, String
       column :created_at,  :timestamptz
       column :updated_at,  :timestamptz
 
       index :name
+      index :date_range
+    end
+
+    create_table(:menu_items) do
+      primary_key :id
+
+      foreign_key :recipe_id, :recipes, :deferrable => true, :null => false
+
+      column :day,         DateTime, :null => false
+      column :type,        String
+      column :created_at,  :timestamptz
+      column :updated_at,  :timestamptz
+
+      index :day
+      index :type
     end
 
 

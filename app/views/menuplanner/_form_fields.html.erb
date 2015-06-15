@@ -1,0 +1,36 @@
+<%- f = form_fields %>
+
+<%= error_messages { f.error_messages } %>
+<%= form_group(f, :name) %>
+<%= form_group(f, :description) %>
+
+<div class="form-group">
+  <label class="col-sm-2" for="menu-datepicker">Start / End date: </label>
+  <div class="col-sm-9">
+    <div class="input-group date col-lg-2 pull-left" id="daterangepicker-left">
+      <input type='text' class="form-control" />
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+    </div>
+
+    <div class="input-group date col-lg-2" id="daterangepicker-right">
+      <input type='text' class="form-control" />
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+$(document).ready(
+  function () {
+    DatePicker.prototype.initialize('daterangepicker-left');
+    DatePicker.prototype.initialize('daterangepicker-right');
+  }
+);
+</script>

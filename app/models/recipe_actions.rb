@@ -70,7 +70,7 @@ module MTMD
       end
 
       def recipes
-        MTMD::FamilyCookBook::Recipe.all
+        MTMD::FamilyCookBook::Recipe.order(:title).all
       end
 
       def add_amount_and_ingredient

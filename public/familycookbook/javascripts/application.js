@@ -23,8 +23,6 @@ if(isMobile.any()) {
   $(document).ready(
       function () {
         $("a[data-toggle]").each(function () {
-          console.log($(this).data("target"));
-
           $(this).bind("click", function () {
             $($(this).data("target") + " table pre.pre-max-width").css("width", "45em");
             $($(this).data("target")).toggle();
@@ -48,15 +46,49 @@ $(document).ready(
       alert('Posting to '+$(this).data('url'));
       $.post($(this).data('url'), $(this).data);
     });
-
     //WysiwygEditor.prototype.initialize('ingredient', 'mtmd_family_cook_book_ingredient_description', 'ingredient-description');
+
+//    $('.weekpicker').datetimepicker({
+//      locale: 'de',
+//      //daysOfWeekDisabled: [0,1,2,3,4],
+//      calendarWeeks: true,
+//      allowInputToggle: true,
+//      format: 'DD.MM.YYYY',
+//      minDate: Date.now()
+//    });
   }
 );
 
-function WysiwygEditor() {
 
+function DatePicker() {}
+DatePicker.prototype = {
+  pickerDomId: '',
+  pickerOptions: {
+    locale: 'de',
+    //daysOfWeekDisabled: [0,1,2,3,4],
+    calendarWeeks: true,
+    allowInputToggle: true,
+    format: 'DD.MM.YYYY',
+    minDate: Date.now()
+  },
+
+  setPicker: function(pickerDomId) {
+    this.pickerDomId = pickerDomId;
+  },
+
+  getPicker: function() {
+    return $('#' + this.pickerDomId);
+  },
+
+  initialize: function(pickerDomId) {
+    this.setPicker(pickerDomId);
+    this.getPicker().datetimepicker(this.pickerOptions);
+    self = this;
+  }
 }
 
+
+function WysiwygEditor() {}
 WysiwygEditor.prototype = {
   targetDomId: '',
   formDomId:   '',

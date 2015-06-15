@@ -3,8 +3,8 @@
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     <title>FamilyCookBook</title>
-    <%= stylesheet_link_tag 'bootstrap.min', 'application', 'fontawesome.4.0.3', 'summernote' %>
-    <%= javascript_include_tag 'jquery', 'jquery-ujs', 'bootstrap.min', 'summernote.min' %>
+    <%= stylesheet_link_tag 'bootstrap.min', 'application', 'fontawesome.4.0.3', 'summernote', 'bootstrap-datetimepicker.min' %>
+    <%= javascript_include_tag 'jquery', 'jquery-ujs', 'bootstrap.min', 'summernote.min', 'moment.2.10.3', 'bootstrap-datetimepicker.min' %>
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
 </head>
@@ -18,7 +18,9 @@
               <%= navigation_item(:recipe, url(:recipe, :index), 'Rezepte') %>
               <%= navigation_item(:ingredient, url(:ingredient, :index), 'Zutaten') %>
               <%= navigation_item(:tag, url(:tag, :index), 'Tags') %>
-              <%= navigation_item(:tag, url(:unit, :index), 'Units') %>
+              <%= navigation_item(:unit, url(:unit, :index), 'Units') %>
+              <%= navigation_item(:menuplanner, url(:menuplanner, :index), 'Menu planner') %>
+              <%= navigation_item(:shoppinglist, url(:shoppinglist, :index), 'Shopping list') %>
             </ul>
             <ul class="nav navbar-nav pull-left">
             </ul>

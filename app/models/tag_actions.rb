@@ -50,7 +50,7 @@ module MTMD
       end
 
       def tags
-        MTMD::FamilyCookBook::Tag.all
+        MTMD::FamilyCookBook::Tag.order(:name).all
       end
 
     end

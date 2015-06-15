@@ -1,0 +1,24 @@
+<%- actions({ 'Show all' => url(:unit, :index) }) %>
+
+<table class="table">
+  <thead>
+  <%= attribute_row(@unit, :name) %>
+  <%= attribute_row(@unit, :short_name) %>
+  <%= attribute_row(@unit, :description) %>
+  </thead>
+</table>
+
+<table class="table">
+    <tbody>
+    <tr>
+        <td>
+            <%= link_to 'Edit', url(:unit, :edit, id: @unit.id), class: 'btn btn-primary' %>
+                </td>
+                <td>
+                    <div class="pull-right">
+                        <%= link_to 'Delete', url(:unit, :destroy, id: @unit.id), class: 'btn btn-danger', :method => :delete, confirm: 'Are you sure?' %>
+                            </div>
+                            </td>
+                            </tr>
+                            </tbody>
+                            </table>

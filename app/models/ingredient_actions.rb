@@ -38,7 +38,7 @@ module MTMD
       end
 
       def ingredients
-        MTMD::FamilyCookBook::Ingredient.all
+        MTMD::FamilyCookBook::Ingredient.order(:title).all
       end
 
     end

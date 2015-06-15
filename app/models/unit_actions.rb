@@ -38,7 +38,7 @@ module MTMD
       end
 
       def units
-        MTMD::FamilyCookBook::Unit.all
+        MTMD::FamilyCookBook::Unit.order(:name).all
       end
 
     end

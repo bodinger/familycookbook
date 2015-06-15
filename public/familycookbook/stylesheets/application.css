@@ -55,3 +55,7 @@ button.recipe-remove-tag {
     height: 1px;
     overflow: hidden;*/
 }
+
+.day.disabled {
+    color: #cccccc !important;
+}
