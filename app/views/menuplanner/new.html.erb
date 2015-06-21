@@ -1,6 +1,6 @@
 <%- actions({ 'Cancel' => url(:menuplanner, :index) }) %>
 
-<%- form_for :unit, url(:unit, :create), :method => :post, :class => 'form-horizontal' do |f| %>
+<%- form_for :menu, url(:menuplanner, :create), :method => :post, :class => 'form-horizontal' do |f| %>
   <%= render_partial 'menuplanner/form_fields', :object => f %>
   <%= f.submit 'Create', :class => 'btn btn-primary' %>
 <% end %>

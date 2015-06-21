@@ -1,8 +1,28 @@
 <%- actions({ 'Add menu plan' => url(:menuplanner, :new) }) %>
 
-<div class="input-group date weekpicker col-lg-2" id="datetimepicker1">
-  <input type='text' class="form-control" />
-  <span class="input-group-addon">
-    <span class="glyphicon glyphicon-calendar"></span>
-  </span>
-</div>
+<table class="table">
+    <thead>
+    <th>
+        Date range
+    </th>
+    <th width="10%">
+        Action
+    </th>
+    </thead>
+    <tbody>
+    <% @items.each do |menu| %>
+        <tr>
+            <td>
+                <strong><small><%= menu.range_begin %> - <%= menu.range_end %></small></strong><br/>
+                <strong><%= link_to menu.name, url(:menuplanner, :show, id: menu.id) %></strong><br/>
+                <%= menu.description %>
+            </td>
+            <td>
+                <%= link_to 'Edit', url(:menuplanner, :edit, id: menu.id), class: 'btn btn-primary  btn-xs pull-left' %>
+                <%= link_to 'Delete', url(:menuplanner, :destroy, :id => menu.id), :method => :delete, :class => 'btn btn-danger btn-xs pull-right', :confirm => 'Do you really want to delete this menu?' %>
+            </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+

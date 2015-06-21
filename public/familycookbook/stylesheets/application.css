@@ -59,3 +59,18 @@ button.recipe-remove-tag {
 .day.disabled {
     color: #cccccc !important;
 }
+
+.menu_item_slot {
+
+}
+
+.menu_item_slot_1,
+.menu_item_slot_2,
+.menu_item_slot_3 {
+
+}
+
+.menu_item_slot a {
+    color: #ffffff;
+    font-weight: normal;
+}

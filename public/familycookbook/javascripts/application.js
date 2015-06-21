@@ -63,13 +63,21 @@ $(document).ready(
 function DatePicker() {}
 DatePicker.prototype = {
   pickerDomId: '',
+  defaultDate: '',
   pickerOptions: {
     locale: 'de',
     //daysOfWeekDisabled: [0,1,2,3,4],
     calendarWeeks: true,
     allowInputToggle: true,
-    format: 'DD.MM.YYYY',
-    minDate: Date.now()
+    format: 'DD.MM.YYYY'
+  },
+
+  setDefaultDate: function(defaultDate) {
+    this.defaultDate = defaultDate;
+  },
+
+  getDefaultDate: function() {
+    return this.defaultDate;
   },
 
   setPicker: function(pickerDomId) {
@@ -80,10 +88,24 @@ DatePicker.prototype = {
     return $('#' + this.pickerDomId);
   },
 
-  initialize: function(pickerDomId) {
+  initialize: function(pickerDomId, defaultDate) {
     this.setPicker(pickerDomId);
+    this.setDefaultDate(defaultDate);
     this.getPicker().datetimepicker(this.pickerOptions);
+    this.getPicker().data("DateTimePicker").defaultDate(this.getDefaultDate());
+    this.getPicker().data("DateTimePicker").minDate(this.getDefaultDate());
     self = this;
+  },
+
+  linkPickers: function(pickerLeftDomId, pickerRightDomId) {
+    $('#' + pickerLeftDomId).on("dp.change", function (e) {
+      $('#' + pickerRightDomId).data("DateTimePicker").minDate(e.date);
+    });
+    $('#' + pickerLeftDomId).data("DateTimePicker").maxDate($('#' + pickerRightDomId).data("DateTimePicker").defaultDate());
+    $('#' + pickerRightDomId).on("dp.change", function (e) {
+      $('#' + pickerLeftDomId).data("DateTimePicker").maxDate(e.date);
+    });
+    $('#' + pickerRightDomId).data("DateTimePicker").minDate($('#' + pickerLeftDomId).data("DateTimePicker").defaultDate());
   }
 }
 

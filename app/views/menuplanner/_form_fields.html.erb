@@ -8,14 +8,14 @@
   <label class="col-sm-2" for="menu-datepicker">Start / End date: </label>
   <div class="col-sm-9">
     <div class="input-group date col-lg-2 pull-left" id="daterangepicker-left">
-      <input type='text' class="form-control" />
+      <input type='text' class="form-control" name="mtmd_family_cook_book_menu[range_begin]" />
       <span class="input-group-addon">
         <span class="glyphicon glyphicon-calendar"></span>
       </span>
     </div>
 
     <div class="input-group date col-lg-2" id="daterangepicker-right">
-      <input type='text' class="form-control" />
+      <input type='text' class="form-control" name="mtmd_family_cook_book_menu[range_end]" />
       <span class="input-group-addon">
         <span class="glyphicon glyphicon-calendar"></span>
       </span>
@@ -23,14 +23,12 @@
   </div>
 </div>
 
-
-
-
 <script type="text/javascript">
 $(document).ready(
   function () {
-    DatePicker.prototype.initialize('daterangepicker-left');
-    DatePicker.prototype.initialize('daterangepicker-right');
+    DatePicker.prototype.initialize('daterangepicker-left', '<%= @range[:begin] %>');
+    DatePicker.prototype.initialize('daterangepicker-right', '<%= @range[:end] %>');
+    DatePicker.prototype.linkPickers('daterangepicker-left', 'daterangepicker-right');
   }
 );
 </script>

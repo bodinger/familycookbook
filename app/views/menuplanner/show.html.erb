@@ -1,24 +1,26 @@
-<%- actions({ 'Show all' => url(:unit, :index) }) %>
+<%- actions({ 'Show all' => url(:menuplanner, :index) }) %>
 
-<table class="table">
-  <thead>
-  <%= attribute_row(@unit, :name) %>
-  <%= attribute_row(@unit, :short_name) %>
-  <%= attribute_row(@unit, :description) %>
-  </thead>
-</table>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= link_to 'Edit', url(:menuplanner, :edit, id: @menu.id), class: 'btn btn-primary pull-right' %>
+    <h3><span class="label label-default"><%= @menu.range_begin %> - <%= @menu.range_end %></span> <%= @menu.name %></h3>
+    <%= @menu.description %>
+  </div>
+</div>
 
-<table class="table">
-    <tbody>
-    <tr>
-        <td>
-            <%= link_to 'Edit', url(:unit, :edit, id: @unit.id), class: 'btn btn-primary' %>
-                </td>
-                <td>
-                    <div class="pull-right">
-                        <%= link_to 'Delete', url(:unit, :destroy, id: @unit.id), class: 'btn btn-danger', :method => :delete, confirm: 'Are you sure?' %>
-                            </div>
-                            </td>
-                            </tr>
-                            </tbody>
-                            </table>
+<div class="panel panel-small">
+<%- @menu.range_days.each do |day| %>
+  <div class="panel-body">
+    <h3><span class="label label-info col-md-12"><%= day.strftime('%d.%m.%Y %A') %></span></h3>
+    <%- if @menu.menu_items_for_day(day) %>
+      <%- @menu.menu_items_for_day(day).each do |menu_item| %>
+        <div class="col-md-4">
+        <h4><span class="label label-success menu_item_slot">
+          <%= link_to menu_item.recipes.first.title, url(:recipe, :show, id: menu_item.recipes.first.id) %>
+        </span></h4>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+</div>
