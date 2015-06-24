@@ -60,17 +60,22 @@ button.recipe-remove-tag {
     color: #cccccc !important;
 }
 
-.menu_item_slot {
-
+.slot {
+    height: 8em;
+    border-color: #cccccc !important;
 }
 
-.menu_item_slot_1,
-.menu_item_slot_2,
-.menu_item_slot_3 {
-
+.slot-breakfast {
+    border: 1px solid red;
+    text-space-collapse: preserve;
 }
 
-.menu_item_slot a {
-    color: #ffffff;
-    font-weight: normal;
+.slot-dinner {
+    border: 1px solid green;
+    text-space-collapse: preserve;
+}
+
+.slot-lunch {
+    border: 1px solid blue;
+    text-space-collapse: preserve;
 }

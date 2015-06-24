@@ -4,6 +4,12 @@ MTMD::FamilyCookBook::App.controllers :recipe do
     @logic_class = MTMD::FamilyCookBook::RecipeActions.new(params)
   end
 
+  get :as_array, :with => '(:q)' do
+    content_type 'application/json;charset=utf8'
+
+    @logic_class.recipe_options.to_json
+  end
+
   get :show, :with => '(:id)' do
     @recipe = @logic_class.check_id
 

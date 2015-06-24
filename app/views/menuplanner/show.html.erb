@@ -12,11 +12,11 @@
 <%- @menu.range_days.each do |day| %>
   <div class="panel-body">
     <h3><span class="label label-info col-md-12"><%= day.strftime('%d.%m.%Y %A') %></span></h3>
-    <%- if @menu.menu_items_for_day(day) %>
-      <%- @menu.menu_items_for_day(day).each do |menu_item| %>
-        <div class="col-md-4">
+    <%- if @menu.menu_items_for_day(day).all %>
+      <%- @menu.menu_items_for_day(day).all.each do |menu_item| %>
+        <div class="col-md-4 ">
         <h4><span class="label label-success menu_item_slot">
-          <%= link_to menu_item.recipes.first.title, url(:recipe, :show, id: menu_item.recipes.first.id) %>
+          <%# link_to menu_item.recipes.first.title, url(:recipe, :show, id: menu_item.recipes.first.id) %>
         </span></h4>
         </div>
       <% end %>

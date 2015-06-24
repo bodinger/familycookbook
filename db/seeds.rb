@@ -246,7 +246,7 @@ puts "Amount of tags: #{MTMD::FamilyCookBook::Tag.count}"
 
 
 ####################################################
-range = DateTime.now-7.days..Time.now
+range = DateTime.now-2.days..Time.now
 menu = MTMD::FamilyCookBook::Menu.new(
     :name        => 'My first menu',
     :description => 'Some rreeeeaaaalllly nice menu description',
@@ -294,7 +294,6 @@ count = 0
     :menu_id       => menu.id
   ).save
   menu_item.order_slots
-  puts "===============> #{menu_item.slot_order}"
   menu.add_menu_item(menu_item)
   menu_item.add_recipe(recipe)
 end

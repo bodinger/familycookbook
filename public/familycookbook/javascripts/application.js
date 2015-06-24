@@ -33,32 +33,71 @@ if(isMobile.any()) {
 }
 
 $(document).ready(
-  function () {
-    $('#tag_name').typeahead({
-      name:   'tag_name',
-      source: function (query, process) {
-        return $.get('/familycookbook/tag/as_array', { q: query }, function (data) {
-          return process(data);
-        });
-      }
-    });
-    $('.remove-tag').bind('click', function(){
-      alert('Posting to '+$(this).data('url'));
-      $.post($(this).data('url'), $(this).data);
-    });
-    //WysiwygEditor.prototype.initialize('ingredient', 'mtmd_family_cook_book_ingredient_description', 'ingredient-description');
-
-//    $('.weekpicker').datetimepicker({
-//      locale: 'de',
-//      //daysOfWeekDisabled: [0,1,2,3,4],
-//      calendarWeeks: true,
-//      allowInputToggle: true,
-//      format: 'DD.MM.YYYY',
-//      minDate: Date.now()
+//  function () {
+//    $('#tag_name').typeahead({
+//      name:   'tag_name',
+//      source: function (query, process) {
+//        return $.get('/familycookbook/tag/as_array', { q: query }, function (data) {
+//          return process(data);
+//        });
+//      }
 //    });
-  }
+//    $('.remove-tag').bind('click', function(){
+//      $.post($(this).data('url'), $(this).data);
+//    });
+//  }
 );
 
+
+function AutoCompleter() {}
+AutoCompleter.prototype = {
+  inputSelector:      '',
+  postButtonSelector: '',
+  dataSourceUrl:      '',
+
+  setInputSelector: function(inputSelector) {
+    this.inputSelector = inputSelector;
+  },
+
+  getInput: function() {
+    return $(this.inputSelector);
+  },
+
+  setPostButtonSelector: function(postButtonSelector) {
+    this.postButtonSelector = postButtonSelector;
+  },
+
+  getPostButton: function() {
+    return $(this.postButtonSelector);
+  },
+
+  setDataSourceUrl: function(dataSourceUrl) {
+    this.dataSourceUrl = dataSourceUrl;
+  },
+
+  getDataSourceUrl: function() {
+    return this.dataSourceUrl;
+  },
+
+  initialize: function(inputSelector, postButtonSelector, dataSourceUrl) {
+    this.setInputSelector(inputSelector);
+    this.setPostButtonSelector(postButtonSelector);
+    this.setDataSourceUrl(dataSourceUrl);
+
+    currentInstance = this;
+    this.getInput().typeahead({
+      name:   this.inputSelector,
+      source: function (query, process) {
+        return $.get(currentInstance.getDataSourceUrl(), { q: query }, function (data) {
+          return process(data);
+        })
+      }
+    });
+    this.getPostButton().bind('click', function(){
+      $.post($(this).data('url'), $(this).data);
+    });
+  }
+}
 
 function DatePicker() {}
 DatePicker.prototype = {

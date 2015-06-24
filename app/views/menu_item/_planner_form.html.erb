@@ -1,0 +1,23 @@
+<%- menu_item.recipes.each do |recipe_for_item| %>
+    <div class="btn-group">
+        <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%- if menu_item.shopping_list == true %>
+                <%= shopping_cart_icon(recipe_for_item.title, {}) %>
+            <% else %>
+                <%= recipe_for_item.title %>
+            <% end %>
+             <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li>&nbsp;<strong>&nbsp;Action</strong></li>
+            <li><%= link_to remove_icon('Remove recipe from this slot', :class => 'btn-sm'), url(:menuplanner, :remove_menu_item_recipe, :id => menu.id, :menu_item_id => menu_item.id, :recipe_id => recipe_for_item.id),
+                                                       :method => :delete,
+                                                       :class => 'btn-sm ',
+                                                       :confirm => 'Do you really want to delete the recipe from this menu slot?' %></li>
+            <li><%= link_to checked_icon('On shopping list', :class => 'btn-sm'), url(:menuplanner, :toggle_shopping_list, :id => menu.id, :menu_item_id => menu_item.id),
+                            :method => :put,
+                            :class => 'btn-sm ',
+                            :confirm => 'Do you really want to remove the ingredients of this recipe from the shopping list?' %></li>
+        </ul>
+    </div>
+<% end %>

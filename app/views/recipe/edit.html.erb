@@ -21,3 +21,10 @@
   <%= partial 'tag/list', :object => @recipe.tags %>
 </div>
 
+<script type="text/javascript">
+$(document).ready(
+  function () {
+    AutoCompleter.prototype.initialize('#tag_name', '.remove-tag', '/familycookbook/tag/as_array');
+  }
+);
+</script>

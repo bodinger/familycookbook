@@ -107,6 +107,20 @@ module MTMD
         recipe.remove_tag(tag)
       end
 
+      def recipe_options
+        if @params
+          query_string = @params['q']
+          return if query_string.blank?
+          return MTMD::FamilyCookBook::Recipe.
+            select(:id, :title___text).
+            where(Sequel.ilike(:title, "#{query_string}%")).
+            order(:title)
+        end
+        MTMD::FamilyCookBook::Recipe.
+          select(:id, :title___text).
+          order(:title)
+      end
+
     end
   end
 end

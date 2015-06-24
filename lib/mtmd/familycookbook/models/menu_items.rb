@@ -1,6 +1,8 @@
 module MTMD
   module FamilyCookBook
     class MenuItem < Sequel::Model(:menu_items)
+      SLOTS = %w'empty MTMD::FamilyCookBook::Slot::Breakfast MTMD::FamilyCookBook::Slot::Lunch MTMD::FamilyCookBook::Slot::Dinner'
+
       plugin :timestamps, :update_on_create => true
 
       many_to_many :menus,
@@ -17,17 +19,18 @@ module MTMD
              :menus   => :nullify,
              :recipes => :nullify
 
-
       def before_save
         super
         order_slots
       end
 
       def order_slots
+        return 0 unless SLOTS.include?(slot)
         self.slot_order = 1 if slot == 'MTMD::FamilyCookBook::Slot::Breakfast'
         self.slot_order = 2 if slot == 'MTMD::FamilyCookBook::Slot::Lunch'
         self.slot_order = 3 if slot == 'MTMD::FamilyCookBook::Slot::Dinner'
       end
+
     end
   end
 end

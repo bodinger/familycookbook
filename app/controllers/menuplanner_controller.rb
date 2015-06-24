@@ -85,4 +85,45 @@ MTMD::FamilyCookBook::App.controllers :menuplanner do
     redirect_to url(:menuplanner, :show, menu.id)
   end
 
+  put :toggle_shopping_list, :with => [:id, :menu_item_id] do
+    menu = @logic_class.check_id
+    unless menu
+      flash[:error] = "Please provide a valid menu!"
+      redirect_to url(:menuplanner, :index)
+    end
+
+    menu_item = @logic_class.check_menu_item_id
+    unless menu_item
+      flash[:error] = "Please provide a valid menu item id!"
+      redirect_to url(:menuplanner, :edit, menu.id)
+    end
+
+    status = @logic_class.toggle_shopping_list(menu_item)
+    if status == true
+      flash[:success] = "Recipe has been removed from shopping list."
+    else
+      flash[:message] = "Nothing has been saved/changed!"
+    end
+    redirect_to url(:menuplanner, :edit, menu.id)
+  end
+
+  delete :remove_menu_item_recipe, :with => [:id, :menu_item_id, :recipe_id] do
+    menu = @logic_class.check_id
+    unless menu
+      flash[:error] = "Please provide a valid menu!"
+      redirect_to url(:menuplanner, :index)
+    end
+
+    recipe_id = @logic_class.check_menu_item_recipe_id
+    unless recipe_id
+      flash[:error] = "Please provide a valid menu item or recipe!"
+      redirect_to url(:menuplanner, :edit, menu.id)
+    end
+
+    @logic_class.remove_menu_item_recipe(params.fetch('menu_item_id', nil), recipe_id)
+    flash[:success] = "The recipe has been removed."
+
+    redirect_to url(:menuplanner, :edit, menu.id)
+  end
+
 end

@@ -32,9 +32,27 @@ module MTMD
           end
         end
 
-        def remove_icon
-          content_tag(:span, :class => 'glyphicon glyphicon-remove') do
+        def remove_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-remove pull-left') {}
+            html << text
+          end
+        end
 
+        def checked_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-ok pull-left') {}
+            html << text
+          end
+        end
+
+        def shopping_cart_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-shopping-cart pull-left') {}
+            html << text
           end
         end
 
@@ -62,6 +80,30 @@ module MTMD
           content_tag(:div, outer_opts) do
             html
           end
+        end
+
+        def menu_item_slot_normalized_name(slot_index)
+          slot = menu_item_slot_as_string(slot_index)
+          parts = slot.split('::')
+          parts.last.downcase
+        end
+
+        def menu_item_slot_as_string(slot_index)
+          return 0 unless MTMD::FamilyCookBook::MenuItem::SLOTS[slot_index]
+          MTMD::FamilyCookBook::MenuItem::SLOTS[slot_index]
+        end
+
+        def menu_item_slots
+          slot_keys = []
+          MTMD::FamilyCookBook::MenuItem::SLOTS.map.with_index{ |x, i|
+            next if i == 0
+            slot_keys << i
+          }
+          slot_keys
+        end
+
+        def parse_date(date)
+          DateTime.parse(date.to_s).to_i
         end
 
         def attribute_row(model, attr, opts = {}, &block)
