@@ -12,15 +12,20 @@
 <%- @menu.range_days.each do |day| %>
   <div class="panel-body">
     <h3><span class="label label-info col-md-12"><%= day.strftime('%d.%m.%Y %A') %></span></h3>
-    <%- if @menu.menu_items_for_day(day).all %>
-      <%- @menu.menu_items_for_day(day).all.each do |menu_item| %>
-        <div class="col-md-4 ">
-        <h4><span class="label label-success menu_item_slot">
-          <%# link_to menu_item.recipes.first.title, url(:recipe, :show, id: menu_item.recipes.first.id) %>
-        </span></h4>
+      <%- menu_item_slots.each do |slot_id| %>
+        <div class="col-md-4 slot slot-<%= menu_item_slot_normalized_name(slot_id) %>">
+            <h3 class="slot-title-<%= menu_item_slot_normalized_name(slot_id) %>"><span><%= menu_item_slot_normalized_name(slot_id) %></span></h3>
+            <div class="clearfix"><hr></div>
+
+        <%- if @menu.menu_items_for_day_and_slot(day, slot_id) %>
+          <%- @menu.menu_items_for_day_and_slot(day, slot_id).each do |menu_item| %>
+            <%= render_partial 'menu_item/planner_form', :locals => { :action => :show, :menu_item => menu_item, :menu => @menu, :slot_id => slot_id, :day => day } %>
+          <% end %>
+        <% end %>
+
         </div>
-      <% end %>
     <% end %>
+
   </div>
 <% end %>
 </div>

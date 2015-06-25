@@ -6,8 +6,11 @@
             <% else %>
                 <%= recipe_for_item.title %>
             <% end %>
-             <span class="caret"></span>
+            <%- if action == :edit %>
+              <span class="caret"></span>
+            <% end %>
         </button>
+        <%- if action == :edit %>
         <ul class="dropdown-menu">
             <li>&nbsp;<strong>&nbsp;Action</strong></li>
             <li><%= link_to remove_icon('Remove recipe from this slot', :class => 'btn-sm'), url(:menuplanner, :remove_menu_item_recipe, :id => menu.id, :menu_item_id => menu_item.id, :recipe_id => recipe_for_item.id),
@@ -19,5 +22,6 @@
                             :class => 'btn-sm ',
                             :confirm => 'Do you really want to remove the ingredients of this recipe from the shopping list?' %></li>
         </ul>
+        <% end %>
     </div>
 <% end %>

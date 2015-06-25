@@ -1,0 +1,25 @@
+<table class="table">
+    <thead>
+        <th width="15%">
+            Date
+        </th>
+        <th>
+
+        </th>
+    </thead>
+    <tbody>
+    <% @items.each do |menu| %>
+        <tr>
+            <td>
+                <strong>
+                    <%= link_to menu.range_begin.to_s+' - '+menu.range_end.to_s, url(:shoppinglist, :show, id: menu.id) %>
+                </strong>
+            </td>
+            <td>
+                <strong><%= link_to menu.name, url(:shoppinglist, :show, id: menu.id) %></strong>
+            </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+

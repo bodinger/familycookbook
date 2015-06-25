@@ -61,16 +61,23 @@ button.recipe-remove-tag {
 }
 
 .slot {
-    height: 8em;
+    height: auto;
+    padding: 0em 1em 1em 1em;
     border-color: #cccccc !important;
+    min-height: 6em;
 }
 
-.slot-breakfast {
+.slot hr {
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+.slot.slot-breakfast {
     border: 1px solid red;
     text-space-collapse: preserve;
 }
 
-.slot-dinner {
+.slot.slot-dinner {
     border: 1px solid green;
     text-space-collapse: preserve;
 }
@@ -78,4 +85,39 @@ button.recipe-remove-tag {
 .slot-lunch {
     border: 1px solid blue;
     text-space-collapse: preserve;
+}
+
+.slot-title-breakfast,
+.slot-title-dinner,
+.slot-title-lunch {
+    background-color: #efefef;
+    border-radius: 0.25em;
+    border-color: #dfdfdf;
+    border-with: 1px;
+    padding: 0.25em 1em 0.25em 0.25em;
+    font-weight: bold;
+    font-stretch: expanded;
+    text-align: right;
+}
+
+.slot-title-breakfast span,
+.slot-title-dinner span,
+.slot-title-lunch span {
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.slot-title-breakfast {
+    color: #f0ad4e;
+}
+
+.slot-title-dinner {
+    color: #d43f3a;
+}
+
+.slot-title-lunch {
+    color: #398439;
+}
+
+.checkbox-shopping-cart {
+    margin-right: 0.5em !important;
 }

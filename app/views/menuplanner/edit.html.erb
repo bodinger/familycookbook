@@ -10,28 +10,32 @@
             <h3><span class="label label-info col-md-12"><%= day.strftime('%d.%m.%Y %A') %></span></h3>
             <%- menu_item_slots.each do |slot_id| %>
                 <div class="col-md-4 slot slot-<%= menu_item_slot_normalized_name(slot_id) %>">
-                    <%- if @menu.menu_items_for_day_and_slot(day, slot_id) %>
-                        <%- @menu.menu_items_for_day_and_slot(day, slot_id).each do |menu_item| %>
-                            <%= render_partial 'menu_item/planner_form', :locals => { :menu_item => menu_item, :menu => @menu, :slot_id => slot_id, :day => day } %>
-                        <% end %>
-                    <% end %>
-                <select class="recipe_typeahead_selector col-md-12" name="mtmd_family_cook_book_menu[new_item][<%= parse_date(day) %>][recipe_id]"></select>
+                    <h3 class="slot-title-<%= menu_item_slot_normalized_name(slot_id) %>"><span><%= menu_item_slot_normalized_name(slot_id) %></span></h3>
+                <select class="recipe_typeahead_selector col-md-12" name="mtmd_family_cook_book_menu[new_item][<%= parse_date(day).to_s+'-'+slot_id.to_s %>][recipe_id]"></select>
                     <%= label_tag :shopping_list, :caption => ' Add to shopping list' do
                       check_box_tag(:shopping_list,
                                     :id      => :shopping_list,
                                     :checked => :checked,
-                                    :class   => 'pull-left',
-                                    :name    => "mtmd_family_cook_book_menu[new_item][#{parse_date(day)}][shopping_list]"
+                                    :class   => 'pull-left checkbox-shopping-cart',
+                                    :name    => "mtmd_family_cook_book_menu[new_item][#{parse_date(day).to_s+'-'+slot_id.to_s}][shopping_list]"
                       )
                     end %>
-                    <%= input_tag :slot,
-                                  :name  => "mtmd_family_cook_book_menu[new_item][#{parse_date(day)}][slot]",
-                                  :value => slot_id
+                    <%= hidden_field_tag :slot,
+                                         :name  => "mtmd_family_cook_book_menu[new_item][#{parse_date(day).to_s+'-'+slot_id.to_s}][slot]",
+                                         :value => slot_id
                     %>
-                    <%= input_tag :day,
-                                  :name  => "mtmd_family_cook_book_menu[new_item][#{parse_date(day)}][day]",
-                                  :value => parse_date(day)
+                    <%= hidden_field_tag :day,
+                                         :name  => "mtmd_family_cook_book_menu[new_item][#{parse_date(day).to_s+'-'+slot_id.to_s}][day]",
+                                         :value => parse_date(day)
                     %>
+                    <div class="clearfix"><hr></div>
+
+                    <%- if @menu.menu_items_for_day_and_slot(day, slot_id) %>
+                        <%- @menu.menu_items_for_day_and_slot(day, slot_id).each do |menu_item| %>
+                            <%= render_partial 'menu_item/planner_form', :locals => { :action => :edit, :menu_item => menu_item, :menu => @menu, :slot_id => slot_id, :day => day } %>
+                        <% end %>
+                    <% end %>
+
                 </div>
             <% end %>
         </div>
@@ -43,7 +47,7 @@
 $(document).ready(
   function () {
     $(".recipe_typeahead_selector").select2({
-      placeholder: 'Select a recipe',
+      placeholder: 'Select a recipe to add to this slot',
       language: "de",
       ajax: {
         url: "/familycookbook/recipe/as_array",
