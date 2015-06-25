@@ -67,6 +67,10 @@ button.recipe-remove-tag {
     min-height: 6em;
 }
 
+.slot label {
+    cursor: pointer;
+}
+
 .slot hr {
     margin-top: 0px;
     margin-bottom: 15px;

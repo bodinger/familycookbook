@@ -2,7 +2,7 @@ module MTMD
   module FamilyCookBook
     class ShoppingListActions
       include MTMD::FamilyCookBook::SharedActions
-      include MTMD::FamilyCookBook::ApplicationHelper
+      #include MTMD::FamilyCookBook::ApplicationHelper
 
       def initialize(params)
         @params = params

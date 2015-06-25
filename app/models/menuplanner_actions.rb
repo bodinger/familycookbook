@@ -2,7 +2,6 @@ module MTMD
   module FamilyCookBook
     class MenuplannerActions
       include MTMD::FamilyCookBook::SharedActions
-      include MTMD::FamilyCookBook::ApplicationHelper
 
       def initialize(params)
         @params = params
@@ -72,7 +71,7 @@ module MTMD
         menu_item = MTMD::FamilyCookBook::MenuItem.new(
           :recipe_id     => menu_item_params[:recipe_id],
           :shopping_list => menu_item_params[:shopping_list],
-          :slot          => menu_item_slot_as_string(menu_item_params[:slot].to_i),
+          :slot          => MTMD::FamilyCookBook::MenuItem::SLOTS[menu_item_params[:slot].to_i],
           :day           => Time.at(menu_item_params[:day].to_i),
           :menu_id       => menu.id
         ).save
