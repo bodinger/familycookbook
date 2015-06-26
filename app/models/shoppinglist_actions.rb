@@ -21,30 +21,55 @@ module MTMD
       end
 
       def shoppinglist(menu)
+        items                 = []
+        ingredient_quantities = ingredient_quantities_by_menu(menu)
+        ingredient_ids        = ingredient_quantities.select_map(:ingredient_quantities__ingredient_id).uniq!
 
-        #@recipe.ingredient_quantities.sort_by { |a| a.ingredients.first.title.downcase }
+        ingredient_ids.each do |ingredient_id|
+          ingredients = ingredient_quantities_for_ingredient(ingredient_quantities, ingredient_id)
+          unit_ids    = ingredients.select_map(:ingredient_quantities__unit_id).uniq!
 
-        ingredient_quantities = []
-        #aggregated = []
-        menu.menu_items_dataset.where(:shopping_list => true).all.each do |menu_item|
-          menu_item.recipes_dataset.all.each do |recipe|
-            recipe.ingredient_quantities_dataset.all.each do |ingredient_quantity|
-              ingredient_quantities << ingredient_quantity
-              #puts "MENU ITEM: #{menu_item.id} / RECIPE ID: #{recipe.id} / ID: #{ingredient_quantity.id} / INGREDIENT: #{ingredient_quantity.ingredient_id} / AMOUNT: #{ingredient_quantity.amount}"
-              # aggregation_key = "#{menu_item.id}-#{recipe.id}-#{ingredient_quantity.ingredient_id}-#{ingredient_quantity.unit_id}-#{ingredient_quantity.amount}"
-              # unless aggregated.fetch(ingredient_quantity.ingredient_id)
-              #   puts "new key"
-              #   aggregated["ing-#{ingredient_quantity.ingredient_id.to_s}"] = []
-              # end
-              # aggregated["ing-#{ingredient_quantity.ingredient_id.to_s}"] << ingredient_quantity.id
-            end
+          unit_ids.each do |unit_id|
+            ingredients_by_unit = ingredient_quantities_for_unit(ingredients, unit_id)
+            items << calculate_ingredient_item(ingredients_by_unit)
           end
         end
-
-        puts "TOTAL AMOUNT FOR SHOPPING LIST #{ingredient_quantities.size}"
-
-        #puts aggregated.inspect
+        MTMD::FamilyCookBook::ShoppingList.new(items)
       end
+
+      def calculate_ingredient_item(dataset)
+        title      = MTMD::FamilyCookBook::Ingredient[dataset.first.ingredient_id].title
+        unit_title = MTMD::FamilyCookBook::Unit[dataset.first.unit_id].name
+        amounts    = dataset.select_map(:amount)
+        amount     = 0
+        amounts.each do |item|
+          amount += item.to_i
+        end
+        {
+          :title      => title,
+          :unit_title => unit_title,
+          :amount     => amount
+        }
+      end
+
+      def ingredient_quantities_for_ingredient(dataset, ingredient_id)
+        dataset.where(:ingredient_id => ingredient_id)
+      end
+
+      def ingredient_quantities_for_unit(dataset, unit_id)
+        dataset.where(:unit_id => unit_id)
+      end
+
+      def ingredient_quantities_by_menu(menu)
+        query = MTMD::FamilyCookBook::IngredientQuantity.
+          select.
+            left_join(:menu_items, :menu_id     => menu.id).
+            left_join(:recipes,    :recipes__id => :menu_items__recipe_id).
+            where(:ingredient_quantities__recipe_id => :menu_items__recipe_id).
+            order(:ingredient_id, :unit_id)
+        query
+      end
+
     end
   end
 end

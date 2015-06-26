@@ -17,7 +17,7 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
       redirect_to url(:shoppinglist, :index)
     end
 
-    @logic_class.shoppinglist(@menu)
+    @shopping_list = @logic_class.shoppinglist(@menu)
 
     render 'shoppinglist/show'
   end
