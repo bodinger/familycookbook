@@ -15,15 +15,17 @@ module MTMD
              :menu_items => :nullify
 
       def range_begin
-        date_range.begin.strftime('%d.%m.%Y')
+        date_range.begin.strftime('%d.%m.%Y') if date_range.begin
       end
 
       def range_end
-        date_range.end.strftime('%d.%m.%Y')
+        date_range.end.strftime('%d.%m.%Y') if date_range.begin
       end
 
       def range_days
-        return DateTime.now.to_date..(DateTime.now+DEFAULT_DATE_RANGE_PERIOD).to_date if date_range.blank?
+        if date_range.blank? || date_range.begin.blank? || date_range.end.blank?
+          return DateTime.now.to_date..(DateTime.now+DEFAULT_DATE_RANGE_PERIOD).to_date
+        end
         date_range.begin.to_date..date_range.end.to_date
       end
 

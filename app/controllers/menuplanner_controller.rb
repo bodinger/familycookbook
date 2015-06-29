@@ -82,7 +82,7 @@ MTMD::FamilyCookBook::App.controllers :menuplanner do
     else
       flash[:message] = "Nothing has been saved/changed!"
     end
-    redirect_to url(:menuplanner, :show, menu.id)
+    redirect_to url(:menuplanner, :edit, menu.id)
   end
 
   put :toggle_shopping_list, :with => [:id, :menu_item_id] do

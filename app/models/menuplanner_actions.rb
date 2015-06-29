@@ -50,8 +50,8 @@ module MTMD
         menu          = check_id
         posted_params = menu_params
 
-        process_menu_items(menu, posted_params)
-        return true if menu.update(posted_params)
+        items_processed = process_menu_items(menu, posted_params)
+        return true if menu.update(posted_params) || items_processed
       end
 
       def process_menu_items(menu, posted_params)
@@ -62,9 +62,14 @@ module MTMD
           item[1]
         end.compact
 
+        items_processed = false
         new_items_params.each do |menu_item_params|
-          process_menu_item(menu, menu_item_params)
+          status = process_menu_item(menu, menu_item_params)
+          if status == true
+            items_processed = status
+          end
         end
+        items_processed
       end
 
       def process_menu_item(menu, menu_item_params)
@@ -77,12 +82,18 @@ module MTMD
         ).save
         menu_item.add_recipe(menu_item_params[:recipe_id])
         menu_item.add_menu(menu)
+        menu_item.exists?
       end
 
       def menu_params
         parsed_params = menu_params_raw
-        range_begin   = DateTime.parse(parsed_params.delete('range_begin'))
-        range_end     = DateTime.parse(parsed_params.delete('range_end'))
+
+        range_begin_raw = parsed_params.delete('range_begin')
+        range_end_raw   = parsed_params.delete('range_end')
+
+        range_begin = DateTime.parse(range_begin_raw) unless range_begin_raw.blank?
+        range_end   = DateTime.parse(range_end_raw)   unless range_end_raw.blank?
+
         parsed_params[:date_range] = range_begin..range_end
         parsed_params
       end
@@ -116,8 +127,8 @@ module MTMD
       end
 
       def remove_menu_item_recipe(menu_item_id, recipe_id)
-
-        MTMD::FamilyCookBook::MenuItem[menu_item_id].remove_recipe(MTMD::FamilyCookBook::Recipe[recipe_id])
+        menu_item = MTMD::FamilyCookBook::MenuItem[menu_item_id]
+        menu_item.destroy
       end
 
     end

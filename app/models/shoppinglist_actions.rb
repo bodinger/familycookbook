@@ -27,7 +27,7 @@ module MTMD
 
         ingredient_ids.each do |ingredient_id|
           ingredients = ingredient_quantities_for_ingredient(ingredient_quantities, ingredient_id)
-          unit_ids    = ingredients.select_map(:ingredient_quantities__unit_id).uniq!
+          unit_ids    = ingredients.select_map(:ingredient_quantities__unit_id).uniq
 
           unit_ids.each do |unit_id|
             ingredients_by_unit = ingredient_quantities_for_unit(ingredients, unit_id)
@@ -41,9 +41,9 @@ module MTMD
         title      = MTMD::FamilyCookBook::Ingredient[dataset.first.ingredient_id].title
         unit_title = MTMD::FamilyCookBook::Unit[dataset.first.unit_id].name
         amounts    = dataset.select_map(:amount)
-        amount     = 0
+        amount     = 0.0
         amounts.each do |item|
-          amount += item.to_i
+          amount += item.to_f
         end
         {
           :title      => title,

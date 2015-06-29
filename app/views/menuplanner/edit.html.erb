@@ -2,8 +2,10 @@
 
 <%- form_for :menu, url(:menuplanner, :update, :id => @menu.id), :method => :put, :class => 'form-horizontal' do |f| %>
   <%= render_partial 'menuplanner/form_fields', :object => f %>
-  <%= f.submit 'Update', :class => 'btn btn-primary' %>
-
+  <%= f.submit 'Update', :class => 'btn btn-success' %>
+    <%= link_to 'Done', url(:menuplanner, :show, :id => @menu.id),
+                :class => 'btn btn-primary',
+                :confirm => 'Are you sure to finish editing? You may have unsaved changes.' %>
 <div class="panel panel-small">
     <%- @menu.range_days.each do |day| %>
         <div class="panel-body">
