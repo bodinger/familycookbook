@@ -21,4 +21,9 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
 
     render 'shoppinglist/show'
   end
+
+  get :new do
+    @menu  = @logic_class.new
+    render 'shoppinglist/new'
+  end
 end

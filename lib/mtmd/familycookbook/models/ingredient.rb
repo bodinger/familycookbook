@@ -15,6 +15,11 @@ module MTMD
                    :left_key => :ingredient_id,
                    :right_key => :ingredient_quantities_id
 
+      many_to_one :shopping_lists,
+                  :class       => 'MTMD::FamilyCookBook::ShoppingList',
+                  :key         => :id,
+                  :primary_key => :ingredient_id
+
       plugin :association_dependencies,
              :recipes               => :nullify,
              :ingredient_quantities => :nullify

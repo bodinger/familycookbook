@@ -15,9 +15,14 @@ module MTMD
                    :left_key  => :menu_items_id,
                    :right_key => :recipe_id
 
+      many_to_one :shopping_lists,
+                  :class       => 'MTMD::FamilyCookBook::ShoppingList',
+                  :key         => :id,
+                  :primary_key => :menu_item_id
+
       plugin :association_dependencies,
-             :menus   => :nullify,
-             :recipes => :nullify
+             :menus          => :nullify,
+             :recipes        => :nullify
 
       def before_save
         super

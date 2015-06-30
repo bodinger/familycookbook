@@ -1,0 +1,6 @@
+<%- actions({ 'Cancel' => url(:shoppinglist, :index) }) %>
+
+<%- form_for :shopping_list, url(:shoppinglist, :new), :method => :post, :class => 'form-horizontal', :id => 'shopping_list' do |f| %>
+  <%= render_partial 'shoppinglist/form_fields', :object => f %>
+  <%= f.submit 'Create', :class => 'btn btn-primary' %>
+<% end %>

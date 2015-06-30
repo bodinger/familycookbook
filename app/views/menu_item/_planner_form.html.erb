@@ -1,6 +1,6 @@
 <%- menu_item.recipes.each do |recipe_for_item| %>
-    <div class="btn-group">
-        <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="btn-group menu-item">
+        <button type="button" class="btn btn-info btn-sm dropdown-toggle recipe-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-recipe-id="<%= recipe_for_item.id %>" data-action="<%= action %>">
             <%- if menu_item.shopping_list == true %>
                 <%= shopping_cart_icon(recipe_for_item.title, {}) %>
             <% else %>

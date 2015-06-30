@@ -20,6 +20,10 @@ module MTMD
         MTMD::FamilyCookBook::Menu.order(Sequel.function(:lower, :date_range)).all
       end
 
+      def new
+        MTMD::FamilyCookBook::ShoppingList.new
+      end
+
       def shoppinglist(menu)
         items                 = []
         ingredient_quantities = ingredient_quantities_by_menu(menu)
@@ -38,6 +42,7 @@ module MTMD
       end
 
       def calculate_ingredient_item(dataset)
+        puts dataset.first.id
         title      = MTMD::FamilyCookBook::Ingredient[dataset.first.ingredient_id].title
         unit_title = MTMD::FamilyCookBook::Unit[dataset.first.unit_id].name
         amounts    = dataset.select_map(:amount)
@@ -53,18 +58,20 @@ module MTMD
       end
 
       def ingredient_quantities_for_ingredient(dataset, ingredient_id)
-        dataset.where(:ingredient_id => ingredient_id)
+        dataset.where(:ingredient_quantities__ingredient_id => ingredient_id)
       end
 
       def ingredient_quantities_for_unit(dataset, unit_id)
-        dataset.where(:unit_id => unit_id)
+        dataset.where(:unit_id => unit_id, :shopping_list => true)
       end
 
       def ingredient_quantities_by_menu(menu)
         query = MTMD::FamilyCookBook::IngredientQuantity.
           select.
-            left_join(:menu_items, :menu_id     => menu.id).
-            left_join(:recipes,    :recipes__id => :menu_items__recipe_id).
+            left_join(:menu_items,          :menu_id                            => menu.id).
+            left_join(:recipes,             :recipes__id                        => :menu_items__recipe_id).
+            #left_join(:ingredients_recipes, :ingredients_recipes__ingredient_id => :menu_items__recipe_id).
+            #left_join(:ingredients,         :ingredients__id                    => :ingredients_recipes__ingredient_id).
             where(:ingredient_quantities__recipe_id => :menu_items__recipe_id).
             order(:ingredient_id, :unit_id)
         query

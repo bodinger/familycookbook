@@ -1,0 +1,5 @@
+#!/bin/bash
+BACKUP_FOLDER='db/backups/'
+BACKUP_FILE=$(date "+%Y-%m-%d-%H%M%S-fcb-backup.gz")
+
+pg_dump fcb | gzip > $BACKUP_FOLDER$BACKUP_FILE

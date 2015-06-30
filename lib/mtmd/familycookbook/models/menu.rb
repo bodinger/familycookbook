@@ -11,8 +11,13 @@ module MTMD
                    :left_key   => :menu_id,
                    :right_key  => :menu_items_id
 
+      many_to_one :shopping_lists,
+                  :class       => 'MTMD::FamilyCookBook::ShoppingList',
+                  :key         => :id,
+                  :primary_key => :menu_id
+
       plugin :association_dependencies,
-             :menu_items => :nullify
+             :menu_items     => :nullify
 
       def range_begin
         date_range.begin.strftime('%d.%m.%Y') if date_range.begin
@@ -53,8 +58,11 @@ module MTMD
       def cleanup_menu_items
         old_daterange = Menu[self.id][:date_range]
         new_daterange = date_range
+        puts new_daterange.begin
+        puts new_daterange.end
         (old_daterange.begin.to_date..old_daterange.end.to_date).each do |day|
-          next if new_daterange.include?(day)
+          puts day
+          next if new_daterange.cover?(day)
           invalid_menu_items = menu_items_for_day(day).all
           invalid_menu_items.each do |menu_item|
             menu_item.destroy

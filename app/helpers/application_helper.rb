@@ -48,6 +48,54 @@ module MTMD
           end
         end
 
+        def clock_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-time pull-left') {}
+            html << text
+          end
+        end
+
+        def cutlery_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-cutlery pull-left') {}
+            html << text
+          end
+        end
+
+        def scale_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-scale pull-left') {}
+            html << text
+          end
+          end
+
+        def heartempty_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-heart-empty pull-left') {}
+            html << text
+          end
+        end
+
+        def star_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-star pull-left') {}
+            html << text
+          end
+        end
+
+        def emptystar_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-star-empty pull-left') {}
+            html << text
+          end
+        end
+
         def shopping_cart_icon(text, opts = {})
           html = ''.html_safe
           content_tag(:span, opts) do

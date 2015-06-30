@@ -61,7 +61,10 @@ module MTMD
       end
 
       def destroy
-        destroyed_object = check_id.destroy
+        recipe = check_id
+        MTMD::FamilyCookBook::IngredientQuantity.where(:recipe_id => recipe.id).destroy
+        MTMD::FamilyCookBook::MenuItem.where(:recipe_id => recipe.id).destroy
+        destroyed_object = recipe.destroy
         !destroyed_object.exists?
       end
 

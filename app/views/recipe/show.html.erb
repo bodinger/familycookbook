@@ -1,25 +1,53 @@
 <%- actions({ 'Show all' => url(:recipe, :index) }) %>
 
-<table class="table">
-  <thead>
-  <%= attribute_row(@recipe, :type) %>
-  <%= attribute_row(@recipe, :title) %>
-  <%= attribute_row(@recipe, :difficulty) %>
-  </thead>
-  <tbody>
-  <tr>
-      <td>
-          <strong>Description</strong>
-      </td>
-      <td><%= @recipe.description.html_safe %></td>
-  </tr>
-  <%= attribute_row(@recipe, :duration_preparation) %>
-  <%= attribute_row(@recipe, :duration_cooking) %>
-  <%= attribute_row(@recipe, :cookware_amount) %>
-  <%= attribute_row(@recipe, :tips_and_tricks) %>
-  <%= attribute_row(@recipe, :calorie_indication) %>
-  </tbody>
-</table>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h4><%= @recipe.title %> <small><%= @recipe.type %></small></h4>
+
+        <div class="panel panel-default recipe-infobox">
+            <div class="panel-body col-sm-6">
+                <div class="row">
+                    <div class="col-sm-4"><%= clock_icon('') %>&nbsp;<strong>Vorbereitung:</strong></div>
+                    <div class="col-sm-8"><%= @recipe.duration_preparation %></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4"><%= clock_icon('') %>&nbsp;<strong>Kochen:</strong></div>
+                    <div class="col-sm-8"><%= @recipe.duration_cooking %></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4"><%= star_icon('') %>&nbsp;<strong>Schwierigkeit:</strong></div>
+                    <div class="col-sm-8"><%- @recipe.difficulty.to_i.times do |item| %>
+                    <%= emptystar_icon('') %>
+                    <% end %></div>
+                </div>
+            </div>
+            <div class="panel-body col-sm-6">
+                <div class="row">
+                    <div class="col-sm-4"><%= cutlery_icon('') %>&nbsp;<strong>Material&nbsp;(Stück):</strong></div>
+                    <div class="col-sm-8"><%= @recipe.cookware_amount %></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4"><%= heartempty_icon('') %>&nbsp;<strong>Kalorien:</strong></div>
+                    <div class="col-sm-8"><%= @recipe.calorie_indication %></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+        <%= @recipe.description.html_safe %>
+        <br/>
+        <br/>
+        <div class="clearfix"></div>
+
+        <div class="panel panel-default recipe-tipandtricks">
+            <div class="panel-body">
+                <h5><strong>Tipps und Tricks</strong></h5>
+                <%= @recipe.tips_and_tricks %>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="tags">

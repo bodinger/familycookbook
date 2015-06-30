@@ -125,3 +125,18 @@ button.recipe-remove-tag {
 .checkbox-shopping-cart {
     margin-right: 0.5em !important;
 }
+
+.menu-item .glyphicon {
+    margin-right: 0.75em;
+    margin-top: 0.25em;
+}
+
+.recipe-infobox {
+    background-color: #e5e5e5;
+    color: #999999;
+}
+
+.recipe-infobox .glyphicon {
+    margin-right: 0.15em;
+    margin-top: 0.15em;
+}

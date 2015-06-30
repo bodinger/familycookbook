@@ -8,6 +8,11 @@ module MTMD
                    :left_key  => :unit_id,
                    :right_key => :ingredient_quantities_id
 
+      many_to_one :shopping_lists,
+                  :class       => 'MTMD::FamilyCookBook::ShoppingList',
+                  :key         => :id,
+                  :primary_key => :unit_id
+
       plugin :association_dependencies,
              :ingredient_quantities => :nullify
 

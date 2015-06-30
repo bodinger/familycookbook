@@ -1,5 +1,7 @@
 <%- actions({ 'Show all' => url(:shoppinglist, :index) }) %>
 
+<h4>Einkaufsliste für das Menü vom <%= @menu.range_begin %> - <%= @menu.range_end %></h4>
+
 <%- @shopping_list.items.each do |list_entry| %>
     <div class="col-md-0">
         <%=
@@ -9,7 +11,7 @@
         %>
     </div>
     <div class="col-md-11">
-        <%= list_entry[:title] %> (<%= list_entry[:amount] %> <%= list_entry[:unit_title] %>)
+        <strong><%= list_entry[:title] %></strong> (<%= list_entry[:amount] %> <%= list_entry[:unit_title] %>)
     </div>
     <div class="clearfix"></div>
 <% end %>
