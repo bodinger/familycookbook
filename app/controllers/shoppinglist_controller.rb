@@ -23,7 +23,7 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
   end
 
   get :new do
-    @menu  = @logic_class.new
+    @shopping_list  = @logic_class.new
     render 'shoppinglist/new'
   end
 end

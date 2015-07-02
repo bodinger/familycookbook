@@ -2,11 +2,11 @@
 
 <table class="table">
     <thead>
-        <th width="15%">
-            Date
-        </th>
         <th>
-
+            Date & Name
+        </th>
+        <th width="15%">
+            Action
         </th>
     </thead>
     <tbody>
@@ -14,11 +14,15 @@
         <tr>
             <td>
                 <strong>
-                    <%= link_to menu.range_begin.to_s+' - '+menu.range_end.to_s, url(:shoppinglist, :show, id: menu.id) %>
+                    <%# link_to 'Show', url(:shoppinglist, :show, id: menu.id) %>
+                    <%= menu.range_begin.to_s+' - '+menu.range_end.to_s %> <%= menu.name %>
                 </strong>
             </td>
             <td>
-                <strong><%= link_to menu.name, url(:shoppinglist, :show, id: menu.id) %></strong>
+                <%= link_to 'Create from menu plan', url(:shoppinglist, :show, id: menu.id), :class => 'btn btn-primary btn-xs pull-left' %>
+
+                <%= link_to 'Edit', url(:shoppinglist, :show, id: menu.id), :class => 'btn btn-primary btn-xs pull-left' %>
+                <%= link_to 'Show', url(:shoppinglist, :show, id: menu.id), :class => 'btn btn-primary btn-xs pull-left' %>
             </td>
         </tr>
     <% end %>
