@@ -80,6 +80,22 @@ module MTMD
           end
         end
 
+        def list_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-list-alt pull-left') {}
+            html << text
+          end
+        end
+
+        def menu_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-exclamation-sign pull-left') {}
+            html << text
+          end
+        end
+
         def star_icon(text, opts = {})
           html = ''.html_safe
           content_tag(:span, opts) do

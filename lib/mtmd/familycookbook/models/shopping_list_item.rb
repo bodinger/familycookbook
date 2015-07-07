@@ -1,6 +1,6 @@
 module MTMD
   module FamilyCookBook
-    class ShoppingList < Sequel::Model(:shopping_lists)
+    class ShoppingListItem < Sequel::Model(:shopping_list_items)
       plugin :timestamps, :update_on_create => true
 
       many_to_one :shopping_lists,

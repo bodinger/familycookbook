@@ -1,7 +1,16 @@
 <%- actions({ 'Add shopping list' => url(:shoppinglist, :new) }) %>
 
+<div class="panel panel-small">
+    <div class="panel-body">
+        <h3><span class="label label-default col-md-12">Shopping Lists</span></h3>
+    </div>
+</div>
+
 <table class="table">
     <thead>
+        <th>
+            Type
+        </th>
         <th>
             Date & Name
         </th>
@@ -10,22 +19,32 @@
         </th>
     </thead>
     <tbody>
-    <% @items.each do |menu| %>
+    <% @items.each do |item| %>
         <tr>
             <td>
+                <%- if item[:type] == 'MTMD::FamilyCookBook::ShoppingList' %>
+                    <%= list_icon('Shopping List', {}) %>
+                <% else %>
+                    <%= menu_icon('Menu plan', {}) %>
+                <% end %>
+            </td>
+            <td>
                 <strong>
-                    <%# link_to 'Show', url(:shoppinglist, :show, id: menu.id) %>
-                    <%= menu.range_begin.to_s+' - '+menu.range_end.to_s %> <%= menu.name %>
+                    <%# link_to 'Show', url(:shoppinglist, :show, id: item.id) %>
+                    <%= item[:date_range].begin.strftime('%d.%m.%Y')+' - '+item[:date_range].end.strftime('%d.%m.%Y') %> <%= item[:name] %>
                 </strong>
             </td>
             <td>
-                <%= link_to 'Create from menu plan', url(:shoppinglist, :show, id: menu.id), :class => 'btn btn-primary btn-xs pull-left' %>
+                <%- if item[:type] == 'MTMD::FamilyCookBook::Menu' %>
+                    <%= link_to 'Create from menu plan', url(:shoppinglist, :create_from_menu, :menu_id => item[:id]), :class => 'btn btn-primary btn-xs pull-left mg-right' %>
+                <% else %>
+                    <%= link_to 'Edit', url(:shoppinglist, :show, id: item[:id]), :class => 'btn btn-primary btn-xs pull-left mg-right' %>
+                    <%= link_to 'Show', url(:shoppinglist, :show, id: item[:id]), :class => 'btn btn-primary btn-xs pull-left' %>
+                <% end %>
 
-                <%= link_to 'Edit', url(:shoppinglist, :show, id: menu.id), :class => 'btn btn-primary btn-xs pull-left' %>
-                <%= link_to 'Show', url(:shoppinglist, :show, id: menu.id), :class => 'btn btn-primary btn-xs pull-left' %>
+
             </td>
         </tr>
     <% end %>
     </tbody>
 </table>
-

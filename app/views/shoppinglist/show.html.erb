@@ -1,17 +1,16 @@
 <%- actions({ 'Show all' => url(:shoppinglist, :index) }) %>
 
-<h4>Einkaufsliste für das Menü vom <%= @menu.range_begin %> - <%= @menu.range_end %></h4>
+<h4><%= @shopping_list.title %>
+    Einkaufsliste für das Menü vom <%# @shopping_list.menu.range_begin %> - <%# @shopping_list.menu.range_end %></h4>
 
-<%- @shopping_list.items.each do |list_entry| %>
     <div class="col-md-0">
-        <%=
+        <%#
             check_box_tag(:shopping_list,
                           :class   => 'pull-left checkbox-shopping-cart'
             )
         %>
     </div>
     <div class="col-md-11">
-        <strong><%= list_entry[:title] %></strong> (<%= list_entry[:amount] %> <%= list_entry[:unit_title] %>)
+        <strong><%# list_entry[:title] %></strong> (<%# list_entry[:amount] %> <%# list_entry[:unit_title] %>)
     </div>
     <div class="clearfix"></div>
-<% end %>
