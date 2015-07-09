@@ -10,19 +10,19 @@ module MTMD
 
       many_to_many :recipes,
                    :class      => 'MTMD::FamilyCookBook::Recipe',
-                   :join_table => :shopping_list_items_recipes,
+                   :join_table => :recipes_shopping_list_items,
                    :left_key   => :shopping_list_item_id,
                    :right_key  => :recipe_id
 
       many_to_many :menu_items,
                    :class      => 'MTMD::FamilyCookBook::MenuItem',
-                   :join_table => :shopping_list_items_menu_items,
+                   :join_table => :menu_items_shopping_list_items,
                    :left_key   => :shopping_list_item_id,
                    :right_key  => :menu_item_id
 
       many_to_many :ingredient_quantities,
                    :class      => 'MTMD::FamilyCookBook::IngredientQuantity',
-                   :join_table => :shopping_list_items_ingredient_quantities,
+                   :join_table => :ingredient_quantities_shopping_list_items,
                    :left_key   => :shopping_list_item_id,
                    :right_key  => :ingredient_quantity_id
 
@@ -34,7 +34,7 @@ module MTMD
 
       many_to_many :ingredients,
                    :class      => 'MTMD::FamilyCookBook::Ingredient',
-                   :join_table => :shopping_list_items_ingredients,
+                   :join_table => :ingredients_shopping_list_items,
                    :left_key   => :shopping_list_item_id,
                    :right_key  => :ingredient_id
 

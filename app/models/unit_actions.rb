@@ -41,6 +41,19 @@ module MTMD
         MTMD::FamilyCookBook::Unit.order(:name).all
       end
 
+      def unit_options
+        query = MTMD::FamilyCookBook::Unit.
+          select(:id, :name___text).
+          order(:name)
+        if @params && @params['q']
+          query_string = @params['q']
+          return query if query_string.blank?
+          return query.
+            where(Sequel.ilike(:name, "#{query_string}%"))
+        end
+        query
+      end
+
     end
   end
 end

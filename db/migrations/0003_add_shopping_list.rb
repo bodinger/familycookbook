@@ -26,9 +26,9 @@ Sequel.migration do
 
       # Automated section
       foreign_key :shopping_list_id,       :shopping_lists,        :deferrable => true, :null => false
-      foreign_key :recipe_id,              :recipes,               :deferrable => true, :null => false
-      foreign_key :menu_item_id,           :menu_items,            :deferrable => true, :null => false
-      foreign_key :ingredient_quantity_id, :ingredient_quantities, :deferrable => true, :null => false
+      foreign_key :recipe_id,              :recipes,               :deferrable => true
+      foreign_key :menu_item_id,           :menu_items,            :deferrable => true
+      foreign_key :ingredient_quantity_id, :ingredient_quantities, :deferrable => true
 
       # Individual section
       foreign_key :unit_id,       :units,       :deferrable => true

@@ -17,7 +17,7 @@
                                                        :method => :delete,
                                                        :class => 'btn-sm ',
                                                        :confirm => 'Do you really want to delete the recipe from this menu slot?' %></li>
-            <li><%= link_to checked_icon('On shopping list', :class => 'btn-sm'), url(:menuplanner, :toggle_shopping_list, :id => menu.id, :menu_item_id => menu_item.id),
+            <li><%= link_to list_icon('Toggle shopping list', :class => 'btn-sm'), url(:menuplanner, :toggle_shopping_list, :id => menu.id, :menu_item_id => menu_item.id),
                             :method => :put,
                             :class => 'btn-sm ',
                             :confirm => 'Do you really want to remove the ingredients of this recipe from the shopping list?' %></li>

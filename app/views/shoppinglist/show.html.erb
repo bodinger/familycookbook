@@ -1,16 +1,9 @@
-<%- actions({ 'Show all' => url(:shoppinglist, :index) }) %>
+<%- actions({ 'Show all' => url(:shoppinglist, :index)}, ) %>
 
-<h4><%= @shopping_list.title %>
-    Einkaufsliste für das Menü vom <%# @shopping_list.menu.range_begin %> - <%# @shopping_list.menu.range_end %></h4>
+<%= link_to 'Delete', url(:shoppinglist, :destroy, :id => @shopping_list.id), :method => :delete, :class => 'btn btn-danger btn-xs pull-right', :confirm => 'Do you really want to delete this shopping list? Any edited list items will be deleted!' %>
+<%= link_to 'Edit', url(:shoppinglist, :edit, :id => @shopping_list.id), :class => 'btn btn-primary btn-xs pull-right mg-right' %>
 
-    <div class="col-md-0">
-        <%#
-            check_box_tag(:shopping_list,
-                          :class   => 'pull-left checkbox-shopping-cart'
-            )
-        %>
-    </div>
-    <div class="col-md-11">
-        <strong><%# list_entry[:title] %></strong> (<%# list_entry[:amount] %> <%# list_entry[:unit_title] %>)
-    </div>
-    <div class="clearfix"></div>
+<h4><%= @shopping_list.title %></h4>
+
+<%= render_partial 'shoppinglist/shopping_list', :object => @shopping_list, :locals => { :action => :show } %>
+

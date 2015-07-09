@@ -88,6 +88,22 @@ module MTMD
           end
         end
 
+        def eye_open_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-eye-open pull-left') {}
+            html << text
+          end
+        end
+
+        def eye_closed_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-eye-close pull-left') {}
+            html << text
+          end
+        end
+
         def menu_icon(text, opts = {})
           html = ''.html_safe
           content_tag(:span, opts) do

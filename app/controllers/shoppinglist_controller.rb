@@ -10,16 +10,41 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
   end
 
   get :show, :with => '(:id)' do
-    @menu  = @logic_class.check_id
+    @shopping_list = @logic_class.check_id
 
-    unless @menu
+    unless @shopping_list
       flash[:error] = "Please provide a valid menu id!"
       redirect_to url(:shoppinglist, :index)
     end
 
-    @shopping_list = @logic_class.shoppinglist(@menu)
-
     render 'shoppinglist/show'
+  end
+
+  get :edit, :with => '(:id)' do
+    @shopping_list = @logic_class.check_id
+
+    unless @shopping_list
+      flash[:error] = "Please provide a valid shopping list id!"
+      redirect_to url(:shoppinglist, :index)
+    end
+
+    render 'shoppinglist/edit'
+  end
+
+  put :update, :with => :id do
+    shoppinglist = @logic_class.check_id
+    unless shoppinglist
+      flash[:error] = "Please provide a valid shopping list id!"
+      redirect_to url(:shoppinglist, :index)
+    end
+
+    status = @logic_class.update
+    if status == true
+      flash[:success] = "Shopping list has been save successfully."
+    else
+      flash[:message] = "Nothing has been saved/changed!"
+    end
+    redirect_to url(:shoppinglist, :edit, shoppinglist.id)
   end
 
   get :new do
@@ -35,4 +60,54 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
     end
     render 'shoppinglist/show'
   end
+
+  delete :destroy, :with => :id do
+    shopping_list = @logic_class.check_id
+
+    unless shopping_list
+      flash[:error] = "Please provide a valid shopping list id!"
+      redirect_to url(:shoppinglist, :index)
+    end
+
+    status = @logic_class.destroy
+
+    if status == true
+      flash[:success] = "Shopping list has been deleted."
+    else
+      flash[:error] = "An error has occurred!"
+    end
+
+    redirect_to url(:shoppinglist, :index)
+  end
+
+  put :toggle_item_active, :with => [:id, :ingredient_id, :unit_id] do
+    shopping_list = @logic_class.check_shopping_list_id('id')
+    unless shopping_list
+      flash[:error] = "Please provide a valid shopping list!"
+      redirect_to url(:shoppinglist, :index)
+    end
+
+    ingredient = @logic_class.check_ingredient_id('ingredient_id')
+    unless ingredient
+      flash[:error] = "Please provide a valid ingredient!"
+      redirect_to url(:shoppinglist, :edit, shopping_list.id)
+    end
+
+    unit = @logic_class.check_unit_id('unit_id')
+    unless unit
+      flash[:error] = "Please provide a valid unit!"
+      redirect_to url(:shoppinglist, :edit, shopping_list.id)
+    end
+
+    status = @logic_class.toggle_item_active(shopping_list.id, ingredient.id, unit.id)
+    if status > 0
+      flash[:success] = "Item has been hidden on shopping list."
+    else
+      flash[:message] = "Nothing has been saved/changed!"
+    end
+    redirect_to url(:shoppinglist, :edit, shopping_list.id)
+  end
+
+
+
 end

@@ -1,0 +1,29 @@
+<div class="col-md-0 pull-left">
+    <%- if action == :edit %>
+
+    <% end %>
+</div>
+<div class="col-md-0 pull-left">
+<h1><%= item.active %></h1>
+    <%- if item.active == true %>
+        <%- if action == :edit %>
+            <%= link_to checked_icon('', :class => 'btn btn-success'),
+                        url(:shoppinglist, :toggle_item_active, :id => shopping_list.id, :ingredient_id => item.ingredient_id, :unit_id => item.unit_id, :current => item.active),
+                        :method => :put %>
+        <% else %>
+            <%= checked_icon('', { :class => 'btn btn-success' }) %>
+        <% end %>
+    <% else %>
+        <%- if action == :edit %>
+            <%= link_to remove_icon('', :class => 'btn btn-danger'),
+                        url(:shoppinglist, :toggle_item_active, :id => shopping_list.id, :ingredient_id => item.ingredient_id, :unit_id => item.unit_id, :current => item.active),
+                        :method => :put %>
+        <% else %>
+            <%= remove_icon('', { :class => 'btn btn-danger' }) %>
+        <% end %>
+    <% end %>
+</div>
+<div class="col-md-10">
+    <strong><%= item.ingredient_name %></strong> (<%= item.amount %> <%= item.unit_title %>)
+</div>
+<div class="clearfix"></div>

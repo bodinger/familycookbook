@@ -78,7 +78,8 @@ module MTMD
         ingredient_quantities.each do |item|
           options = {
             :shopping_list_id => shopping_list.id,
-            :type             => 'automatic'
+            :type             => 'automatic',
+            :active           => item.active
           }
           item_data = prepare_item(item, options)
           MTMD::FamilyCookBook::ShoppingListItem::new(item_data).save
@@ -100,52 +101,6 @@ module MTMD
         }
       end
 
-      # def process_list_deprecated(shopping_list, menu)
-      #   puts "???????????????"
-      #   items                 = []
-      #   ingredient_quantities = ingredient_quantities_by_menu(menu)
-      #   ingredient_ids        = ingredient_quantities.select_map(:ingredient_quantities__ingredient_id).uniq!
-      #
-      #   ingredient_ids.each do |ingredient_id|
-      #     ingredients = ingredient_quantities_for_ingredient(ingredient_quantities, ingredient_id)
-      #     unit_ids    = ingredients.select_map(:ingredient_quantities__unit_id).uniq
-      #
-      #     unit_ids.each do |unit_id|
-      #       ingredients_by_unit = ingredient_quantities_for_unit(ingredients, unit_id)
-      #       items << calculate_ingredient_item(ingredients_by_unit)
-      #     end
-      #   end
-      #
-      #   #MTMD::FamilyCookBook::ShoppingList.new(items)
-      # end
-
-      # def calculate_ingredient_item(dataset)
-      #   ingredient_id  = dataset.first.ingredient_id
-      #   active         = true
-      #   unit_id        = dataset.first.unit_id
-      #   shopping_order = 'SomeOrder'
-      #   amounts    = dataset.select_map(:amount)
-      #   amount     = 0.0
-      #   amounts.each do |item|
-      #     amount += item.to_f
-      #   end
-      #   {
-      #     :ingredient_id      => ingredient_id,
-      #     :active => active,
-      #     :unit_id     => unit_id,
-      #     :shopping_order => shopping_order,
-      #     :amount     => amount
-      #   }
-      # end
-      #
-      # def ingredient_quantities_for_ingredient(dataset, ingredient_id)
-      #   dataset.where(:ingredient_quantities__ingredient_id => ingredient_id)
-      # end
-      #
-      # def ingredient_quantities_for_unit(dataset, unit_id)
-      #   dataset.where(:unit_id => unit_id, :shopping_list => true)
-      # end
-
       def ingredient_quantities_by_menu(menu)
         query = Sequel::Model.db[:ingredient_quantities].
           select.
@@ -157,6 +112,90 @@ module MTMD
             where(:menu_items__shopping_list => true).
             order(:ingredient_id, :unit_id)
         query
+      end
+
+      def destroy
+        destroyed_object = check_id
+        MTMD::FamilyCookBook::ShoppingListItem.where(:shopping_list_id => destroyed_object.id).destroy
+        destroyed_object.destroy
+        !destroyed_object.exists?
+      end
+
+      def update
+        shopping_list = check_id
+        ingredient_id = process_ingredient
+        unit_id       = process_unit
+        amount        = shopping_list_params[:amount]
+
+        return false if ingredient_id.blank? || unit_id.blank?
+
+        item_data = prepare_item({
+            :ingredient_id => ingredient_id,
+            :unit_id       => unit_id,
+            :amount        => amount
+          },
+          {
+            :shopping_list_id => shopping_list.id,
+            :type             => 'manual'
+          }
+        )
+
+        shopping_list_item = MTMD::FamilyCookBook::ShoppingListItem::new(item_data).save
+        return true if shopping_list_item.exists?
+      end
+
+      def process_ingredient
+        return if shopping_list_params[:new_item].blank?
+        return if shopping_list_params[:new_item][:ingredient_id].blank?
+        ingredient_raw = shopping_list_params[:new_item][:ingredient_id]
+        return add_ingredient(ingredient_raw) if ingredient_raw.to_i == 0
+        return ingredient_raw.to_i
+      end
+
+      def add_ingredient(title)
+        ingredient = MTMD::FamilyCookBook::Ingredient.new(
+          :title => title
+        ).save
+        ingredient.id
+      end
+
+      def process_unit
+        return if shopping_list_params[:new_item].blank?
+        return if shopping_list_params[:new_item][:unit_id].blank?
+        unit_raw = shopping_list_params[:new_item][:unit_id]
+        return add_unit(unit_raw) if unit_raw.to_i == 0
+        return unit_raw.to_i
+      end
+
+      def add_unit(name)
+        unit = MTMD::FamilyCookBook::Unit.new(
+          :name => name
+        ).save
+        unit.id
+      end
+
+      def shopping_list_params
+        @params[:mtmd_family_cook_book_shopping_list] ||= {}.with_indifferent_access
+      end
+
+      def toggle_item_active(shopping_list_id, ingredient_id, unit_id)
+        current = @params.fetch('current', false)
+        puts "-------------------"
+        puts current
+        puts ".! #{current.!}"
+        puts "!! #{!!current}"
+        puts "! #{!current}"
+        puts "-------------------"
+
+        return MTMD::FamilyCookBook::ShoppingListItem.
+          where(
+            :shopping_list_id => shopping_list_id,
+            :ingredient_id    => ingredient_id,
+            :unit_id          => unit_id
+          ).
+          update(
+            :active => current.!
+          )
       end
 
     end

@@ -1,0 +1,80 @@
+<%- actions({ 'Cancel' => url(:shoppinglist, :show, :id => @shopping_list.id) }) %>
+<div class="panel panel-default">
+    <div class="panel-body">
+<%- form_for :shopping_list, url(:shoppinglist, :update, :id => @shopping_list.id), :method => :put, :class => 'form-horizontal', :id => 'shopping_list' do |f| %>
+  <%= render_partial 'shopping_list_item/item_form', :object => f %>
+  <%= render_partial 'shoppinglist/form_fields', :object => f %>
+  <%= f.submit 'Add item', :class => 'btn btn-primary' %>
+<% end %>
+    </div>
+</div>
+
+<%= render_partial 'shoppinglist/shopping_list', :object => @shopping_list, :locals => { :action => :edit } %>
+
+<script type="text/javascript">
+$(document).ready(
+  function () {
+    $(".ingredient_typeahead_selector").select2({
+      theme: 'classic',
+      tags: true,
+      placeholder: 'Select an ingredient to add to the shopping list',
+      language: "de",
+      ajax: {
+        url: "/familycookbook/ingredient/as_array",
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          return {
+            q: params.term, // search term
+            page: params.page
+          };
+        },
+        processResults: function (data, page) {
+          // parse the results into the format expected by Select2.
+          // since we are using custom formatting functions we do not need to
+          // alter the remote JSON data
+          return {
+            results: data
+          };
+        },
+        cache: true
+      },
+      escapeMarkup: function (markup) { return markup; } //, // let our custom formatter work
+      //minimumInputLength: 1  //,
+      //templateResult: formatRepo, // omitted for brevity, see the source of this page
+      //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+    });
+
+    $(".unit_typeahead_selector").select2({
+      theme: 'classic',
+      tags: true,
+      placeholder: 'Select a unit to use for this ingredient',
+      language: "de",
+      ajax: {
+        url: "/familycookbook/unit/as_array",
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          return {
+            q: params.term, // search term
+            page: params.page
+          };
+        },
+        processResults: function (data, page) {
+          // parse the results into the format expected by Select2.
+          // since we are using custom formatting functions we do not need to
+          // alter the remote JSON data
+          return {
+            results: data
+          };
+        },
+        cache: true
+      },
+      escapeMarkup: function (markup) { return markup; }//, // let our custom formatter work
+      //minimumInputLength: 1  //,
+      //templateResult: formatRepo, // omitted for brevity, see the source of this page
+      //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+    })
+  }
+);
+</script>
