@@ -1,9 +1,10 @@
 <%- actions({ 'Show all' => url(:shoppinglist, :index)}, ) %>
 
-<%= link_to 'Delete', url(:shoppinglist, :destroy, :id => @shopping_list.id), :method => :delete, :class => 'btn btn-danger btn-xs pull-right', :confirm => 'Do you really want to delete this shopping list? Any edited list items will be deleted!' %>
+<%= link_to 'Single edit', url(:shoppinglist, :edit_single, :id => @shopping_list.id), :class => 'btn btn-info btn-xs pull-right' %>
+<%= link_to 'Delete', url(:shoppinglist, :destroy, :id => @shopping_list.id), :method => :delete, :class => 'btn btn-danger btn-xs pull-right mg-right', :confirm => 'Do you really want to delete this shopping list? Any edited list items will be deleted!' %>
 <%= link_to 'Edit', url(:shoppinglist, :edit, :id => @shopping_list.id), :class => 'btn btn-primary btn-xs pull-right mg-right' %>
 
 <h4><%= @shopping_list.title %></h4>
 
-<%= render_partial 'shoppinglist/shopping_list', :object => @shopping_list, :locals => { :action => :show } %>
+<%= render_partial 'shoppinglist/shopping_list_aggregated', :object => @shopping_list, :locals => { :action => :show } %>
 

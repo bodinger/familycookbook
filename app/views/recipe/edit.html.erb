@@ -12,7 +12,7 @@
 </div>
 
 <div class="ingredient-quantities">
-  <%= partial 'ingredient_quantity/list', :object => @recipe.ingredient_quantities %>
+  <%= partial 'ingredient_quantity/list', :object => @recipe.ingredient_quantities, :locals => { :ingredient_quantity => @ingredient_quantity } %>
 </div>
 <% end %>
 

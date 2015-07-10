@@ -144,3 +144,15 @@ button.recipe-remove-tag {
 .mg-right {
     margin-right: .2em
 }
+
+.list-item-active-true {
+
+}
+
+.list-item-active-false {
+    opacity: .25;
+}
+
+.list-item-action-show.list-item-active-false {
+    display: none;
+}

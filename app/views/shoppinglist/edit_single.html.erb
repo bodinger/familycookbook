@@ -1,15 +1,8 @@
-<%- actions({ 'Cancel' => url(:shoppinglist, :show, :id => @shopping_list.id) }) %>
-<div class="panel panel-default">
-    <div class="panel-body">
-<%- form_for :shopping_list, url(:shoppinglist, :update, :id => @shopping_list.id), :method => :put, :class => 'form-horizontal', :id => 'shopping_list' do |f| %>
-  <%= render_partial 'shopping_list_item/item_form', :object => f %>
-  <%= render_partial 'shoppinglist/form_fields', :object => f %>
-  <%= f.submit 'Add item', :class => 'btn btn-primary' %>
-<% end %>
-    </div>
-</div>
+<h3>Single edit</h3>
 
-<%= render_partial 'shoppinglist/shopping_list_aggregated', :object => @shopping_list, :locals => { :action => :edit } %>
+<%- actions({ 'Cancel' => url(:shoppinglist, :show, :id => @shopping_list.id) }) %>
+
+<%= render_partial 'shoppinglist/shopping_list_single', :object => @shopping_list, :locals => { :action => :edit_single } %>
 
 <script type="text/javascript">
 $(document).ready(

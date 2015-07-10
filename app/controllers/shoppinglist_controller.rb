@@ -10,7 +10,7 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
   end
 
   get :show, :with => '(:id)' do
-    @shopping_list = @logic_class.check_id
+    @shopping_list = @logic_class.check_shopping_list_id('id')
 
     unless @shopping_list
       flash[:error] = "Please provide a valid menu id!"
@@ -21,7 +21,7 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
   end
 
   get :edit, :with => '(:id)' do
-    @shopping_list = @logic_class.check_id
+    @shopping_list = @logic_class.check_shopping_list_id('id')
 
     unless @shopping_list
       flash[:error] = "Please provide a valid shopping list id!"
@@ -31,8 +31,19 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
     render 'shoppinglist/edit'
   end
 
+  get :edit_single, :with => '(:id)' do
+    @shopping_list = @logic_class.check_shopping_list_id('id')
+
+    unless @shopping_list
+      flash[:error] = "Please provide a valid shopping list id!"
+      redirect_to url(:shoppinglist, :index)
+    end
+
+    render 'shoppinglist/edit_single'
+  end
+
   put :update, :with => :id do
-    shoppinglist = @logic_class.check_id
+    shoppinglist = @logic_class.check_shopping_list_id('id')
     unless shoppinglist
       flash[:error] = "Please provide a valid shopping list id!"
       redirect_to url(:shoppinglist, :index)
@@ -62,7 +73,7 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
   end
 
   delete :destroy, :with => :id do
-    shopping_list = @logic_class.check_id
+    shopping_list = @logic_class.check_shopping_list_id('id')
 
     unless shopping_list
       flash[:error] = "Please provide a valid shopping list id!"
@@ -78,6 +89,32 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
     end
 
     redirect_to url(:shoppinglist, :index)
+  end
+
+  delete :destroy_single_item, :with => [:id, :item_id] do
+    shopping_list = @logic_class.check_shopping_list_id('id')
+
+    unless shopping_list
+      flash[:error] = "Please provide a valid shopping list id!"
+      redirect_to url(:shoppinglist, :index)
+    end
+
+    shopping_list_item = @logic_class.check_shopping_list_item_id('item_id')
+
+    unless shopping_list_item
+      flash[:error] = "Please provide a valid shopping list item id!"
+      redirect_to url(:shoppinglist, :edit_single, shopping_list.id)
+    end
+
+    status = @logic_class.destroy_single_item
+
+    if status == true
+      flash[:success] = "Shopping list item has been deleted."
+    else
+      flash[:error] = "An error has occurred!"
+    end
+
+    redirect_to url(:shoppinglist, :edit_single, shopping_list.id)
   end
 
   put :toggle_item_active, :with => [:id, :ingredient_id, :unit_id] do

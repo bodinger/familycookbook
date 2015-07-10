@@ -2,7 +2,8 @@ module MTMD
   module FamilyCookBook
     class AggregatedShoppingListItem
 
-      attr_reader :ingredient_id,
+      attr_reader :id,
+                  :ingredient_id,
                   :ingredient_name,
                   :unit_id,
                   :unit_title,
@@ -17,6 +18,10 @@ module MTMD
         @unit_title      = Unit[unit_id].name
         @active          = active
         @amount          = amount
+      end
+
+      def id=(id)
+        @id = id
       end
 
     end

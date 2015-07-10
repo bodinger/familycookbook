@@ -9,22 +9,38 @@ module MTMD
                   :primary_key => :shopping_list_item_id
 
       def shopping_list_items
-        MTMD::FamilyCookBook::ShoppingListItem.where(:shopping_list_id => id).all
+        MTMD::FamilyCookBook::ShoppingListItem.where(:shopping_list_id => id)
+      end
+
+      def single_shopping_list
+        all_items = shopping_list_items.all
+        items = []
+        all_items.each do |item|
+          list_item = MTMD::FamilyCookBook::AggregatedShoppingListItem.new(
+            item.ingredient_id,
+            item.unit_id,
+            item.amount,
+            item.active
+          )
+          list_item.id = item.id
+          items << list_item
+        end
+        items
       end
 
       def aggregated_shopping_list
-        @items = []
+        items = []
         ingredients_units_tupel.each do |tupel|
           tupel_result = items_by_ingredient_and_unit(tupel.ingredient_id, tupel.unit_id)
           amount = add_up(tupel_result)
-          @items << MTMD::FamilyCookBook::AggregatedShoppingListItem.new(
+          items << MTMD::FamilyCookBook::AggregatedShoppingListItem.new(
             tupel.ingredient_id,
             tupel.unit_id,
             amount,
             tupel.active
           )
         end
-        @items
+        items
       end
 
       def add_up(tupel_result)

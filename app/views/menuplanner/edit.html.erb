@@ -49,6 +49,7 @@
 $(document).ready(
   function () {
     $(".recipe_typeahead_selector").select2({
+      theme: 'classic',
       placeholder: 'Select a recipe to add to this slot',
       language: "de",
       ajax: {
@@ -71,8 +72,8 @@ $(document).ready(
         },
         cache: true
       },
-      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-      minimumInputLength: 1  //,
+      escapeMarkup: function (markup) { return markup; } //, // let our custom formatter work
+      // minimumInputLength: 1  //,
       //templateResult: formatRepo, // omitted for brevity, see the source of this page
       //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
     })

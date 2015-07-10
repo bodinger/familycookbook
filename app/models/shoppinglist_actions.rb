@@ -9,22 +9,6 @@ module MTMD
         @params = params
       end
 
-      def check_id
-        shoppinglist_id = @params.fetch('id', nil)
-        if shoppinglist_id.blank?
-          return nil
-        end
-        MTMD::FamilyCookBook::ShoppingList[shoppinglist_id]
-      end
-
-      def check_menu_id
-        menu_id = @params.fetch('menu_id', nil)
-        if menu_id.blank?
-          return nil
-        end
-        MTMD::FamilyCookBook::Menu[menu_id]
-      end
-
       def items
         data = (
           Sequel::Model.db[:menus].
@@ -76,10 +60,15 @@ module MTMD
         ingredient_quantities = ingredient_quantities_by_menu(menu)
 
         ingredient_quantities.each do |item|
+          active = true
+          if item.respond_to?(:active)
+            active = item.active
+          end
+
           options = {
             :shopping_list_id => shopping_list.id,
             :type             => 'automatic',
-            :active           => item.active
+            :active           => active
           }
           item_data = prepare_item(item, options)
           MTMD::FamilyCookBook::ShoppingListItem::new(item_data).save
@@ -115,8 +104,14 @@ module MTMD
       end
 
       def destroy
-        destroyed_object = check_id
+        destroyed_object = check_shopping_list_id('id')
         MTMD::FamilyCookBook::ShoppingListItem.where(:shopping_list_id => destroyed_object.id).destroy
+        destroyed_object.destroy
+        !destroyed_object.exists?
+      end
+
+      def destroy_single_item
+        destroyed_object = check_shopping_list_item_id('item_id')
         destroyed_object.destroy
         !destroyed_object.exists?
       end
@@ -180,13 +175,6 @@ module MTMD
 
       def toggle_item_active(shopping_list_id, ingredient_id, unit_id)
         current = @params.fetch('current', false)
-        puts "-------------------"
-        puts current
-        puts ".! #{current.!}"
-        puts "!! #{!!current}"
-        puts "! #{!current}"
-        puts "-------------------"
-
         return MTMD::FamilyCookBook::ShoppingListItem.
           where(
             :shopping_list_id => shopping_list_id,
@@ -194,7 +182,7 @@ module MTMD
             :unit_id          => unit_id
           ).
           update(
-            :active => current.!
+            :active => !cast_to_bool(current)
           )
       end
 

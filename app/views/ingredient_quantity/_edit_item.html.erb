@@ -1,0 +1,32 @@
+<%- unless ingredient_quantity.blank? %>
+    <%- params[:amount] = ingredient_quantity.amount %>
+    <%- params[:unit_id] = ingredient_quantity.unit_id %>
+    <%- params[:ingredient_id] = ingredient_quantity.ingredient_id %>
+    <%- params[:description] = ingredient_quantity.description %>
+<% end %>
+<tr>
+    <td width="10%">
+        <%= input_tag :amount, :name => :amount, :value => params[:amount], :class => 'form-inline', :style => 'width: 5em;' %>
+    </td>
+    <td width="10%">
+        <%= select_tag :unit_id, :options => units_options, :include_blank => true, :selected => params[:unit_id], :class => 'form-inline' %>
+    </td>
+    <td width="10%">
+        <%= select_tag :ingredient_id, :options => ingredients_options, :include_blank => true, :selected => params[:ingredient_id], :class => 'form-inline' %>
+    </td>
+    <td width="10%">
+        <%= input_tag :description, :name => :description, :class => 'form-inline', :value => params[:description] %>
+    </td>
+    <td class="text-right">
+        <%- unless ingredient_quantity.blank? %>
+        <%= hidden_field_tag :ingredient_quantity_id, :name => :ingredient_quantity_id, :value => ingredient_quantity.id %>
+        <button type="submit" class="btn btn-xs btn-success">
+            <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <% else %>
+        <button type="submit" class="btn btn-xs btn-success">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <% end %>
+    </td>
+</tr>

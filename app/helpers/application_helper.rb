@@ -96,6 +96,30 @@ module MTMD
           end
         end
 
+        def plus_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-plus pull-left') {}
+            html << text
+          end
+        end
+
+        def minus_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-minus pull-left') {}
+            html << text
+          end
+        end
+
+        def edit_icon(text, opts = {})
+          html = ''.html_safe
+          content_tag(:span, opts) do
+            html << content_tag(:span, :class => 'glyphicon glyphicon-pencil pull-left') {}
+            html << text
+          end
+        end
+
         def eye_closed_icon(text, opts = {})
           html = ''.html_safe
           content_tag(:span, opts) do

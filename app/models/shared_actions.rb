@@ -3,27 +3,49 @@ module MTMD
     module SharedActions
 
       def check_shopping_list_id(key)
-        shoppinglist_id = @params.fetch(key, nil)
-        if shoppinglist_id.blank?
-          return nil
-        end
-        MTMD::FamilyCookBook::ShoppingList[shoppinglist_id]
+        check_model_existence(MTMD::FamilyCookBook::ShoppingList, key)
+      end
+
+      def check_shopping_list_item_id(key)
+        check_model_existence(MTMD::FamilyCookBook::ShoppingListItem, key)
       end
 
       def check_ingredient_id(key)
-        ingredient_id = @params.fetch(key, nil)
-        if ingredient_id.blank?
-          return nil
-        end
-        MTMD::FamilyCookBook::Ingredient[ingredient_id]
+        check_model_existence(MTMD::FamilyCookBook::Ingredient, key)
+      end
+
+      def check_ingredient_quantity_id(key)
+        check_model_existence(MTMD::FamilyCookBook::IngredientQuantity, key)
       end
 
       def check_unit_id(key)
-        unit_id = @params.fetch(key, nil)
-        if unit_id.blank?
+        check_model_existence(MTMD::FamilyCookBook::Unit, key)
+      end
+
+      def check_menu_id(key)
+        check_model_existence(MTMD::FamilyCookBook::Menu, key)
+      end
+
+      def check_recipe_id(key)
+        check_model_existence(MTMD::FamilyCookBook::Recipe, key)
+      end
+
+      def check_tag_id(key)
+        check_model_existence(MTMD::FamilyCookBook::Tag, key)
+      end
+
+      def check_model_existence(model, key)
+        model_id = @params.fetch(key, nil)
+        if model_id.blank?
           return nil
         end
-        MTMD::FamilyCookBook::Unit[unit_id]
+        model[model_id]
+      end
+
+      def cast_to_bool(value)
+        return true if value == true || value =~ (/^(true|t|yes|y|1)$/i)
+        return false if value == false || value.blank? || value =~ (/^(false|f|no|n|0)$/i)
+        raise ArgumentError.new("invalid value for Boolean: \"#{value}\"")
       end
 
     end

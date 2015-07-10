@@ -7,46 +7,6 @@ module MTMD
         @params = params
       end
 
-      def check_id
-        recipe_id = @params.fetch('id', nil)
-        if recipe_id.blank?
-          return nil
-        end
-        MTMD::FamilyCookBook::Recipe[recipe_id]
-      end
-
-      def check_ingredient_id
-        ingredient_id = @params.fetch('ingredient_id', nil)
-        if ingredient_id.blank?
-          return nil
-        end
-        MTMD::FamilyCookBook::Ingredient[ingredient_id]
-      end
-
-      def check_ingredient_quantity_id
-        ingredient_quantity_id = @params.fetch('ingredient_quantity_id', nil)
-        if ingredient_quantity_id.blank?
-          return nil
-        end
-        MTMD::FamilyCookBook::IngredientQuantity[ingredient_quantity_id]
-      end
-
-      def check_unit_id
-        unit_id = @params.fetch('unit_id', nil)
-        if unit_id.blank?
-          return nil
-        end
-        MTMD::FamilyCookBook::Unit[unit_id]
-      end
-
-      def check_tag_id
-        tag_id = @params.fetch('tag_id', nil)
-        if tag_id.blank?
-          return nil
-        end
-        MTMD::FamilyCookBook::Tag[tag_id]
-      end
-
       def new
         MTMD::FamilyCookBook::Recipe.new
       end
@@ -56,12 +16,12 @@ module MTMD
       end
 
       def update
-        recipe = check_id
+        recipe = check_recipe_id('id')
         return true if recipe.update(recipe_params)
       end
 
       def destroy
-        recipe = check_id
+        recipe = check_recipe_id('id')
         MTMD::FamilyCookBook::IngredientQuantity.where(:recipe_id => recipe.id).destroy
         MTMD::FamilyCookBook::MenuItem.where(:recipe_id => recipe.id).destroy
         destroyed_object = recipe.destroy
@@ -91,7 +51,7 @@ module MTMD
       end
 
       def remove_amount_and_ingredient
-        destroyed_object = check_ingredient_quantity_id.destroy
+        destroyed_object = check_ingredient_quantity_id('ingredient_quantity_id').destroy
         !destroyed_object.exists?
       end
 
@@ -99,29 +59,28 @@ module MTMD
         tag_name = @params.fetch('tag_name', nil)
         return unless tag_name
         tag = MTMD::FamilyCookBook::Tag.find_or_new(:name => tag_name)
-        recipe = check_id
+        recipe = check_recipe_id('id')
         recipe.add_tag(tag)
         return tag
       end
 
       def remove_tag
-        tag = check_tag_id
-        recipe = check_id
+        tag = check_tag_id('tag_id')
+        recipe = check_recipe_id('id')
         recipe.remove_tag(tag)
       end
 
       def recipe_options
-        if @params
-          query_string = @params['q']
-          return if query_string.blank?
-          return MTMD::FamilyCookBook::Recipe.
-            select(:id, :title___text).
-            where(Sequel.ilike(:title, "#{query_string}%")).
-            order(:title)
-        end
-        MTMD::FamilyCookBook::Recipe.
+        query = MTMD::FamilyCookBook::Recipe.
           select(:id, :title___text).
           order(:title)
+        if @params && @params['q']
+          query_string = @params['q']
+          return query if query_string.blank?
+          return query.
+            where(Sequel.ilike(:title, "#{query_string}%"))
+        end
+        query
       end
 
     end
