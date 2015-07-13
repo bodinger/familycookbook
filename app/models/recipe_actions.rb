@@ -20,6 +20,20 @@ module MTMD
         return true if recipe.update(recipe_params)
       end
 
+      def update_single(ingredient_quantity, ingredient, unit)
+        ingredient_quantity.remove_all_units
+        ingredient_quantity.remove_all_ingredients
+        ingredient_quantity.add_ingredient(ingredient)
+        ingredient_quantity.add_unit(unit)
+        return true if ingredient_quantity.
+          update(
+            :ingredient_id => ingredient.id,
+            :unit_id       => unit.id,
+            :amount        => @params.fetch('amount', nil),
+            :description   => @params.fetch('description', nil)
+          )
+      end
+
       def destroy
         recipe = check_recipe_id('id')
         MTMD::FamilyCookBook::IngredientQuantity.where(:recipe_id => recipe.id).destroy
@@ -37,17 +51,34 @@ module MTMD
       end
 
       def add_amount_and_ingredient
+        ingredient_id = process_ingredient
+        unit_id       = process_unit
+
         ingredient_quantity = MTMD::FamilyCookBook::IngredientQuantity.new(
           :amount        => @params.fetch('amount', nil),
           :portions      => @params.fetch('portions', nil),
           :description   => @params.fetch('description', nil),
-          :unit_id       => @params.fetch('unit_id', nil),
-          :ingredient_id => @params.fetch('ingredient_id', nil),
+          :ingredient_id => ingredient_id,
+          :unit_id       => unit_id,
           :recipe_id     => @params.fetch('id', nil)
         ).save
         ingredient_quantity.add_recipe(MTMD::FamilyCookBook::Recipe[ingredient_quantity.recipe_id])
         ingredient_quantity.add_ingredient(MTMD::FamilyCookBook::Ingredient[ingredient_quantity.ingredient_id])
         ingredient_quantity.add_unit(MTMD::FamilyCookBook::Unit[ingredient_quantity.unit_id])
+      end
+
+      def process_ingredient
+        ingredient_raw = @params.fetch('ingredient_id', nil)
+        return if ingredient_raw.blank?
+        return add_ingredient(ingredient_raw) if ingredient_raw.to_i == 0
+        return ingredient_raw.to_i
+      end
+
+      def process_unit
+        unit_raw = @params.fetch('unit_id', nil)
+        return if unit_raw.blank?
+        return add_unit(unit_raw) if unit_raw.to_i == 0
+        return unit_raw.to_i
       end
 
       def remove_amount_and_ingredient

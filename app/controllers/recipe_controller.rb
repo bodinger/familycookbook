@@ -74,22 +74,32 @@ MTMD::FamilyCookBook::App.controllers :recipe do
     render 'recipe/edit'
   end
 
-  put :update_single, :with => :id do
-    @recipe = @logic_class.check_recipe_id('id')
-
-    unless @recipe
+  post :update_single, :with => :id do
+    recipe = @logic_class.check_recipe_id('id')
+    unless recipe
       flash[:error] = "Please provide a valid recipe!"
       redirect_to url(:recipe, :index)
     end
 
-    @ingredient_quantity = @logic_class.check_ingredient_quantity_id('ingredient_quantity_id')
-
-    unless @ingredient_quantity
+    ingredient_quantity = @logic_class.check_ingredient_quantity_id('ingredient_quantity_id')
+    unless ingredient_quantity
       flash[:error] = "Please provide a valid ingredient!"
-      redirect_to url(:recipe, :edit, @recipe.id)
+      redirect_to url(:recipe, :edit, recipe.id)
     end
 
-    status = @logic_class.update_single
+    ingredient = @logic_class.check_ingredient_id('ingredient_id')
+    unless ingredient
+      flash[:error] = "Please provide a valid ingredient!"
+      redirect_to url(:recipe, :edit, recipe.id)
+    end
+
+    unit = @logic_class.check_unit_id('unit_id')
+    unless unit
+      flash[:error] = "Please provide a valid unit!"
+      redirect_to url(:recipe, :edit, recipe.id)
+    end
+
+    status = @logic_class.update_single(ingredient_quantity, ingredient, unit)
     if status == true
       flash[:success] = "Ingredient has been saved successfully."
     else
@@ -138,18 +148,6 @@ MTMD::FamilyCookBook::App.controllers :recipe do
     unless recipe
       flash[:error] = "Please provide a valid recipe id!"
       redirect_to url(:recipe, :index)
-    end
-
-    ingredient = @logic_class.check_ingredient_id('ingredient_id')
-    unless ingredient
-      flash[:error] = "Please provide a valid ingredient id!"
-      redirect_to url(:recipe, :edit, recipe.id)
-    end
-
-    unit = @logic_class.check_unit_id('unit_id')
-    unless unit
-      flash[:error] = "Please provide a valid unit id!"
-      redirect_to url(:recipe, :edit, recipe.id)
     end
 
     @logic_class.add_amount_and_ingredient

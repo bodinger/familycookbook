@@ -16,7 +16,7 @@
                 <%= link_to recipe.title, url(:recipe, :show, id: recipe.id) %>
             </td>
             <td>
-                <%= recipe.ingredients.size %>
+                <%= recipe.ingredient_quantities_dataset.count %>
             </td>
         </tr>
     <% end %>

@@ -42,7 +42,7 @@ module MTMD
       end
 
       def create_from_menu
-        menu = check_menu_id
+        menu = check_menu_id('menu_id')
         if menu.blank?
           return nil
         end
@@ -117,7 +117,7 @@ module MTMD
       end
 
       def update
-        shopping_list = check_id
+        shopping_list = check_shopping_list_id('id')
         ingredient_id = process_ingredient
         unit_id       = process_unit
         amount        = shopping_list_params[:amount]
@@ -147,26 +147,12 @@ module MTMD
         return ingredient_raw.to_i
       end
 
-      def add_ingredient(title)
-        ingredient = MTMD::FamilyCookBook::Ingredient.new(
-          :title => title
-        ).save
-        ingredient.id
-      end
-
       def process_unit
         return if shopping_list_params[:new_item].blank?
         return if shopping_list_params[:new_item][:unit_id].blank?
         unit_raw = shopping_list_params[:new_item][:unit_id]
         return add_unit(unit_raw) if unit_raw.to_i == 0
         return unit_raw.to_i
-      end
-
-      def add_unit(name)
-        unit = MTMD::FamilyCookBook::Unit.new(
-          :name => name
-        ).save
-        unit.id
       end
 
       def shopping_list_params

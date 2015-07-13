@@ -219,3 +219,66 @@ WysiwygEditor.prototype = {
     });
   }
 }
+
+function FancySelector() {}
+FancySelector.prototype = {
+  targetSelector: '',
+  dataUrl: '',
+  placeholderText: '',
+
+  options: {
+    theme: 'classic',
+    tags: true,
+    placeholder: '',
+    language: 'de',
+    ajax: {
+      url: '',
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+        return {
+          q: params.term, // search term
+          page: params.page
+        };
+      },
+      processResults: function (data, page) {
+        return {
+          results: data
+        };
+      },
+      cache: true
+    },
+    escapeMarkup: function (markup) { return markup; }
+  },
+
+  initialize: function(targetSelector, url, placeholder) {
+    this.setSelect(targetSelector);
+    this.setDataUrl(url);
+    this.setPlaceholderText(placeholder);
+
+    this.options.placeholder = this.placeholderText;
+    this.options.ajax.url = this.dataUrl;
+
+    this.setUpSelect();
+  },
+
+  setUpSelect: function() {
+    this.getSelect().select2(this.options);
+  },
+
+  setDataUrl: function(url) {
+    this.dataUrl = url;
+  },
+
+  setPlaceholderText: function(placeholderText) {
+    this.placeholderText = placeholderText;
+  },
+
+  setSelect: function(targetSelector) {
+    this.targetSelector = targetSelector;
+  },
+
+  getSelect: function() {
+    return $(this.targetSelector);
+  }
+}

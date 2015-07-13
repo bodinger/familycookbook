@@ -9,10 +9,20 @@
         <%= input_tag :amount, :name => :amount, :value => params[:amount], :class => 'form-inline', :style => 'width: 5em;' %>
     </td>
     <td width="10%">
-        <%= select_tag :unit_id, :options => units_options, :include_blank => true, :selected => params[:unit_id], :class => 'form-inline' %>
+        <div class="">
+            <%= select_tag :unit_id,
+                           :options => units_options,
+                           :include_blank => true,
+                           :selected => params[:unit_id],
+                           :class => 'form-inline unit_typeahead_selector' %>
+        </div>
     </td>
     <td width="10%">
-        <%= select_tag :ingredient_id, :options => ingredients_options, :include_blank => true, :selected => params[:ingredient_id], :class => 'form-inline' %>
+            <%= select_tag :ingredient_id,
+                           :options => ingredients_options,
+                           :include_blank => true,
+                           :selected => params[:ingredient_id],
+                           :class => 'form-inline ingredient_typeahead_selector' %>
     </td>
     <td width="10%">
         <%= input_tag :description, :name => :description, :class => 'form-inline', :value => params[:description] %>

@@ -6,68 +6,9 @@
 
 <script type="text/javascript">
 $(document).ready(
-  function () {
-    $(".ingredient_typeahead_selector").select2({
-      theme: 'classic',
-      tags: true,
-      placeholder: 'Select an ingredient to add to the shopping list',
-      language: "de",
-      ajax: {
-        url: "/familycookbook/ingredient/as_array",
-        dataType: 'json',
-        delay: 250,
-        data: function (params) {
-          return {
-            q: params.term, // search term
-            page: params.page
-          };
-        },
-        processResults: function (data, page) {
-          // parse the results into the format expected by Select2.
-          // since we are using custom formatting functions we do not need to
-          // alter the remote JSON data
-          return {
-            results: data
-          };
-        },
-        cache: true
-      },
-      escapeMarkup: function (markup) { return markup; } //, // let our custom formatter work
-      //minimumInputLength: 1  //,
-      //templateResult: formatRepo, // omitted for brevity, see the source of this page
-      //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-    });
-
-    $(".unit_typeahead_selector").select2({
-      theme: 'classic',
-      tags: true,
-      placeholder: 'Select a unit to use for this ingredient',
-      language: "de",
-      ajax: {
-        url: "/familycookbook/unit/as_array",
-        dataType: 'json',
-        delay: 250,
-        data: function (params) {
-          return {
-            q: params.term, // search term
-            page: params.page
-          };
-        },
-        processResults: function (data, page) {
-          // parse the results into the format expected by Select2.
-          // since we are using custom formatting functions we do not need to
-          // alter the remote JSON data
-          return {
-            results: data
-          };
-        },
-        cache: true
-      },
-      escapeMarkup: function (markup) { return markup; }//, // let our custom formatter work
-      //minimumInputLength: 1  //,
-      //templateResult: formatRepo, // omitted for brevity, see the source of this page
-      //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-    })
-  }
+    function () {
+        FancySelector.prototype.initialize('.ingredient_typeahead_selector', '/familycookbook/ingredient/as_array', 'Select an ingredient to add to the shopping list');
+        FancySelector.prototype.initialize('.unit_typeahead_selector', '/familycookbook/unit/as_array', 'Select a unit to use for this ingredient');
+    }
 );
 </script>

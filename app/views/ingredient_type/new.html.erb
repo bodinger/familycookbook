@@ -1,0 +1,6 @@
+<%- actions({ 'Cancel' => url(:ingredient, :index) }) %>
+
+<%- form_for :ingredient, url(:ingredient, :create), :method => :post, :class => 'form-horizontal', :id => 'ingredient' do |f| %>
+  <%= render_partial 'ingredient/form_fields', :object => f %>
+  <%= f.submit 'Create', :class => 'btn btn-primary' %>
+<% end %>

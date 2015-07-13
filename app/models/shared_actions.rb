@@ -48,6 +48,21 @@ module MTMD
         raise ArgumentError.new("invalid value for Boolean: \"#{value}\"")
       end
 
+      def add_ingredient(title)
+        ingredient = MTMD::FamilyCookBook::Ingredient.new(
+            :title => title
+        ).save
+        ingredient.id
+      end
+
+      def add_unit(name)
+        unit = MTMD::FamilyCookBook::Unit.new(
+            :name       => name,
+            :short_name => name
+        ).save
+        unit.id
+      end
+
     end
   end
 end

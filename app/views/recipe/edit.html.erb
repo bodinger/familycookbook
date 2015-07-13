@@ -5,8 +5,13 @@
   <%= f.submit 'Update', :class => 'btn btn-primary' %>
 <% end %>
 
+<%- unless @ingredient_quantity.blank? %>
+    <%- action = :update_single %>
+<%- else %>
+    <%- action = :add_ingredient_quantity %>
+<%- end %>
 
-<% form_tag url(:recipe, :add_ingredient_quantity, :id => @recipe.id), :method => :post, :class => 'form-inline' do %>
+<% form_tag url(:recipe, action, :id => @recipe.id), :method => :post, :class => 'form-inline' do %>
 <div class="page-header">
   <div class="page-title">Ingredients for <%= input_tag :portions, :name => :portions, :value => portions_value(@recipe), :class => 'form-inline', :style => 'width:2.5em;' %> persons</div>
 </div>
@@ -25,6 +30,9 @@
 $(document).ready(
   function () {
     AutoCompleter.prototype.initialize('#tag_name', '.remove-tag', '/familycookbook/tag/as_array');
+    FancySelector.prototype.initialize('.ingredient_typeahead_selector', '/familycookbook/ingredient/as_array', 'Select an ingredient to add to the recipe');
+    FancySelector.prototype.initialize('.unit_typeahead_selector', '/familycookbook/unit/as_array', 'Select a unit to use for this ingredient');
+
   }
 );
 </script>
