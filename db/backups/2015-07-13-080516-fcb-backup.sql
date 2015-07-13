@@ -1,0 +1,2601 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: ingredient_quantities; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE ingredient_quantities (
+    id integer NOT NULL,
+    recipe_id integer NOT NULL,
+    ingredient_id integer NOT NULL,
+    unit_id integer NOT NULL,
+    amount text NOT NULL,
+    portions text NOT NULL,
+    description text,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone
+);
+
+
+ALTER TABLE ingredient_quantities OWNER TO thm0001m;
+
+--
+-- Name: ingredient_quantities_id_seq; Type: SEQUENCE; Schema: public; Owner: thm0001m
+--
+
+CREATE SEQUENCE ingredient_quantities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE ingredient_quantities_id_seq OWNER TO thm0001m;
+
+--
+-- Name: ingredient_quantities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: thm0001m
+--
+
+ALTER SEQUENCE ingredient_quantities_id_seq OWNED BY ingredient_quantities.id;
+
+
+--
+-- Name: ingredient_quantities_ingredients; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE ingredient_quantities_ingredients (
+    ingredient_id integer NOT NULL,
+    ingredient_quantities_id integer NOT NULL
+);
+
+
+ALTER TABLE ingredient_quantities_ingredients OWNER TO thm0001m;
+
+--
+-- Name: ingredient_quantities_recipes; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE ingredient_quantities_recipes (
+    ingredient_quantities_id integer NOT NULL,
+    recipe_id integer NOT NULL
+);
+
+
+ALTER TABLE ingredient_quantities_recipes OWNER TO thm0001m;
+
+--
+-- Name: ingredient_quantities_shopping_list_items; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE ingredient_quantities_shopping_list_items (
+    ingredient_quantity_id integer NOT NULL,
+    shopping_list_item_id integer NOT NULL
+);
+
+
+ALTER TABLE ingredient_quantities_shopping_list_items OWNER TO thm0001m;
+
+--
+-- Name: ingredient_quantities_units; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE ingredient_quantities_units (
+    ingredient_quantities_id integer NOT NULL,
+    unit_id integer NOT NULL
+);
+
+
+ALTER TABLE ingredient_quantities_units OWNER TO thm0001m;
+
+--
+-- Name: ingredients; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE ingredients (
+    id integer NOT NULL,
+    title text NOT NULL,
+    description text,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    type text
+);
+
+
+ALTER TABLE ingredients OWNER TO thm0001m;
+
+--
+-- Name: ingredients_id_seq; Type: SEQUENCE; Schema: public; Owner: thm0001m
+--
+
+CREATE SEQUENCE ingredients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE ingredients_id_seq OWNER TO thm0001m;
+
+--
+-- Name: ingredients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: thm0001m
+--
+
+ALTER SEQUENCE ingredients_id_seq OWNED BY ingredients.id;
+
+
+--
+-- Name: ingredients_recipes; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE ingredients_recipes (
+    ingredient_id integer NOT NULL,
+    recipe_id integer NOT NULL
+);
+
+
+ALTER TABLE ingredients_recipes OWNER TO thm0001m;
+
+--
+-- Name: ingredients_shopping_list_items; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE ingredients_shopping_list_items (
+    ingredient_id integer NOT NULL,
+    shopping_list_item_id integer NOT NULL
+);
+
+
+ALTER TABLE ingredients_shopping_list_items OWNER TO thm0001m;
+
+--
+-- Name: menu_items; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE menu_items (
+    id integer NOT NULL,
+    recipe_id integer NOT NULL,
+    menu_id integer NOT NULL,
+    day timestamp without time zone NOT NULL,
+    type text,
+    slot text,
+    slot_order integer,
+    shopping_list boolean DEFAULT true,
+    title text,
+    description text,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone
+);
+
+
+ALTER TABLE menu_items OWNER TO thm0001m;
+
+--
+-- Name: menu_items_id_seq; Type: SEQUENCE; Schema: public; Owner: thm0001m
+--
+
+CREATE SEQUENCE menu_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE menu_items_id_seq OWNER TO thm0001m;
+
+--
+-- Name: menu_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: thm0001m
+--
+
+ALTER SEQUENCE menu_items_id_seq OWNED BY menu_items.id;
+
+
+--
+-- Name: menu_items_menus; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE menu_items_menus (
+    menu_id integer NOT NULL,
+    menu_items_id integer NOT NULL
+);
+
+
+ALTER TABLE menu_items_menus OWNER TO thm0001m;
+
+--
+-- Name: menu_items_recipes; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE menu_items_recipes (
+    menu_items_id integer NOT NULL,
+    recipe_id integer NOT NULL
+);
+
+
+ALTER TABLE menu_items_recipes OWNER TO thm0001m;
+
+--
+-- Name: menu_items_shopping_list_items; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE menu_items_shopping_list_items (
+    menu_item_id integer NOT NULL,
+    shopping_list_item_id integer NOT NULL
+);
+
+
+ALTER TABLE menu_items_shopping_list_items OWNER TO thm0001m;
+
+--
+-- Name: menus; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE menus (
+    id integer NOT NULL,
+    date_range tstzrange,
+    name text,
+    description text,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone
+);
+
+
+ALTER TABLE menus OWNER TO thm0001m;
+
+--
+-- Name: menus_id_seq; Type: SEQUENCE; Schema: public; Owner: thm0001m
+--
+
+CREATE SEQUENCE menus_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE menus_id_seq OWNER TO thm0001m;
+
+--
+-- Name: menus_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: thm0001m
+--
+
+ALTER SEQUENCE menus_id_seq OWNED BY menus.id;
+
+
+--
+-- Name: recipes; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE recipes (
+    id integer NOT NULL,
+    title text NOT NULL,
+    description text NOT NULL,
+    tips_and_tricks text,
+    type text,
+    difficulty integer,
+    duration_cooking integer,
+    duration_preparation integer,
+    cookware_amount integer,
+    calorie_indication integer,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone
+);
+
+
+ALTER TABLE recipes OWNER TO thm0001m;
+
+--
+-- Name: recipes_id_seq; Type: SEQUENCE; Schema: public; Owner: thm0001m
+--
+
+CREATE SEQUENCE recipes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE recipes_id_seq OWNER TO thm0001m;
+
+--
+-- Name: recipes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: thm0001m
+--
+
+ALTER SEQUENCE recipes_id_seq OWNED BY recipes.id;
+
+
+--
+-- Name: recipes_shopping_list_items; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE recipes_shopping_list_items (
+    recipe_id integer NOT NULL,
+    shopping_list_item_id integer NOT NULL
+);
+
+
+ALTER TABLE recipes_shopping_list_items OWNER TO thm0001m;
+
+--
+-- Name: recipes_tags; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE recipes_tags (
+    recipe_id integer NOT NULL,
+    tag_id integer NOT NULL
+);
+
+
+ALTER TABLE recipes_tags OWNER TO thm0001m;
+
+--
+-- Name: schema_info; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE schema_info (
+    version integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE schema_info OWNER TO thm0001m;
+
+--
+-- Name: shopping_list_items; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE shopping_list_items (
+    id integer NOT NULL,
+    shopping_order text NOT NULL,
+    type text NOT NULL,
+    active boolean DEFAULT true,
+    shopping_list_id integer NOT NULL,
+    recipe_id integer,
+    menu_item_id integer,
+    ingredient_quantity_id integer,
+    unit_id integer,
+    ingredient_id integer,
+    amount text,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone
+);
+
+
+ALTER TABLE shopping_list_items OWNER TO thm0001m;
+
+--
+-- Name: shopping_list_items_id_seq; Type: SEQUENCE; Schema: public; Owner: thm0001m
+--
+
+CREATE SEQUENCE shopping_list_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE shopping_list_items_id_seq OWNER TO thm0001m;
+
+--
+-- Name: shopping_list_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: thm0001m
+--
+
+ALTER SEQUENCE shopping_list_items_id_seq OWNED BY shopping_list_items.id;
+
+
+--
+-- Name: shopping_list_items_units; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE shopping_list_items_units (
+    shopping_list_item_id integer NOT NULL,
+    unit_id integer NOT NULL
+);
+
+
+ALTER TABLE shopping_list_items_units OWNER TO thm0001m;
+
+--
+-- Name: shopping_lists; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE shopping_lists (
+    id integer NOT NULL,
+    menu_id integer NOT NULL,
+    status text DEFAULT 'open'::text NOT NULL,
+    title text,
+    description text,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone
+);
+
+
+ALTER TABLE shopping_lists OWNER TO thm0001m;
+
+--
+-- Name: shopping_lists_id_seq; Type: SEQUENCE; Schema: public; Owner: thm0001m
+--
+
+CREATE SEQUENCE shopping_lists_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE shopping_lists_id_seq OWNER TO thm0001m;
+
+--
+-- Name: shopping_lists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: thm0001m
+--
+
+ALTER SEQUENCE shopping_lists_id_seq OWNED BY shopping_lists.id;
+
+
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE tags (
+    id integer NOT NULL,
+    name text,
+    description text,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone
+);
+
+
+ALTER TABLE tags OWNER TO thm0001m;
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: thm0001m
+--
+
+CREATE SEQUENCE tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tags_id_seq OWNER TO thm0001m;
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: thm0001m
+--
+
+ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
+
+
+--
+-- Name: units; Type: TABLE; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE TABLE units (
+    id integer NOT NULL,
+    name text,
+    short_name text,
+    description text,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone
+);
+
+
+ALTER TABLE units OWNER TO thm0001m;
+
+--
+-- Name: units_id_seq; Type: SEQUENCE; Schema: public; Owner: thm0001m
+--
+
+CREATE SEQUENCE units_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE units_id_seq OWNER TO thm0001m;
+
+--
+-- Name: units_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: thm0001m
+--
+
+ALTER SEQUENCE units_id_seq OWNED BY units.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities ALTER COLUMN id SET DEFAULT nextval('ingredient_quantities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredients ALTER COLUMN id SET DEFAULT nextval('ingredients_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY menu_items ALTER COLUMN id SET DEFAULT nextval('menu_items_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY menus ALTER COLUMN id SET DEFAULT nextval('menus_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY recipes ALTER COLUMN id SET DEFAULT nextval('recipes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_list_items ALTER COLUMN id SET DEFAULT nextval('shopping_list_items_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_lists ALTER COLUMN id SET DEFAULT nextval('shopping_lists_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY tags ALTER COLUMN id SET DEFAULT nextval('tags_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY units ALTER COLUMN id SET DEFAULT nextval('units_id_seq'::regclass);
+
+
+--
+-- Data for Name: ingredient_quantities; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY ingredient_quantities (id, recipe_id, ingredient_id, unit_id, amount, portions, description, created_at, updated_at) FROM stdin;
+194	82	230	334	300	4		2015-06-29 22:11:09.200458+02	2015-06-29 22:11:09.200458+02
+195	82	231	335	2	4		2015-06-29 22:11:37.70283+02	2015-06-29 22:11:37.70283+02
+196	82	232	335	2	4		2015-06-29 22:11:51.728747+02	2015-06-29 22:11:51.728747+02
+197	82	233	335	1	4		2015-06-29 22:12:00.443666+02	2015-06-29 22:12:00.443666+02
+198	82	234	334	150	4	Optional	2015-06-29 22:12:24.201522+02	2015-06-29 22:12:24.201522+02
+199	82	236	344	1	4		2015-06-29 22:13:32.347286+02	2015-06-29 22:13:32.347286+02
+200	82	235	338	6	4		2015-06-29 22:13:58.818143+02	2015-06-29 22:13:58.818143+02
+201	83	238	334	250	4		2015-06-29 22:20:34.608308+02	2015-06-29 22:20:34.608308+02
+202	83	239	341	200	4		2015-06-29 22:20:49.42125+02	2015-06-29 22:20:49.42125+02
+203	83	237	335	1	4		2015-06-29 22:21:01.307337+02	2015-06-29 22:21:01.307337+02
+204	83	240	341	150	4		2015-06-29 22:21:31.532905+02	2015-06-29 22:21:31.532905+02
+205	84	241	335	6	4		2015-06-29 22:34:14.111116+02	2015-06-29 22:34:14.111116+02
+206	84	242	334	150	4	Optional	2015-06-29 22:34:45.308938+02	2015-06-29 22:34:45.308938+02
+207	85	254	334	300	4		2015-06-29 22:42:47.649323+02	2015-06-29 22:42:47.649323+02
+208	85	243	334	600	4		2015-06-29 22:43:01.783988+02	2015-06-29 22:43:01.783988+02
+209	85	245	338	6	4		2015-06-29 22:43:14.358742+02	2015-06-29 22:43:14.358742+02
+210	85	246	338	6	4	Alternative: Reiswein	2015-06-29 22:43:39.17755+02	2015-06-29 22:43:39.17755+02
+211	85	248	338	5	4	Alternative: Balsamico	2015-06-29 22:44:05.195616+02	2015-06-29 22:44:05.195616+02
+212	85	250	337	0.25	4		2015-06-29 22:44:26.59713+02	2015-06-29 22:44:26.59713+02
+213	85	251	337	2	4		2015-06-29 22:44:42.290328+02	2015-06-29 22:44:42.290328+02
+214	85	252	334	100	4		2015-06-29 22:44:53.667682+02	2015-06-29 22:44:53.667682+02
+215	85	253	346	1	4		2015-06-29 22:45:43.289204+02	2015-06-29 22:45:43.289204+02
+216	86	256	338	2	4	Alternative: Gomasio	2015-06-29 22:54:17.187844+02	2015-06-29 22:54:17.187844+02
+217	86	257	337	1	4		2015-06-29 22:54:38.657723+02	2015-06-29 22:54:38.657723+02
+218	86	255	335	1	4	Reif!	2015-06-29 22:54:58.697162+02	2015-06-29 22:54:58.697162+02
+219	86	258	335	1	4	Alternative: Limettensaft	2015-06-29 22:55:16.511148+02	2015-06-29 22:55:16.511148+02
+220	86	259	338	2	4		2015-06-29 22:55:25.19848+02	2015-06-29 22:55:25.19848+02
+221	86	260	338	3	4		2015-06-29 22:55:33.567613+02	2015-06-29 22:55:33.567613+02
+222	86	261	334	400	4		2015-06-29 22:55:44.122214+02	2015-06-29 22:55:44.122214+02
+223	86	262	335	1	4		2015-06-29 22:55:54.799029+02	2015-06-29 22:55:54.799029+02
+224	86	263	347	0.5	4		2015-06-29 22:56:06.590555+02	2015-06-29 22:56:06.590555+02
+225	86	264	337	0.5	4		2015-06-29 22:56:20.765368+02	2015-06-29 22:56:20.765368+02
+226	86	265	344	1	4		2015-06-29 22:56:42.372739+02	2015-06-29 22:56:42.372739+02
+228	87	267	334	80	4		2015-07-02 22:01:20.259193+02	2015-07-02 22:01:20.259193+02
+229	87	268	334	100	4		2015-07-02 22:01:30.750834+02	2015-07-02 22:01:30.750834+02
+230	87	232	335	1	4		2015-07-02 22:01:41.667022+02	2015-07-02 22:01:41.667022+02
+231	88	271	348	3	4		2015-07-02 22:09:27.083421+02	2015-07-02 22:09:27.083421+02
+232	88	272	335	2	4		2015-07-02 22:09:45.540111+02	2015-07-02 22:09:45.540111+02
+233	88	273	335	1	4		2015-07-02 22:10:20.169948+02	2015-07-02 22:10:20.169948+02
+234	88	274	335	1	4		2015-07-02 22:10:28.145509+02	2015-07-02 22:10:28.145509+02
+235	88	275	335	2	4		2015-07-02 22:10:34.857096+02	2015-07-02 22:10:34.857096+02
+236	88	276	335	1	4		2015-07-02 22:10:40.900918+02	2015-07-02 22:10:40.900918+02
+237	88	231	335	2	4		2015-07-02 22:10:49.631423+02	2015-07-02 22:10:49.631423+02
+238	88	280	335	1	4		2015-07-02 22:11:19.365745+02	2015-07-02 22:11:19.365745+02
+239	88	281	335	1	4		2015-07-02 22:12:16.649321+02	2015-07-02 22:12:16.649321+02
+240	88	284	335	4	4		2015-07-02 22:12:54.771688+02	2015-07-02 22:12:54.771688+02
+241	90	298	334	100	4		2015-07-02 22:33:13.179123+02	2015-07-02 22:33:13.179123+02
+242	90	297	334	100	4		2015-07-02 22:33:23.085913+02	2015-07-02 22:33:23.085913+02
+243	90	299	334	50	4		2015-07-02 22:33:31.688857+02	2015-07-02 22:33:31.688857+02
+244	90	235	334	40	4		2015-07-02 22:33:39.587656+02	2015-07-02 22:33:39.587656+02
+245	90	301	334	70	4		2015-07-02 22:34:01.85654+02	2015-07-02 22:34:01.85654+02
+246	90	236	337	1	4		2015-07-02 22:34:32.649016+02	2015-07-02 22:34:32.649016+02
+249	90	294	334	250	4		2015-07-02 22:35:55.23966+02	2015-07-02 22:35:55.23966+02
+250	90	293	334	300	4		2015-07-02 22:36:04.420193+02	2015-07-02 22:36:04.420193+02
+251	90	250	336	1	4		2015-07-02 22:36:16.092935+02	2015-07-02 22:36:16.092935+02
+253	87	266	334	200	4		2015-07-02 22:41:32.523746+02	2015-07-02 22:41:32.523746+02
+254	87	236	348	1	4		2015-07-02 22:41:55.626174+02	2015-07-02 22:41:55.626174+02
+255	87	235	338	3	4		2015-07-02 22:42:13.225338+02	2015-07-02 22:42:13.225338+02
+256	87	303	348	1	4		2015-07-02 22:42:42.645227+02	2015-07-02 22:42:42.645227+02
+257	89	287	335	1	4		2015-07-02 22:43:38.586434+02	2015-07-02 22:43:38.586434+02
+258	89	285	334	100	4		2015-07-02 22:43:57.553969+02	2015-07-02 22:43:57.553969+02
+259	89	286	335	10	4		2015-07-02 22:44:15.618329+02	2015-07-02 22:44:15.618329+02
+260	89	304	334	300	4		2015-07-02 22:45:15.920336+02	2015-07-02 22:45:15.920336+02
+261	89	235	338	3	4		2015-07-02 22:45:29.957833+02	2015-07-02 22:45:29.957833+02
+262	89	236	350	1	4		2015-07-02 22:46:04.881487+02	2015-07-02 22:46:04.881487+02
+263	89	303	350	1	4		2015-07-02 22:46:12.753404+02	2015-07-02 22:46:12.753404+02
+264	89	288	346	1	4		2015-07-02 22:46:26.892876+02	2015-07-02 22:46:26.892876+02
+265	89	291	346	1	4		2015-07-02 22:46:35.322489+02	2015-07-02 22:46:35.322489+02
+266	89	289	346	1	4		2015-07-02 22:46:48.391762+02	2015-07-02 22:46:48.391762+02
+269	92	280	347	1	4	adsfasdfsdf	2015-07-10 09:30:05.232157+02	2015-07-10 09:30:05.232157+02
+271	92	244	341	3	4	sd	2015-07-10 09:30:20.486124+02	2015-07-10 09:30:20.486124+02
+288	95	309	334	100	4		2015-07-10 21:30:03.840301+02	2015-07-10 21:30:03.840301+02
+270	92	292	345	333	4	adfsdf	2015-07-10 09:30:11.689566+02	2015-07-10 17:57:14.561414+02
+252	90	302	346	1	4		2015-07-02 22:37:08.152637+02	2015-07-10 21:12:36.949463+02
+275	94	310	334	200	4		2015-07-10 21:18:00.793671+02	2015-07-10 21:18:58.87985+02
+274	94	309	334	100	4		2015-07-10 21:17:38.091846+02	2015-07-10 21:19:08.162852+02
+276	94	311	334	100	4		2015-07-10 21:19:45.692979+02	2015-07-10 21:19:45.692979+02
+277	94	312	355	1	4		2015-07-10 21:20:33.475363+02	2015-07-10 21:20:33.475363+02
+278	94	285	335	10	4		2015-07-10 21:20:50.362842+02	2015-07-10 21:20:50.362842+02
+279	94	313	335	1	4		2015-07-10 21:21:23.500871+02	2015-07-10 21:21:23.500871+02
+280	94	314	348	2	4		2015-07-10 21:21:56.242684+02	2015-07-10 21:21:56.242684+02
+281	95	242	349	1	4		2015-07-10 21:25:09.351114+02	2015-07-10 21:25:20.561142+02
+282	95	286	335	10	4		2015-07-10 21:25:29.487029+02	2015-07-10 21:25:29.487029+02
+283	95	262	335	3	4		2015-07-10 21:26:06.487866+02	2015-07-10 21:26:06.487866+02
+284	95	316	334	250	4		2015-07-10 21:26:34.054992+02	2015-07-10 21:26:34.054992+02
+285	95	236	350	1	4		2015-07-10 21:27:16.877695+02	2015-07-10 21:27:16.877695+02
+286	95	235	338	3	4		2015-07-10 21:27:35.509317+02	2015-07-10 21:27:48.275322+02
+287	95	317	349	1	4		2015-07-10 21:29:17.475128+02	2015-07-10 21:29:17.475128+02
+289	96	294	334	200	4		2015-07-10 21:33:53.993186+02	2015-07-10 21:33:53.993186+02
+290	96	241	335	2	4		2015-07-10 21:34:00.032059+02	2015-07-10 21:34:00.032059+02
+291	96	318	338	1	4		2015-07-10 21:34:41.80699+02	2015-07-10 21:34:41.80699+02
+292	96	289	344	1	4		2015-07-10 21:35:07.294847+02	2015-07-10 21:35:07.294847+02
+293	96	237	334	80	4		2015-07-10 21:35:22.1515+02	2015-07-10 21:35:22.1515+02
+294	96	236	344	1	4		2015-07-10 21:36:11.063059+02	2015-07-10 21:36:11.063059+02
+295	96	320	334	80	4		2015-07-10 21:36:37.401716+02	2015-07-10 21:36:52.586155+02
+296	97	316	334	100	4		2015-07-10 21:48:33.970952+02	2015-07-10 21:48:33.970952+02
+297	97	269	334	50	4		2015-07-10 21:48:42.252508+02	2015-07-10 21:48:42.252508+02
+298	97	267	334	60	4		2015-07-10 21:49:14.647086+02	2015-07-10 21:49:35.951576+02
+299	97	233	335	1	4		2015-07-10 21:49:51.314782+02	2015-07-10 21:49:51.314782+02
+300	97	235	338	1	4		2015-07-10 21:49:57.501712+02	2015-07-10 21:49:57.501712+02
+301	97	295	338	1	4		2015-07-10 21:50:08.896628+02	2015-07-10 21:50:08.896628+02
+302	97	240	341	50	4		2015-07-10 21:50:20.226722+02	2015-07-10 21:51:30.86226+02
+303	97	318	338	1	4		2015-07-10 21:51:40.436877+02	2015-07-10 21:51:40.436877+02
+304	97	236	344	1	4		2015-07-10 21:51:49.238225+02	2015-07-10 21:51:49.238225+02
+305	98	315	334	15	4		2015-07-10 22:04:37.289055+02	2015-07-10 22:04:37.289055+02
+306	98	295	334	15	4		2015-07-10 22:04:47.665279+02	2015-07-10 22:04:47.665279+02
+307	98	240	341	200	4		2015-07-10 22:05:00.777288+02	2015-07-10 22:05:00.777288+02
+308	98	236	350	1	4		2015-07-10 22:05:13.395168+02	2015-07-10 22:05:13.395168+02
+309	98	326	350	1	4		2015-07-10 22:05:20.376023+02	2015-07-10 22:05:20.376023+02
+311	100	232	334	500	4		2015-07-11 08:48:40.290685+02	2015-07-11 08:48:40.290685+02
+312	100	292	334	75	4		2015-07-11 08:48:52.820017+02	2015-07-11 08:48:52.820017+02
+313	100	331	334	75	4	Alternativ: Getrocknete Sauerkirschen	2015-07-11 08:49:09.762609+02	2015-07-11 08:49:09.762609+02
+314	100	233	335	1	4		2015-07-11 08:49:21.530741+02	2015-07-11 08:49:21.530741+02
+315	100	334	334	350	4		2015-07-11 08:49:36.007818+02	2015-07-11 08:49:36.007818+02
+316	100	335	338	5	4		2015-07-11 08:49:45.679366+02	2015-07-11 08:49:45.679366+02
+318	100	303	344		4		2015-07-11 08:50:05.576042+02	2015-07-11 08:50:05.576042+02
+321	101	295	334	140	4		2015-07-11 09:00:32.496896+02	2015-07-11 09:00:32.496896+02
+323	101	251	344		4		2015-07-11 09:00:52.04811+02	2015-07-11 09:00:52.04811+02
+325	101	285	334	250	4		2015-07-11 09:01:17.291813+02	2015-07-11 09:01:17.291813+02
+317	100	336	334	100	4		2015-07-11 08:49:53.67166+02	2015-07-11 08:49:53.67166+02
+319	100	338	337	0.25	4		2015-07-11 08:50:37.920702+02	2015-07-11 08:50:37.920702+02
+320	101	315	334	80	4	kalte Butter	2015-07-11 09:00:19.257456+02	2015-07-11 09:00:19.257456+02
+322	101	236	344		4		2015-07-11 09:00:42.808053+02	2015-07-11 09:00:42.808053+02
+324	101	339	334	150	4		2015-07-11 09:01:02.607219+02	2015-07-11 09:01:02.607219+02
+326	101	340	334	5	4	als Fett für die Förmchen	2015-07-11 09:02:03.838307+02	2015-07-11 09:02:03.838307+02
+327	101	235	338	2	4		2015-07-11 09:02:16.030499+02	2015-07-11 09:02:16.030499+02
+328	101	303	344		4		2015-07-11 09:02:23.46665+02	2015-07-11 09:02:23.46665+02
+329	101	288	347	0.5	4		2015-07-11 09:02:32.407175+02	2015-07-11 09:02:32.407175+02
+331	102	284	334	500	3		2015-07-11 09:15:59.069286+02	2015-07-11 09:15:59.069286+02
+332	102	321	334	200	3		2015-07-11 09:16:09.612638+02	2015-07-11 09:16:09.612638+02
+333	102	241	335	3	3		2015-07-11 09:16:18.823686+02	2015-07-11 09:16:18.823686+02
+334	102	236	344		3		2015-07-11 09:16:25.347207+02	2015-07-11 09:16:25.347207+02
+335	102	315	338	1	3		2015-07-11 09:16:38.318706+02	2015-07-11 09:16:38.318706+02
+336	102	295	338	1	3		2015-07-11 09:16:47.790324+02	2015-07-11 09:16:47.790324+02
+337	102	240	341	250	3		2015-07-11 09:17:01.28577+02	2015-07-11 09:17:01.28577+02
+338	102	341	341	100	3		2015-07-11 09:17:11.446159+02	2015-07-11 09:17:11.446159+02
+339	102	303	344		3		2015-07-11 09:17:18.826946+02	2015-07-11 09:17:18.826946+02
+340	102	290	338	3	3		2015-07-11 09:17:30.667911+02	2015-07-11 09:17:30.667911+02
+341	104	342	349	1	4		2015-07-11 09:35:03.957899+02	2015-07-11 09:35:03.957899+02
+343	104	345	358	3	4		2015-07-11 09:35:42.591408+02	2015-07-11 09:35:42.591408+02
+344	104	289	347	1	4		2015-07-11 09:36:00.052679+02	2015-07-11 09:36:00.052679+02
+345	104	346	338	1	4		2015-07-11 09:36:11.037755+02	2015-07-11 09:36:11.037755+02
+346	104	341	341	150	4		2015-07-11 09:36:19.674834+02	2015-07-11 09:36:19.674834+02
+347	104	325	334	400	4		2015-07-11 09:36:38.88825+02	2015-07-11 09:36:38.88825+02
+342	104	344	334	300	4		2015-07-11 09:35:15.664282+02	2015-07-11 09:36:49.983736+02
+348	104	337	344		4		2015-07-11 09:37:05.020916+02	2015-07-11 09:37:05.020916+02
+349	104	236	344		4		2015-07-11 09:37:12.084926+02	2015-07-11 09:37:12.084926+02
+350	104	235	338	5	4		2015-07-11 09:37:22.523481+02	2015-07-11 09:37:22.523481+02
+351	104	292	347	1	4		2015-07-11 09:37:32.5322+02	2015-07-11 09:37:32.5322+02
+352	104	348	335	1	4		2015-07-11 09:37:43.05294+02	2015-07-11 09:37:43.05294+02
+353	104	245	338	6	4		2015-07-11 09:37:58.747974+02	2015-07-11 09:37:58.747974+02
+354	104	248	338	6	4	Alternativ: Balsamico	2015-07-11 09:38:22.993057+02	2015-07-11 09:38:22.993057+02
+355	104	347	359	2	4		2015-07-11 09:38:54.621869+02	2015-07-11 09:38:54.621869+02
+356	104	235	338	4	4		2015-07-11 09:39:07.80146+02	2015-07-11 09:39:07.80146+02
+357	103	280	335	1	4		2015-07-11 09:40:05.741085+02	2015-07-11 09:40:05.741085+02
+358	103	349	335	1	4		2015-07-11 09:40:46.350046+02	2015-07-11 09:40:46.350046+02
+359	103	231	334	150	4		2015-07-11 09:40:58.47812+02	2015-07-11 09:40:58.47812+02
+360	103	281	335	1	4		2015-07-11 09:41:07.358677+02	2015-07-11 09:41:07.358677+02
+361	103	350	347	1	4		2015-07-11 09:41:39.949698+02	2015-07-11 09:41:39.949698+02
+363	103	351	337	2	4		2015-07-11 09:42:35.316393+02	2015-07-11 09:42:35.316393+02
+364	103	259	338	2	4		2015-07-11 09:42:46.367532+02	2015-07-11 09:42:46.367532+02
+365	103	235	338	1	4		2015-07-11 09:43:07.90513+02	2015-07-11 09:43:07.90513+02
+366	103	303	344		4		2015-07-11 09:43:19.397997+02	2015-07-11 09:43:19.397997+02
+368	103	352	334	150	4		2015-07-11 09:44:09.440765+02	2015-07-11 09:44:09.440765+02
+367	103	341	341	300	4		2015-07-11 09:43:28.825364+02	2015-07-11 09:44:21.707661+02
+362	103	260	334	300	4		2015-07-11 09:42:05.108031+02	2015-07-11 09:44:31.307914+02
+369	103	250	337	0.5	4		2015-07-11 09:44:57.333498+02	2015-07-11 09:44:57.333498+02
+370	103	353	336	1	4		2015-07-11 09:45:22.772178+02	2015-07-11 09:45:22.772178+02
+\.
+
+
+--
+-- Name: ingredient_quantities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: thm0001m
+--
+
+SELECT pg_catalog.setval('ingredient_quantities_id_seq', 372, true);
+
+
+--
+-- Data for Name: ingredient_quantities_ingredients; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY ingredient_quantities_ingredients (ingredient_id, ingredient_quantities_id) FROM stdin;
+230	194
+231	195
+232	196
+233	197
+234	198
+236	199
+235	200
+238	201
+239	202
+237	203
+240	204
+241	205
+242	206
+254	207
+243	208
+245	209
+246	210
+248	211
+250	212
+251	213
+252	214
+253	215
+256	216
+257	217
+255	218
+258	219
+259	220
+260	221
+261	222
+262	223
+263	224
+264	225
+265	226
+267	228
+268	229
+232	230
+271	231
+272	232
+273	233
+274	234
+275	235
+276	236
+231	237
+280	238
+281	239
+284	240
+298	241
+297	242
+299	243
+235	244
+301	245
+236	246
+294	249
+293	250
+250	251
+266	253
+236	254
+235	255
+287	257
+285	258
+286	259
+304	260
+235	261
+236	262
+288	264
+291	265
+289	266
+280	269
+244	271
+292	270
+302	252
+310	275
+309	274
+311	276
+312	277
+285	278
+313	279
+314	280
+242	281
+286	282
+262	283
+316	284
+236	285
+235	286
+317	287
+309	288
+294	289
+241	290
+318	291
+289	292
+237	293
+236	294
+320	295
+316	296
+269	297
+267	298
+233	299
+235	300
+295	301
+240	302
+318	303
+236	304
+315	305
+295	306
+240	307
+236	308
+326	309
+232	311
+292	312
+331	313
+233	314
+334	315
+335	316
+336	317
+303	318
+338	319
+315	320
+295	321
+236	322
+251	323
+339	324
+285	325
+340	326
+235	327
+303	328
+288	329
+284	331
+321	332
+241	333
+236	334
+315	335
+295	336
+240	337
+341	338
+303	339
+290	340
+342	341
+345	343
+289	344
+346	345
+341	346
+325	347
+344	342
+337	348
+236	349
+235	350
+292	351
+348	352
+245	353
+248	354
+347	355
+235	356
+280	357
+349	358
+231	359
+281	360
+350	361
+351	363
+259	364
+235	365
+303	366
+352	368
+341	367
+260	362
+250	369
+353	370
+\.
+
+
+--
+-- Data for Name: ingredient_quantities_recipes; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY ingredient_quantities_recipes (ingredient_quantities_id, recipe_id) FROM stdin;
+194	82
+195	82
+196	82
+197	82
+198	82
+199	82
+200	82
+201	83
+202	83
+203	83
+204	83
+205	84
+206	84
+207	85
+208	85
+209	85
+210	85
+211	85
+212	85
+213	85
+214	85
+215	85
+216	86
+217	86
+218	86
+219	86
+220	86
+221	86
+222	86
+223	86
+224	86
+225	86
+226	86
+228	87
+229	87
+230	87
+231	88
+232	88
+233	88
+234	88
+235	88
+236	88
+237	88
+238	88
+239	88
+240	88
+241	90
+242	90
+243	90
+244	90
+245	90
+246	90
+249	90
+250	90
+251	90
+252	90
+253	87
+254	87
+255	87
+256	87
+257	89
+258	89
+259	89
+260	89
+261	89
+262	89
+263	89
+264	89
+265	89
+266	89
+269	92
+270	92
+271	92
+274	94
+275	94
+276	94
+277	94
+278	94
+279	94
+280	94
+281	95
+282	95
+283	95
+284	95
+285	95
+286	95
+287	95
+288	95
+289	96
+290	96
+291	96
+292	96
+293	96
+294	96
+295	96
+296	97
+297	97
+298	97
+299	97
+300	97
+301	97
+302	97
+303	97
+304	97
+305	98
+306	98
+307	98
+308	98
+309	98
+311	100
+312	100
+313	100
+314	100
+315	100
+316	100
+317	100
+318	100
+319	100
+320	101
+321	101
+322	101
+323	101
+324	101
+325	101
+326	101
+327	101
+328	101
+329	101
+331	102
+332	102
+333	102
+334	102
+335	102
+336	102
+337	102
+338	102
+339	102
+340	102
+341	104
+342	104
+343	104
+344	104
+345	104
+346	104
+347	104
+348	104
+349	104
+350	104
+351	104
+352	104
+353	104
+354	104
+355	104
+356	104
+357	103
+358	103
+359	103
+360	103
+361	103
+362	103
+363	103
+364	103
+365	103
+366	103
+367	103
+368	103
+369	103
+370	103
+\.
+
+
+--
+-- Data for Name: ingredient_quantities_shopping_list_items; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY ingredient_quantities_shopping_list_items (ingredient_quantity_id, shopping_list_item_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: ingredient_quantities_units; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY ingredient_quantities_units (ingredient_quantities_id, unit_id) FROM stdin;
+194	334
+195	335
+196	335
+197	335
+198	334
+199	344
+200	338
+201	334
+202	341
+203	335
+204	341
+205	335
+206	334
+207	334
+208	334
+209	338
+210	338
+211	338
+212	337
+213	337
+214	334
+215	346
+216	338
+217	337
+218	335
+219	335
+220	338
+221	338
+222	334
+223	335
+224	347
+225	337
+226	344
+228	334
+229	334
+230	335
+231	348
+232	335
+233	335
+234	335
+235	335
+236	335
+237	335
+238	335
+239	335
+240	335
+241	334
+242	334
+243	334
+244	334
+245	334
+246	337
+249	334
+250	334
+251	336
+253	334
+254	348
+255	338
+256	348
+257	335
+258	334
+259	335
+260	334
+261	338
+262	350
+263	350
+264	346
+265	346
+266	346
+269	347
+271	341
+270	345
+252	346
+275	334
+274	334
+276	334
+277	355
+278	335
+279	335
+280	348
+281	349
+282	335
+283	335
+284	334
+285	350
+286	338
+287	349
+288	334
+289	334
+290	335
+291	338
+292	344
+293	334
+294	344
+295	334
+296	334
+297	334
+298	334
+299	335
+300	338
+301	338
+302	341
+303	338
+304	344
+305	334
+306	334
+307	341
+308	350
+309	350
+311	334
+312	334
+313	334
+314	335
+315	334
+316	338
+317	334
+318	344
+319	337
+320	334
+321	334
+322	344
+323	344
+324	334
+325	334
+326	334
+327	338
+328	344
+329	347
+331	334
+332	334
+333	335
+334	344
+335	338
+336	338
+337	341
+338	341
+339	344
+340	338
+341	349
+343	358
+344	347
+345	338
+346	341
+347	334
+342	334
+348	344
+349	344
+350	338
+351	347
+352	335
+353	338
+354	338
+355	359
+356	338
+357	335
+358	335
+359	334
+360	335
+361	347
+363	337
+364	338
+365	338
+366	344
+368	334
+367	341
+362	334
+369	337
+370	336
+\.
+
+
+--
+-- Data for Name: ingredients; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY ingredients (id, title, description, created_at, updated_at, type) FROM stdin;
+238	Hackfleisch (gemischt Schwein/Rind)		2015-06-29 22:20:11.80536+02	2015-06-30 06:46:10.594728+02	Kühlregal
+230	Hirse / Miglio		2015-06-29 22:09:02.677262+02	2015-06-30 06:46:42.220806+02	Getrocknetes
+260	Joghurt		2015-06-29 22:48:16.657548+02	2015-06-30 06:46:54.736884+02	Kühregal
+232	Karotten / Carote		2015-06-29 22:09:30.593711+02	2015-06-30 06:47:13.145829+02	Gemüse
+253	Koriander frisch / Coriandolo frescho		2015-06-29 22:38:29.425085+02	2015-06-30 06:47:22.148695+02	Gemüse
+264	Kreuzkümmel gemahlen		2015-06-29 22:49:00.809337+02	2015-06-30 06:47:33.047785+02	Gewürze
+258	Limette		2015-06-29 22:48:01.433615+02	2015-06-30 06:47:46.30779+02	Obst
+236	Meersalz / Sale marino		2015-06-29 22:10:29.937472+02	2015-06-30 06:48:03.045718+02	Gewürze
+257	Meersalz grob / Sale grosso		2015-06-29 22:47:48.985042+02	2015-06-30 06:48:14.757645+02	Gewürze
+235	Olivenöl / Olio di oliva		2015-06-29 22:10:20.111162+02	2015-06-29 22:10:20.111162+02	\N
+245	Sojasauce / Salsa di soja		2015-06-29 22:36:46.758384+02	2015-06-29 22:36:46.758384+02	\N
+246	Sherry (trocken)		2015-06-29 22:37:10.808792+02	2015-06-29 22:37:10.808792+02	\N
+247	Reiswein		2015-06-29 22:37:17.060275+02	2015-06-29 22:37:17.060275+02	\N
+301	Wasser		2015-07-02 22:33:55.806686+02	2015-07-02 22:33:55.806686+02	
+255	Avocado		2015-06-29 22:47:29.094144+02	2015-06-30 06:44:30.62117+02	Obst
+249	Balsamico rosso		2015-06-29 22:37:32.161914+02	2015-06-30 06:44:47.564229+02	Konserven
+237	Brötchen / Panini		2015-06-29 22:19:55.358589+02	2015-06-30 06:44:57.740725+02	Gebäck
+265	Cayennepfeffer		2015-06-29 22:49:08.643178+02	2015-06-30 06:45:07.03099+02	Gewürze
+241	Eier / Uova	<br>	2015-06-29 22:29:02.074369+02	2015-06-30 06:45:27.22364+02	Kühlregal
+244	Chillischoten getrocknet / Peperoncini secchi		2015-06-29 22:36:31.355873+02	2015-06-30 06:45:39.524551+02	Gemüse
+252	Erdnüsse / Arachidi		2015-06-29 22:38:11.830427+02	2015-06-30 06:45:49.791694+02	Nüsse
+239	Frittieröl		2015-06-29 22:20:20.567316+02	2015-06-30 06:45:58.996659+02	Konserven
+330	Rosinen		2015-07-11 08:43:11.075988+02	2015-07-11 08:43:39.726298+02	Trockenobst
+332	Sauerkrischen (getrocknet)		2015-07-11 08:43:54.842593+02	2015-07-11 08:43:54.842593+02	Trockenobst
+331	Berberitzen (getrocknet)		2015-07-11 08:43:27.895679+02	2015-07-11 08:44:12.385332+02	Trockenobst
+336	Mandelstifte		2015-07-11 08:45:29.331449+02	2015-07-11 08:45:29.331449+02	Nüsse
+337	Pfeffer		2015-07-11 08:45:48.972968+02	2015-07-11 08:45:48.972968+02	Gewürze
+338	Safran		2015-07-11 08:46:05.832454+02	2015-07-11 08:46:05.832454+02	Gewürze
+339	Ziegenkäse (Rolle)		2015-07-11 08:53:00.628912+02	2015-07-11 08:53:00.628912+02	Kühlregal
+284	Kartoffeln (festkochend)		2015-07-02 22:12:41.878166+02	2015-07-11 09:05:48.945831+02	Gemüse
+288	Basilikum		2015-07-02 22:14:24.519966+02	2015-07-11 09:05:59.352856+02	Gemüse
+279	Frischkäse		2015-07-02 22:08:26.886108+02	2015-07-11 09:06:19.504924+02	Kühlregal
+280	Aubergine		2015-07-02 22:11:08.383547+02	2015-07-11 09:06:54.723555+02	Gemüse
+233	Zwiebeln / Cipolle		2015-06-29 22:09:55.590672+02	2015-07-11 09:07:03.536248+02	Gemüse
+231	Zucchini / Zucchine		2015-06-29 22:09:17.676289+02	2015-07-11 09:07:11.423924+02	Gemüse
+234	Ziegenkäse / Formaggio di capra		2015-06-29 22:10:07.47015+02	2015-07-11 09:07:18.455521+02	Kühlregal
+278	Ziegenkäse		2015-07-02 22:08:20.241428+02	2015-07-11 09:07:30.679364+02	Kühlregal
+340	Margerine		2015-07-11 09:01:47.487681+02	2015-07-11 09:07:40.402347+02	Kühlregal
+287	Frühlingszwiebeln		2015-07-02 22:14:17.670095+02	2015-07-11 09:08:09.133526+02	Gemüse
+313	Gurke	<br>	2015-07-10 21:21:15.172618+02	2015-07-11 09:08:17.958113+02	Gemüse
+341	Gemüsebrühe		2015-07-11 09:08:32.323089+02	2015-07-11 09:08:32.323089+02	Gewürze
+342	Tempeh		2015-07-11 09:31:55.15821+02	2015-07-11 09:31:55.15821+02	Kühregal
+254	Reis (Vollkorn)		2015-06-29 22:42:30.152781+02	2015-07-13 06:51:10.722913+02	Pasta & Reis
+271	Bratwürste		2015-07-02 22:07:23.206732+02	2015-07-13 06:41:46.623903+02	Kühlregal
+312	Brot		2015-07-10 21:20:25.516354+02	2015-07-13 06:41:53.855821+02	Gebäck
+304	Bulgur		2015-07-02 22:45:03.474756+02	2015-07-13 06:42:00.579356+02	Getrocknetes
+315	Butter		2015-07-10 21:22:40.262771+02	2015-07-13 06:42:07.718424+02	Kühlregal
+311	Cottage Cheese		2015-07-10 21:19:30.328128+02	2015-07-13 06:42:24.133459+02	Kühlregal
+268	Emmentaler (mild)		2015-07-02 22:00:50.884726+02	2015-07-13 06:42:43.280076+02	Kühlregal
+269	Erbsen		2015-07-02 22:01:55.043247+02	2015-07-13 06:43:36.53742+02	Gefrorenes
+277	Feta		2015-07-02 22:08:14.638984+02	2015-07-13 06:43:48.90155+02	Kühlregal
+310	Gouda in Scheiben	<br>	2015-07-10 21:18:37.35533+02	2015-07-13 06:44:08.199804+02	Kühlregal
+276	Haloumi		2015-07-02 22:08:10.128564+02	2015-07-13 06:44:19.511255+02	Kühlregal
+275	Maiskolben		2015-07-02 22:08:03.236974+02	2015-07-13 06:44:28.335332+02	Gemüse
+323	Marmelade		2015-07-10 21:57:15.910022+02	2015-07-13 06:44:46.420779+02	Konserven
+240	Milch / Latte		2015-06-29 22:21:24.638618+02	2015-07-13 06:44:55.459467+02	Kühlregal
+291	Minze		2015-07-02 22:14:41.142882+02	2015-07-13 06:45:05.266493+02	Gewürze
+242	Mozzarella		2015-06-29 22:34:26.665444+02	2015-07-13 06:45:12.914755+02	Kühlregal
+251	Zucker / Zucchero		2015-06-29 22:38:02.063955+02	2015-07-13 06:45:32.184841+02	Gewürze
+250	Zimtpulver		2015-06-29 22:37:54.524177+02	2015-07-13 06:45:41.346984+02	Gewürze
+314	Wiener		2015-07-10 21:21:46.893251+02	2015-07-13 06:45:50.733185+02	Kühlregal
+262	Tomaten / Pomodori		2015-06-29 22:48:30.92266+02	2015-07-13 06:46:03.856628+02	Gemüse
+243	Tofu		2015-06-29 22:36:12.808549+02	2015-07-13 06:46:21.551138+02	Kühlregal
+270	Thunfisch		2015-07-02 22:02:05.786814+02	2015-07-13 06:46:31.329344+02	Konserven
+259	Tahini		2015-06-29 22:48:10.54327+02	2015-07-13 06:46:40.625872+02	Konserven
+293	Spinat (TK)		2015-07-02 22:20:56.707747+02	2015-07-13 06:46:48.695802+02	Kühlregal
+256	Sesam		2015-06-29 22:47:36.064145+02	2015-07-13 06:47:06.972432+02	Getrocknetes
+263	Schnittlauch		2015-06-29 22:48:50.9641+02	2015-07-13 06:47:29.403634+02	Gewürze
+290	Schnittlauch	<br>	2015-07-02 22:14:35.940664+02	2015-07-13 06:47:37.351784+02	Gewürze
+309	Schinken gekocht		2015-07-10 21:18:24.122512+02	2015-07-13 06:47:48.637288+02	Kühlregal
+267	Schinken am Stück		2015-07-02 22:00:30.063711+02	2015-07-13 06:47:58.839116+02	Kühlregal
+325	Polenta		2015-07-10 21:59:55.619918+02	2015-07-13 06:48:09.455221+02	Getrocknetes
+286	Oliven (schwarz)		2015-07-02 22:14:05.945158+02	2015-07-13 06:48:27.187855+02	Konserven
+282	Paprika gelb		2015-07-02 22:11:57.852893+02	2015-07-13 06:48:36.527259+02	Gemüse
+283	Paprika grün		2015-07-02 22:12:05.734157+02	2015-07-13 06:48:43.01527+02	Gemüse
+281	Paprika rot		2015-07-02 22:11:48.562593+02	2015-07-13 06:48:51.424895+02	Gemüse
+318	Parmesan (gerieben)		2015-07-10 21:34:22.436806+02	2015-07-13 06:49:03.191935+02	Kühlregal
+317	Pesto		2015-07-10 21:29:03.444442+02	2015-07-13 06:49:14.844292+02	Konserven
+289	Petersilie		2015-07-02 22:14:29.759871+02	2015-07-13 06:49:25.431477+02	Gewürze
+303	Pfeffer		2015-07-02 22:42:32.531992+02	2015-07-13 06:49:35.099728+02	Gewürze
+266	Reis (weiß) für Risotto und Salate (Arborio)		2015-07-02 22:00:21.336888+02	2015-07-13 06:51:19.291138+02	Pasta & Reis
+299	Dinkelgrieß		2015-07-02 22:21:50.904657+02	2015-07-13 06:51:43.3897+02	Mehle
+292	Rosmarin		2015-07-02 22:14:47.028624+02	2015-07-13 06:50:19.222453+02	Gewürze
+261	Spaghetti		2015-06-29 22:48:23.455893+02	2015-07-13 06:50:37.995753+02	Pasta & Reis
+296	Dinkelmehl		2015-07-02 22:21:24.091806+02	2015-07-13 06:51:47.967837+02	Mehle
+298	Dinkelvollkornmehl		2015-07-02 22:21:44.062659+02	2015-07-13 06:51:52.558221+02	Mehle
+321	Erbsen		2015-07-10 21:42:43.501465+02	2015-07-13 06:52:02.805203+02	Gefrorenes
+316	Pasta corta		2015-07-10 21:26:25.96476+02	2015-07-13 06:52:14.514452+02	Pasta & Reis
+248	Reisessig		2015-06-29 22:37:26.370603+02	2015-07-13 06:52:31.034927+02	Gewürze
+294	Ricotta		2015-07-02 22:21:05.722343+02	2015-07-13 06:52:42.966941+02	Kühlregal
+274	Rindersteak		2015-07-02 22:07:56.058631+02	2015-07-13 06:52:53.070731+02	Kühlregal
+324	Samba		2015-07-10 21:57:23.101704+02	2015-07-13 06:53:07.846736+02	Konserven
+320	Semmelbrösel		2015-07-10 21:36:21.219093+02	2015-07-13 06:53:17.23622+02	Mehle
+300	Weizengrieß		2015-07-02 22:21:56.611797+02	2015-07-13 06:53:30.054026+02	Mehle
+295	Weizenmehl		2015-07-02 22:21:17.737668+02	2015-07-13 06:53:36.150782+02	Mehle
+297	Weizenvollkornmehl		2015-07-02 22:21:34.663804+02	2015-07-13 06:53:41.896167+02	Mehle
+343	Polenta (Schnellkoch)		2015-07-11 09:32:16.79713+02	2015-07-11 09:32:16.79713+02	Konserven
+344	Pilze (Champignons)		2015-07-11 09:32:36.691905+02	2015-07-11 09:32:36.691905+02	Gemüse
+345	Knoblauch		2015-07-11 09:33:02.708682+02	2015-07-11 09:33:02.708682+02	Gemüse
+346	Maisstärke		2015-07-11 09:33:28.2332+02	2015-07-11 09:33:28.2332+02	Konserven
+347	Ingwer		2015-07-11 09:33:54.020226+02	2015-07-11 09:33:54.020226+02	Gemüse
+348	Lorbeerblätter		2015-07-11 09:34:16.613552+02	2015-07-11 09:34:16.613552+02	Gewürze
+349	Zwiebel (rot)		2015-07-11 09:40:24.229249+02	2015-07-11 09:40:24.229249+02	Gemüse
+350	Thymian		2015-07-11 09:41:28.925473+02	2015-07-11 09:41:28.925473+02	Gewürze
+351	Harissa		2015-07-11 09:42:20.516899+02	2015-07-11 09:42:20.516899+02	Gewürze
+352	CousCous		2015-07-11 09:44:01.846524+02	2015-07-11 09:44:01.846524+02	Konserven
+353	Kurkuma		2015-07-11 09:45:15.955559+02	2015-07-11 09:45:15.955559+02	Gewürze
+335	Butterschmalz / Ghee		2015-07-11 08:45:05.065444+02	2015-07-13 06:42:15.816714+02	Kühlregal
+272	Lammsteak		2015-07-02 22:07:40.977033+02	2015-07-13 06:44:38.362323+02	Kühlregal
+326	Muskatnuss		2015-07-10 22:00:09.904095+02	2015-07-13 06:45:21.664703+02	Gewürze
+285	Tomaten (Cherry, Kirsch)		2015-07-02 22:13:53.334291+02	2015-07-13 06:46:11.890482+02	Gemüse
+273	Schweinesteak		2015-07-02 22:07:48.995701+02	2015-07-13 06:47:17.458342+02	Kühlregal
+319	Parmsean (am Stück)		2015-07-10 21:34:33.345327+02	2015-07-13 06:48:19.298282+02	Kühlregal
+302	Pinienkerne		2015-07-02 22:37:01.665001+02	2015-07-13 06:49:51.737801+02	Getrocknetes
+334	Basmatireis (Vollkorn)		2015-07-11 08:44:52.956406+02	2015-07-13 06:50:54.195151+02	Pasta & Reis
+333	Basmatireis (weiß)		2015-07-11 08:44:39.767283+02	2015-07-13 06:51:00.162175+02	Pasta & Reis
+\.
+
+
+--
+-- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: thm0001m
+--
+
+SELECT pg_catalog.setval('ingredients_id_seq', 355, true);
+
+
+--
+-- Data for Name: ingredients_recipes; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY ingredients_recipes (ingredient_id, recipe_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: ingredients_shopping_list_items; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY ingredients_shopping_list_items (ingredient_id, shopping_list_item_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: menu_items; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY menu_items (id, recipe_id, menu_id, day, type, slot, slot_order, shopping_list, title, description, created_at, updated_at) FROM stdin;
+802	88	42	2015-07-05 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	f	\N	\N	2015-07-02 22:13:31.093721+02	2015-07-02 22:20:28.352824+02
+805	90	42	2015-07-05 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-02 22:37:40.619803+02	2015-07-02 22:37:40.619803+02
+806	90	42	2015-07-06 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	\N	\N	\N	2015-07-02 22:37:48.951271+02	2015-07-02 22:37:48.951271+02
+807	84	43	2015-07-13 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-08 06:36:45.557391+02	2015-07-08 06:36:45.557391+02
+780	82	38	2015-07-03 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-06-29 22:14:52.612031+02	2015-06-29 22:14:52.612031+02
+789	83	38	2015-07-03 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-06-29 22:28:00.383686+02	2015-06-29 22:28:00.383686+02
+790	84	38	2015-07-02 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-06-29 22:35:20.588617+02	2015-06-29 22:35:20.588617+02
+791	85	38	2015-06-30 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-06-29 22:46:09.048697+02	2015-06-29 22:46:09.048697+02
+795	84	38	2015-07-03 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	\N	\N	\N	2015-06-29 22:46:54.371291+02	2015-06-29 22:46:54.371291+02
+796	86	38	2015-07-01 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-06-29 22:57:05.820254+02	2015-06-29 22:57:05.820254+02
+797	86	38	2015-07-02 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	\N	\N	\N	2015-06-29 22:57:05.843526+02	2015-06-29 22:57:05.843526+02
+808	84	43	2015-07-14 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-08 06:36:45.607015+02	2015-07-08 06:36:45.607015+02
+794	85	38	2015-07-01 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	f	\N	\N	2015-06-29 22:46:54.34897+02	2015-07-01 15:29:03.458891+02
+800	87	42	2015-07-04 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	t	\N	\N	2015-07-02 22:06:48.673139+02	2015-07-02 22:06:48.673139+02
+801	88	42	2015-07-04 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-02 22:13:17.867634+02	2015-07-02 22:13:17.867634+02
+803	89	42	2015-07-04 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	t	\N	\N	2015-07-02 22:20:05.626016+02	2015-07-02 22:20:05.626016+02
+804	89	42	2015-07-05 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	\N	\N	\N	2015-07-02 22:20:20.602505+02	2015-07-02 22:20:20.602505+02
+809	84	43	2015-07-15 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	\N	\N	\N	2015-07-08 06:38:53.5665+02	2015-07-08 06:38:53.5665+02
+810	83	43	2015-07-13 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	t	\N	\N	2015-07-10 07:07:40.166252+02	2015-07-10 07:07:40.166252+02
+811	87	43	2015-07-13 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-10 07:07:40.214541+02	2015-07-10 07:07:40.214541+02
+812	89	43	2015-07-14 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	t	\N	\N	2015-07-10 07:07:40.220336+02	2015-07-10 07:07:40.220336+02
+813	86	43	2015-07-15 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	t	\N	\N	2015-07-10 07:07:40.22494+02	2015-07-10 07:07:40.22494+02
+814	90	43	2015-07-15 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-10 07:10:35.727189+02	2015-07-10 07:10:35.727189+02
+815	91	43	2015-07-14 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	t	\N	\N	2015-07-10 07:10:43.820914+02	2015-07-10 07:10:43.820914+02
+816	94	44	2015-07-11 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	t	\N	\N	2015-07-10 21:23:11.807988+02	2015-07-10 21:23:11.807988+02
+819	97	44	2015-07-12 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	t	\N	\N	2015-07-10 21:52:36.067992+02	2015-07-10 21:52:36.067992+02
+818	95	44	2015-07-12 02:00:00	\N	MTMD::FamilyCookBook::Slot::Lunch	2	t	\N	\N	2015-07-10 21:52:21.505911+02	2015-07-10 21:52:53.783856+02
+824	101	44	2015-07-12 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-11 09:22:52.205351+02	2015-07-11 09:22:52.205351+02
+825	100	44	2015-07-14 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-11 09:24:56.396917+02	2015-07-11 09:24:56.396917+02
+827	103	44	2015-07-13 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-11 09:25:52.070961+02	2015-07-11 09:25:52.070961+02
+828	102	44	2015-07-15 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-11 09:25:52.093214+02	2015-07-11 09:25:52.093214+02
+829	85	44	2015-07-16 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-11 09:26:03.894467+02	2015-07-11 09:26:03.894467+02
+830	104	44	2015-07-17 02:00:00	\N	MTMD::FamilyCookBook::Slot::Dinner	3	t	\N	\N	2015-07-11 09:26:58.883984+02	2015-07-11 09:26:58.883984+02
+\.
+
+
+--
+-- Name: menu_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: thm0001m
+--
+
+SELECT pg_catalog.setval('menu_items_id_seq', 830, true);
+
+
+--
+-- Data for Name: menu_items_menus; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY menu_items_menus (menu_id, menu_items_id) FROM stdin;
+38	780
+38	789
+38	790
+38	791
+38	794
+38	795
+38	796
+38	797
+42	800
+42	801
+42	802
+42	803
+42	804
+42	805
+42	806
+43	807
+43	808
+43	809
+43	810
+43	811
+43	812
+43	813
+43	814
+43	815
+44	816
+44	818
+44	819
+44	824
+44	825
+44	827
+44	828
+44	829
+44	830
+\.
+
+
+--
+-- Data for Name: menu_items_recipes; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY menu_items_recipes (menu_items_id, recipe_id) FROM stdin;
+780	82
+789	83
+790	84
+791	85
+794	85
+795	84
+796	86
+797	86
+800	87
+801	88
+802	88
+803	89
+804	89
+805	90
+806	90
+807	84
+808	84
+809	84
+810	83
+811	87
+812	89
+813	86
+814	90
+815	91
+816	94
+818	95
+819	97
+824	101
+825	100
+827	103
+828	102
+829	85
+830	104
+\.
+
+
+--
+-- Data for Name: menu_items_shopping_list_items; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY menu_items_shopping_list_items (menu_item_id, shopping_list_item_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: menus; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY menus (id, date_range, name, description, created_at, updated_at) FROM stdin;
+38	["2015-06-30 02:00:00+02","2015-07-03 02:00:00+02"]	Unser erstes Menü	Endlich gehts los!	2015-06-21 15:49:41.582851+02	2015-06-29 22:28:00.411085+02
+42	["2015-07-04 02:00:00+02","2015-07-10 02:00:00+02"]	KW 27 + 28		2015-07-02 22:06:35.837571+02	2015-07-02 22:06:35.837571+02
+43	["2015-07-13 02:00:00+02","2015-07-15 02:00:00+02"]	testo	testo	2015-07-08 06:36:02.428859+02	2015-07-08 06:36:02.428859+02
+44	["2015-07-11 02:00:00+02","2015-07-17 02:00:00+02"]	KW 28 + 29		2015-07-10 21:13:53.452447+02	2015-07-10 21:13:53.452447+02
+\.
+
+
+--
+-- Name: menus_id_seq; Type: SEQUENCE SET; Schema: public; Owner: thm0001m
+--
+
+SELECT pg_catalog.setval('menus_id_seq', 44, true);
+
+
+--
+-- Data for Name: recipes; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY recipes (id, title, description, tips_and_tricks, type, difficulty, duration_cooking, duration_preparation, cookware_amount, calorie_indication, created_at, updated_at) FROM stdin;
+86	Spaghetti mit Avocado-Sesam-Creme	<ol><li>Für die Creme die Sesamsamen in einer Pfanne ohne Fett rösten, bis sie leicht duften / zu knacken beginnen. Vom Herd nehmen und abkühlen lassen, dann mit dem Meersalt im Mörser zerstoßen. Für die Nudeln in einem großen Topf reichlich Salzwasser aufkochen.</li><li>Die Avocado mit einem scharfen Messer halbieren und den Kern entfernen. Das Fruchtfleisch aus der Schale löffeln, mit Limettensaft beträufeln und mit einer Gabel zerdrücken. Tahini, Joghurt und Sesamsalz unterrühren. Die Nudeln im kochenden Salzwasser nach Packungsanleitung bissfest kochen.</li><li>Inzwischen die Tomate waschen und in feine Würfel schneiden, dabei den Stielansatz entfernen. Den Schnittlauch waschen, trocken schütteln und in Röllchen schneiden. Beides mit dem Kreuzkümmel unter die Avocado-Sesam-Creme rühren. Mit Cayennepfeffer abschmecken. Die Nudeln abgießen, kurz abtropfen lassen, auf Teller verteilen und mit der Creme servieren.<br></li></ol>			3	25	10	2	550	2015-06-29 22:53:45.683764+02	2015-06-29 22:53:45.683764+02
+82	Tortino di miglio	<p>Lessare il miglio in aqua salata.</p><p>Pulire la cipolla, le zucchine e la carota. Prendere il mixer da cucina e tritare finemente la cipolla. </p><p>Mettere la cipolla trittata in padella antiaderente dove precedentemente era stato messo un filo di olio di oliva.</p><p>Mettere nel mixer le carote e tritare- Aggoungere in padella insieme alla cipolla.</p><p>Mettere nel mixer le zucchine e tritare. Aggiungere in padella alla cipolla e alle carote.</p><p>Fare cuocere 7 - 10 minuti.</p><p>Nel frattempo avrete scolato il miglio ormai cotto e messo nel colino per eliminare l'acqua di cotture in eccesso.</p><p>Unire le verdure cotte al miglio. Poi unire il formaggio di capra a pezzetti.</p><p>Mettere il tutto in una teglia che avrete unto con olio di oliva e passare in forno a 200 °C per circa 45 minuti.</p><p>Quando una crostina invitante avra coperto la superficie, il tortino e pronto.<br></p>			3	45	20	3	\N	2015-06-29 22:08:35.421927+02	2015-06-29 22:08:35.421927+02
+83	Hackfleischbällchen / Polpette	<p>Brötchen einweichen in Milch bis es richtig weich und matschig ist. Überschüssige Milch abgießen.</p><p>Hackfleisch mit dem Brötchen vermischen, Ei dazurühren.</p><p>Kräftig würzen mit Salz - je nach Geschmack auch eine Brise Pfeffer und Kräuter wie z.B. Oregano.<br></p><p>Öl in der beschichteten Pfanne erhitzen und dann aus der Masse mit einem gehäuften Esslöffel die Masse in die Pfanne geben. Die Masse möglichst rund formen, so dass sie schön werden.</p><p>Rundherum knusprig braten (ca. 5 min) und dann auf einem Teller mit Küchenrolle ablegen und bedecken - oder warm stellen - bis zum Servieren.<br></p>			1	20	10	2	300	2015-06-29 22:19:45.343225+02	2015-06-29 22:19:45.343225+02
+84	Frittata	<p>Eier in einer Schüssel gut verrühren. Optional kann man Mozzarella oder anderen Käse in kleine Stückchen geschnitten mit einrühren.</p><p>Dann in einer beschichteten (!) Pfanne 2 Esslöffel Öl verteilen und Eiermasse eingießen.</p><p>Langsam erhitzen (mittlere Stufe) - am besten bei geschlossenem Deckel bis das Ei stockt (fest wird). Das dauert ca. 6 - 10 Minuten.<br></p><p>Frittata wenden - z.B. mit Hilfe eines großen Tellers. Dabei darauf achten, dass sie sich gut vom Boden der Pfanne löst. Man kann das gut mit einem Silikon Teigschaber vorher ablösen und bei einer beschichteten Pfanne etwas drehen und hin- und herschütteln so dass sich die Frittata ablöst.<br></p><p>Auf der anderen Seite noch max. 5 Minuten braten.<br></p>			1	15	5	2	200	2015-06-29 22:33:54.960011+02	2015-06-29 22:33:54.960011+02
+85	Tofu mit Erdnüssen	<ol><li>Reis aufsetzen - da es Vollkornreis ist, dauert er entsprechend lange - es empfiehlt sich, den Reis am Vortag bereits vorzubereiten.<br></li><li>Den Tofu mit Küchenpapier trocken tupfen und in knapp 1 cm große Würfel schneiden. Die Chilischoten im Mörser fein zerstoßen und mit Sojasoße, Sherry oder Reiswein, Essig, Zimt und Zucker verrühren.</li><li>Das Öl im Wok heiß werden lassen und die Erdnüsse darin bei mittlerer Hitze unter Rühren goldbraun rösten. Salzen und aus dem Wok heben.</li><li>Den Tofu im verbliebenen Öl rundherum bei starker Hitze in ca. 5 Min. knusprig braten. Mit der Sauce begießen, die Erdnüsse untermischen und alles noch einmal gut heiß werden lassen. Mit Korainderblättchen bestreuen. Mit Reis servieren<br></li></ol>			3	25	25	2	300	2015-06-29 22:42:04.443038+02	2015-06-29 22:42:04.443038+02
+87	Reissalat mit Schinken und Käse	<ol><li>Reis in leicht gesalzenem Salzwasser kochen und abkühlen lassen.</li><li>Alle Zutaten in etwa gleich große Würfel (0.5 cm) schneiden.</li><li>Alle Zutaten incl. Reis durchmischen</li><li>Mit Öl, Pfeffer, Salz nach Geschmack würzen<br></li></ol>			\N	\N	\N	\N	\N	2015-07-02 21:59:53.408331+02	2015-07-02 22:04:03.402794+02
+88	Grillen	<ol><li>Grill anzünden</li><li>Zeug auflegen</li><li>Essen<br></li></ol>			\N	\N	\N	\N	\N	2015-07-02 22:09:11.620413+02	2015-07-02 22:09:11.620413+02
+89	Tabouleh Freestyle	<ol><li>Bulgur nach Anleitung zubereiten. In der Regel 1,5-fache Menge Wasser zum Kochen bringen und dann auf den Bulgur geben. 10 Minuten quellen lassen. Zur Seite stellen, damit der Bulgur abkühlen kann.<br></li><li>Kirschtomaten in Viertel, Frühlingszwiebel in feine Ringe schneiden. Kräuter waschen und fein hacken. Oliven ebenfalls in Ringe schneiden.<br></li><li>Alle Zutaten außer dem Bulgur gut durchmischen. Dann unter den lauwarmen Bulgur rühren.</li><li>Abschmecken mit Öl, Pfeffer, Salz. Am besten ein paar Stunden ziehen lassen, danach erneut abschmecken</li></ol><p><br></p>	Der Tabouleh schmeckt besser wenn er am nächsten Tag erst gegessen wird und einen Tag durchziehen konnte.		1	15	15	2	200	2015-07-02 22:19:46.959924+02	2015-07-02 22:19:46.959924+02
+90	Spinat Ricotta Quiche	<ol><li>Quicheteig vorbereiten:<br>- Mehle &amp; Grieß mit der angegebenen Menge Wasser, Prise Salz und dem Öl in eine Schüssel geben<br>- Mit dem Rührgerät (Knethaken) gut verrühren bis der Teig eine gute Konsistenz hat<br>- Abdecken und in den Kühlschrank<br></li><li>Zwiebel in feine Würfelchen hacken, Tauwasser aus dem Spinat abtropfen lassen.<br></li><li>Etwas Öl in die Pfanne geben und Zwiebelwürfel glasig werden lassen. Spinat dazu geben und 7 - 10 Min garen.</li><li>Ricotta dazugeben und gut verrühren.<br></li><li>Mit Salz, Zimt und Pfeffer nach Geschmack würzen. Relativ kräftig mit Salz würzen.</li><li>Abkühlen lassen.</li><li>Währenddessen eine Rundform (ca. 28 cm) leicht einölen und mit Teig aus dem Kühlschrank auskleiden. Dabei den Teig am Rand hochdrücken und darauf achten, dass er in den Ecken nicht zu dick steht.</li><li>Spinat-Ricotta-Masse einfüllen.</li><li>Mit Hilfe der hochgezogenen Teigränder die Quiche zur Mitte hin teils bedecken.</li><li>Pinienkerne auf die spinatige Mitte streuen und in den Ofen bei 180 °C geben</li><li>nach ca. 45 - 60 Minuten ist die Quiche fertig - eindeutig erkennbar wenn kein Wasser mehr auf der Spinatfläche steht.<br></li></ol>			3	60	20	2	300	2015-07-02 22:32:23.883506+02	2015-07-02 22:32:23.883506+02
+91	Minestra fredda				\N	\N	\N	\N	\N	2015-07-02 22:38:14.750566+02	2015-07-02 22:38:14.750566+02
+92	TESTRECIPE				\N	\N	\N	\N	\N	2015-07-10 09:29:53.765426+02	2015-07-10 09:29:53.765426+02
+93	Falafel mit Sesamdip				\N	\N	\N	\N	\N	2015-07-10 21:15:01.811468+02	2015-07-10 21:15:01.811468+02
+94	Brotzeit				\N	\N	\N	\N	\N	2015-07-10 21:17:04.415656+02	2015-07-10 21:17:04.415656+02
+95	Pasta Fredda				\N	\N	\N	\N	\N	2015-07-10 21:24:54.525826+02	2015-07-10 21:24:54.525826+02
+96	Polpettine di ricotta	<ol><li>Prepara la mollica del panino.<br></li><li>Frulla la mollica per sbrciolarlo e mescola con la ricotta, il formaggio grattugiato e un uovo intero.</li><li>Condisci con sale e aggiungi prezzemolo a piacere.</li><li>Prepara 8 polpette e passale nel'uovo sbattuto e nel pangrattato.</li><li>Alinea su una teglia unta e cuoci per ca. 15 - 20 minuti a 200 °C nel forno.</li><li>Servi cosi o con salsa di pomodoro.<br></li></ol>			3	20	20	2	\N	2015-07-10 21:33:34.06695+02	2015-07-10 21:35:51.675963+02
+97	Pasta Prosciutto Piselli	<ol><li>Lessa i piselini in acqua legeremente salata fino a quando saranno teneri. Lessa la pasta in acqua salata.</li><li>Nel frattempo, scalda l'olio in un padellino con la cipollina sminuzzata (ca. 1 cucchiaino) a fuoco basso senza far scurire.</li><li>Unisci i pisellini e il prosciutto tagliato a dadini.</li><li>Sala leggermente e cospargi di farina.</li><li>Quando vedi il fondo addensarsi leggermente, versa il latte e lascia inspessire a fuoco basso, mescolando sempre.</li><li>Condisci la pasta e aggiungi il formaggio grattugiato.<br></li></ol>			\N	\N	\N	\N	\N	2015-07-10 21:48:11.266371+02	2015-07-10 21:48:11.266371+02
+98	Bechamelsoße	<ol><li>Scalda il burro a fuoco basso in un pentolino fondo spesso.</li><li>Quando il burro e sciolto, unisci la farina e mescola bene con la frusta.</li><li>Versa un quarto ca. del latte e mescola.</li><li>Quando il misculio e omogeneo, versa tutto il latte rimasto e una presa di sale e mescola.</li><li>Fai ispessire la salsa su fuoco basso, mescolando con regolarita con la frusta per evitare la formazione di grumi.</li><li>Quando la salso inizia bollire, togli dal fuoco e agiusta eventualmente di sale.</li></ol>			1	10	5	1	\N	2015-07-10 22:04:13.706129+02	2015-07-10 22:04:13.706129+02
+99	Pasta al forno	Siehe www.babychef.it<br>			\N	\N	\N	\N	\N	2015-07-10 22:06:55.214605+02	2015-07-10 22:06:55.214605+02
+100	Persischer Möhrenreis	<ol><li>Die Möhren putzen, schälen zbd in dünne, ca. 4 cm lange Stifte schneiden. Die Rosinen und Berberitzen mit heißem Wasser übergießen und quellen lassen. Die Zwiebel schälen und würfeln.</li><li>Den Reis in einem Sieb kalt waschen, anschließend in ausreichend Salzwasser 6 -8 Minuten sprudelnd kochen. Den Reis in ein Sieb abgießen, kalt abschrecken und abtropfen lassen.</li><li>1 EL Butterschmalz in einer Pfanne zerlassen und die Zwiebel darin glasig dünsten, dann kräftig salzen und pfeffern. Rosinen und Berberitzen in einem Sieb abtropfen lassen und unter die Möhren mischen.</li><li>Den Safran in 80 ml heißes Wasser einrühren. Übriges Schmalz in einem Topf erhitzen und das Safranwasser zugeben. Die Hälfte Reis darauf verteilen, die Möhren darübergeben und mit dem übrigen Reis abdecken. Ein Küchenhandtuch um den Topfdeckel schlagen und den Deckel dicht auf den Topf legen. Den Reis zugedeckt bei ganz schwacher Hitze 45 - 50 Minuten garen. </li><li>Das fertige Gericht vor dem Servieren mischen.<br></li></ol>			3	50	20	3	\N	2015-07-11 08:42:42.830539+02	2015-07-11 08:42:42.830539+02
+101	Tomaten-Ziegenkäse-Tartes	<ol><li>Für den Mürbeteig die Butter in kleine Würfel schneiden. Butterwürfel, Mehl, je 1 Prise Salz und Zucker und 3 EL kaltes Wasser schnell mit den Händen zu einem glatten Teig verkneten. Den Mürbeteig in Frischhaltefolie wickeln und für mindestens 30 Minuten kalt stellen.</li><li>Für den Belag den Ziegenkäse zerbröckeln. Die Tomaten waschen und je nach Größe halbieren oder in Scheiben schneiden.</li><li>Den Backofen auf 180 °C (Umluft 160 °C, Gas Stufe 3) vorheizen. Sechs kleine ofenfeste Portionsförmchen (Durchmesser ca. 10 cm) fetten. Den Teig auf der bemehlten Arbeitsfläche dünn ausrollen, sechs Kreise von etwa 12 cm Durchmesser ausschneiden und die Förmchen damit auslegen. Dabei einen etwa 1 - 2 cm hohen Rand formen. Den Teig mit einer Gabel mehrmals einstechen.</li><li>Tomaten und Ziegenkäse auf dem Teig verteilen. Das Olivenöl darüberträufeln. Törtchen mit Salz und Pfeffer würzen und im vorgeheizten Backofen etwa 20 Min. goldbraun backen. Basilikum waschen, trocken schütteln, die Blätter grob zerzupfen und über die Törtchen streuen.<br></li></ol>	Wer Käse gern mit süßen Aromen komniniert, kann vor dem Backen etwas braunen Zucker über die Törtchen streuen oder nach dem Backen ein paar Tropfen Ahornsirup über den Käse träufeln.		\N	\N	\N	\N	\N	2015-07-11 08:59:53.851956+02	2015-07-11 08:59:53.851956+02
+102	Bechamel-Kartoffeln mit Ei	<ol><li>Die Kartoffeln gründlich abbürsten und ungeschält in Wasser etwa 20 Minuten zugedeckt kochen, dabei in den letzten 8 Min die Eier (vorher mit einem Eierpiekser anstechen) mit ins Kochwasser geben.</li><li>Eier heruasnehmen und kalt abspülen. Kartoffeln abgießen, kurz abkühlen lassen, pellen und in dicke Scheiben schneiden. Die Erbsen in Salzwasser etwa 5 Minuten kochen abgießen und warm halten.</li><li>Butter in einem kleinen Topf schmelzen, das Mehl unter Rühren hinzugeben und 1 -2 Minuten leicht bräunen lassen. Milch und Gemüsebrühe zugeben, aufkochen und unter Rühren kochen, bis die Sauce eingedickt isst. Mit Salz und Pfeffer würzen und die Kartoffelscheiben in der Sauce erwärmen.</li><li>Die Bechamel-Kartoffeln auf drei tiefe Teller verteilen, mit den Erbsen und 1 gepellten, halbierten Ei anrichten und eventuell mit Schnittlauchröllchen bestreuen. Für Kinder aus den Zutaten ein kleines Gesicht gestalten, dann schmeckt es noch besser!<br></li></ol>	Die Bechamel-Sauce schmeckt zu gedünstetem Gemüse oder auch zu hellem Fleisch. Wer mag, gibt eine Ecke Schmelzkäse hinein oder frische gehackte Kräuter. Abgeschmeckt wird, wie es passt, mit Curry, Tomatenmark und Parpikapulver oder mit Senf und Meerrettich. Bechamel-Sauce oder helle Sauce gibt es auch fertig aus dem Tetra-Pak oder Saucenpulver zum Anrühren. Diese Produkte sparen Zeit, wenn es schnell gehen muss.		\N	\N	\N	\N	\N	2015-07-11 09:14:41.665394+02	2015-07-11 09:14:41.665394+02
+103	Cous Cous mit Gemüse				\N	\N	\N	\N	\N	2015-07-11 09:24:31.245877+02	2015-07-11 09:24:31.245877+02
+104	Pilz-Tempeh mit Polenta				\N	\N	\N	\N	\N	2015-07-11 09:26:44.9788+02	2015-07-11 09:26:44.9788+02
+\.
+
+
+--
+-- Name: recipes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: thm0001m
+--
+
+SELECT pg_catalog.setval('recipes_id_seq', 104, true);
+
+
+--
+-- Data for Name: recipes_shopping_list_items; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY recipes_shopping_list_items (recipe_id, shopping_list_item_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: recipes_tags; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY recipes_tags (recipe_id, tag_id) FROM stdin;
+82	345
+82	346
+86	340
+95	340
+96	348
+99	348
+\.
+
+
+--
+-- Data for Name: schema_info; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY schema_info (version) FROM stdin;
+3
+\.
+
+
+--
+-- Data for Name: shopping_list_items; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY shopping_list_items (id, shopping_order, type, active, shopping_list_id, recipe_id, menu_item_id, ingredient_quantity_id, unit_id, ingredient_id, amount, created_at, updated_at) FROM stdin;
+118	0	automatic	f	55	89	812	265	346	291	1	2015-07-10 07:10:49.061036+02	2015-07-10 07:10:49.061036+02
+252	0	automatic	t	59	103	827	359	334	231	150	2015-07-11 09:45:47.721179+02	2015-07-11 09:45:47.721179+02
+253	0	automatic	t	59	100	825	311	334	232	500	2015-07-11 09:45:47.724638+02	2015-07-11 09:45:47.724638+02
+254	0	automatic	t	59	97	819	299	335	233	1	2015-07-11 09:45:47.726924+02	2015-07-11 09:45:47.726924+02
+87	0	automatic	f	55	90	814	246	337	236	1	2015-07-10 07:10:49.00366+02	2015-07-10 07:10:49.00366+02
+255	0	automatic	t	59	100	825	314	335	233	1	2015-07-11 09:45:47.730498+02	2015-07-11 09:45:47.730498+02
+267	0	automatic	t	59	97	819	302	341	240	50	2015-07-11 09:45:47.764696+02	2015-07-11 09:45:47.764696+02
+268	0	automatic	t	59	102	828	337	341	240	250	2015-07-11 09:45:47.767337+02	2015-07-11 09:45:47.767337+02
+269	0	automatic	t	59	102	828	333	335	241	3	2015-07-11 09:45:47.770938+02	2015-07-11 09:45:47.770938+02
+270	0	automatic	t	59	95	818	281	349	242	1	2015-07-11 09:45:47.774793+02	2015-07-11 09:45:47.774793+02
+271	0	automatic	t	59	85	829	208	334	243	600	2015-07-11 09:45:47.777896+02	2015-07-11 09:45:47.777896+02
+281	0	automatic	t	59	85	829	214	334	252	100	2015-07-11 09:45:47.804049+02	2015-07-11 09:45:47.804049+02
+282	0	automatic	t	59	85	829	215	346	253	1	2015-07-11 09:45:47.807397+02	2015-07-11 09:45:47.807397+02
+283	0	automatic	t	59	85	829	207	334	254	300	2015-07-11 09:45:47.81026+02	2015-07-11 09:45:47.81026+02
+285	0	automatic	t	59	103	827	362	334	260	300	2015-07-11 09:45:47.81443+02	2015-07-11 09:45:47.81443+02
+286	0	automatic	t	59	95	818	283	335	262	3	2015-07-11 09:45:47.817061+02	2015-07-11 09:45:47.817061+02
+88	0	automatic	f	55	87	811	254	348	236	1	2015-07-10 07:10:49.005583+02	2015-07-10 07:10:49.005583+02
+89	0	automatic	f	55	89	812	262	350	236	1	2015-07-10 07:10:49.007788+02	2015-07-10 07:10:49.007788+02
+85	0	automatic	f	55	87	811	255	338	235	3	2015-07-10 07:10:48.99724+02	2015-07-10 07:10:48.99724+02
+86	0	automatic	f	55	89	812	261	338	235	3	2015-07-10 07:10:49.000507+02	2015-07-10 07:10:49.000507+02
+84	0	automatic	f	55	90	814	244	334	235	40	2015-07-10 07:10:48.993678+02	2015-07-10 07:10:48.993678+02
+92	0	automatic	f	55	83	810	202	341	239	200	2015-07-10 07:10:49.013946+02	2015-07-10 07:10:49.013946+02
+93	0	automatic	f	55	83	810	204	341	240	150	2015-07-10 07:10:49.015609+02	2015-07-10 07:10:49.015609+02
+98	0	automatic	f	55	90	814	251	336	250	1	2015-07-10 07:10:49.025992+02	2015-07-10 07:10:49.025992+02
+100	0	automatic	f	55	86	813	216	338	256	2	2015-07-10 07:10:49.029359+02	2015-07-10 07:10:49.029359+02
+101	0	automatic	f	55	86	813	217	337	257	1	2015-07-10 07:10:49.03103+02	2015-07-10 07:10:49.03103+02
+117	0	automatic	f	55	89	812	266	346	289	1	2015-07-10 07:10:49.059406+02	2015-07-10 07:10:49.059406+02
+116	0	automatic	f	55	89	812	264	346	288	1	2015-07-10 07:10:49.057934+02	2015-07-10 07:10:49.057934+02
+83	0	automatic	t	55	87	811	230	335	232	1	2015-07-10 07:10:48.983616+02	2015-07-10 07:10:48.983616+02
+90	0	automatic	t	55	83	810	203	335	237	1	2015-07-10 07:10:49.010182+02	2015-07-10 07:10:49.010182+02
+91	0	automatic	t	55	83	810	201	334	238	250	2015-07-10 07:10:49.012201+02	2015-07-10 07:10:49.012201+02
+94	0	automatic	t	55	84	808	205	335	241	6	2015-07-10 07:10:49.017938+02	2015-07-10 07:10:49.017938+02
+95	0	automatic	t	55	84	807	205	335	241	6	2015-07-10 07:10:49.020544+02	2015-07-10 07:10:49.020544+02
+96	0	automatic	t	55	84	808	206	334	242	150	2015-07-10 07:10:49.02246+02	2015-07-10 07:10:49.02246+02
+97	0	automatic	t	55	84	807	206	334	242	150	2015-07-10 07:10:49.024308+02	2015-07-10 07:10:49.024308+02
+99	0	automatic	t	55	86	813	218	335	255	1	2015-07-10 07:10:49.027637+02	2015-07-10 07:10:49.027637+02
+102	0	automatic	t	55	86	813	219	335	258	1	2015-07-10 07:10:49.032647+02	2015-07-10 07:10:49.032647+02
+104	0	automatic	t	55	86	813	221	338	260	3	2015-07-10 07:10:49.036962+02	2015-07-10 07:10:49.036962+02
+105	0	automatic	t	55	86	813	222	334	261	400	2015-07-10 07:10:49.038851+02	2015-07-10 07:10:49.038851+02
+106	0	automatic	t	55	86	813	223	335	262	1	2015-07-10 07:10:49.040397+02	2015-07-10 07:10:49.040397+02
+111	0	automatic	t	55	87	811	228	334	267	80	2015-07-10 07:10:49.048345+02	2015-07-10 07:10:49.048345+02
+112	0	automatic	t	55	87	811	229	334	268	100	2015-07-10 07:10:49.050767+02	2015-07-10 07:10:49.050767+02
+113	0	automatic	t	55	89	812	258	334	285	100	2015-07-10 07:10:49.052766+02	2015-07-10 07:10:49.052766+02
+114	0	automatic	t	55	89	812	259	335	286	10	2015-07-10 07:10:49.054521+02	2015-07-10 07:10:49.054521+02
+119	0	automatic	t	55	90	814	250	334	293	300	2015-07-10 07:10:49.062657+02	2015-07-10 07:10:49.062657+02
+120	0	automatic	t	55	90	814	249	334	294	250	2015-07-10 07:10:49.064192+02	2015-07-10 07:10:49.064192+02
+121	0	automatic	t	55	90	814	242	334	297	100	2015-07-10 07:10:49.065896+02	2015-07-10 07:10:49.065896+02
+115	0	automatic	f	55	89	812	257	335	287	1	2015-07-10 07:10:49.056425+02	2015-07-10 07:10:49.056425+02
+109	0	automatic	f	55	86	813	226	344	265	1	2015-07-10 07:10:49.044977+02	2015-07-10 07:10:49.044977+02
+108	0	automatic	f	55	86	813	225	337	264	0.5	2015-07-10 07:10:49.043347+02	2015-07-10 07:10:49.043347+02
+107	0	automatic	f	55	86	813	224	347	263	0.5	2015-07-10 07:10:49.041894+02	2015-07-10 07:10:49.041894+02
+103	0	automatic	f	55	86	813	220	338	259	2	2015-07-10 07:10:49.03461+02	2015-07-10 07:10:49.03461+02
+110	0	automatic	f	55	87	811	253	334	266	200	2015-07-10 07:10:49.046597+02	2015-07-10 07:10:49.046597+02
+287	0	automatic	t	59	97	819	298	334	267	60	2015-07-11 09:45:47.820279+02	2015-07-11 09:45:47.820279+02
+288	0	automatic	t	59	97	819	297	334	269	50	2015-07-11 09:45:47.823347+02	2015-07-11 09:45:47.823347+02
+289	0	automatic	t	59	103	827	357	335	280	1	2015-07-11 09:45:47.826295+02	2015-07-11 09:45:47.826295+02
+290	0	automatic	t	59	103	827	360	335	281	1	2015-07-11 09:45:47.828802+02	2015-07-11 09:45:47.828802+02
+291	0	automatic	t	59	102	828	331	334	284	500	2015-07-11 09:45:47.830955+02	2015-07-11 09:45:47.830955+02
+292	0	automatic	t	59	101	824	325	334	285	250	2015-07-11 09:45:47.833588+02	2015-07-11 09:45:47.833588+02
+294	0	automatic	t	59	95	818	282	335	286	10	2015-07-11 09:45:47.841856+02	2015-07-11 09:45:47.841856+02
+262	0	automatic	f	59	102	828	334	344	236		2015-07-11 09:45:47.750733+02	2015-07-11 09:45:47.750733+02
+263	0	automatic	f	59	97	819	304	344	236	1	2015-07-11 09:45:47.754127+02	2015-07-11 09:45:47.754127+02
+264	0	automatic	f	59	104	830	349	344	236		2015-07-11 09:45:47.757811+02	2015-07-11 09:45:47.757811+02
+265	0	automatic	f	59	101	824	322	344	236		2015-07-11 09:45:47.760399+02	2015-07-11 09:45:47.760399+02
+266	0	automatic	f	59	95	818	285	350	236	1	2015-07-11 09:45:47.762655+02	2015-07-11 09:45:47.762655+02
+272	0	automatic	f	59	85	829	209	338	245	6	2015-07-11 09:45:47.779888+02	2015-07-11 09:45:47.779888+02
+273	0	automatic	f	59	104	830	353	338	245	6	2015-07-11 09:45:47.781949+02	2015-07-11 09:45:47.781949+02
+274	0	automatic	f	59	85	829	210	338	246	6	2015-07-11 09:45:47.784271+02	2015-07-11 09:45:47.784271+02
+275	0	automatic	f	59	104	830	354	338	248	6	2015-07-11 09:45:47.787752+02	2015-07-11 09:45:47.787752+02
+276	0	automatic	f	59	85	829	211	338	248	5	2015-07-11 09:45:47.791014+02	2015-07-11 09:45:47.791014+02
+277	0	automatic	f	59	103	827	369	337	250	0.5	2015-07-11 09:45:47.793821+02	2015-07-11 09:45:47.793821+02
+278	0	automatic	f	59	85	829	212	337	250	0.25	2015-07-11 09:45:47.796514+02	2015-07-11 09:45:47.796514+02
+279	0	automatic	f	59	85	829	213	337	251	2	2015-07-11 09:45:47.798364+02	2015-07-11 09:45:47.798364+02
+280	0	automatic	f	59	101	824	323	344	251		2015-07-11 09:45:47.800914+02	2015-07-11 09:45:47.800914+02
+284	0	automatic	f	59	103	827	364	338	259	2	2015-07-11 09:45:47.81264+02	2015-07-11 09:45:47.81264+02
+293	0	automatic	f	59	94	816	278	335	285	10	2015-07-11 09:45:47.837667+02	2015-07-11 09:45:47.837667+02
+295	0	automatic	f	59	101	824	329	347	288	0.5	2015-07-11 09:45:47.844485+02	2015-07-11 09:45:47.844485+02
+296	0	automatic	f	59	104	830	344	347	289	1	2015-07-11 09:45:47.846922+02	2015-07-11 09:45:47.846922+02
+297	0	automatic	f	59	102	828	340	338	290	3	2015-07-11 09:45:47.849196+02	2015-07-11 09:45:47.849196+02
+298	0	automatic	f	59	100	825	312	334	292	75	2015-07-11 09:45:47.852091+02	2015-07-11 09:45:47.852091+02
+299	0	automatic	f	59	104	830	351	347	292	1	2015-07-11 09:45:47.855954+02	2015-07-11 09:45:47.855954+02
+122	0	automatic	t	55	90	814	241	334	298	100	2015-07-10 07:10:49.067557+02	2015-07-10 07:10:49.067557+02
+123	0	automatic	t	55	90	814	243	334	299	50	2015-07-10 07:10:49.069228+02	2015-07-10 07:10:49.069228+02
+128	0	automatic	t	55	89	812	260	334	304	300	2015-07-10 07:10:49.076949+02	2015-07-10 07:10:49.076949+02
+125	0	automatic	f	55	90	814	252	346	302	1	2015-07-10 07:10:49.072224+02	2015-07-10 07:10:49.072224+02
+126	0	automatic	f	55	87	811	256	348	303	1	2015-07-10 07:10:49.073725+02	2015-07-10 07:10:49.073725+02
+127	0	automatic	f	55	89	812	263	350	303	1	2015-07-10 07:10:49.075291+02	2015-07-10 07:10:49.075291+02
+124	0	automatic	f	55	90	814	245	334	301	70	2015-07-10 07:10:49.070716+02	2015-07-10 07:10:49.070716+02
+307	0	automatic	t	59	94	816	274	334	309	100	2015-07-11 09:45:47.875378+02	2015-07-11 09:45:47.875378+02
+308	0	automatic	t	59	95	818	288	334	309	100	2015-07-11 09:45:47.876934+02	2015-07-11 09:45:47.876934+02
+309	0	automatic	t	59	94	816	275	334	310	200	2015-07-11 09:45:47.878546+02	2015-07-11 09:45:47.878546+02
+310	0	automatic	t	59	94	816	276	334	311	100	2015-07-11 09:45:47.880221+02	2015-07-11 09:45:47.880221+02
+311	0	automatic	t	59	94	816	277	355	312	1	2015-07-11 09:45:47.881903+02	2015-07-11 09:45:47.881903+02
+312	0	automatic	t	59	94	816	279	335	313	1	2015-07-11 09:45:47.883694+02	2015-07-11 09:45:47.883694+02
+313	0	automatic	t	59	94	816	280	348	314	2	2015-07-11 09:45:47.885346+02	2015-07-11 09:45:47.885346+02
+314	0	automatic	t	59	101	824	320	334	315	80	2015-07-11 09:45:47.887854+02	2015-07-11 09:45:47.887854+02
+316	0	automatic	t	59	97	819	296	334	316	100	2015-07-11 09:45:47.893004+02	2015-07-11 09:45:47.893004+02
+317	0	automatic	t	59	95	818	284	334	316	250	2015-07-11 09:45:47.894661+02	2015-07-11 09:45:47.894661+02
+318	0	automatic	t	59	95	818	287	349	317	1	2015-07-11 09:45:47.896285+02	2015-07-11 09:45:47.896285+02
+320	0	automatic	t	59	102	828	332	334	321	200	2015-07-11 09:45:47.899668+02	2015-07-11 09:45:47.899668+02
+321	0	automatic	t	59	104	830	347	334	325	400	2015-07-11 09:45:47.901302+02	2015-07-11 09:45:47.901302+02
+322	0	automatic	t	59	100	825	313	334	331	75	2015-07-11 09:45:47.902967+02	2015-07-11 09:45:47.902967+02
+323	0	automatic	t	59	100	825	315	334	334	350	2015-07-11 09:45:47.904657+02	2015-07-11 09:45:47.904657+02
+328	0	automatic	t	59	101	824	324	334	339	150	2015-07-11 09:45:47.914062+02	2015-07-11 09:45:47.914062+02
+329	0	automatic	t	59	101	824	326	334	340	5	2015-07-11 09:45:47.917503+02	2015-07-11 09:45:47.917503+02
+333	0	automatic	t	59	104	830	341	349	342	1	2015-07-11 09:45:47.92452+02	2015-07-11 09:45:47.92452+02
+334	0	automatic	t	59	104	830	342	334	344	300	2015-07-11 09:45:47.926087+02	2015-07-11 09:45:47.926087+02
+335	0	automatic	t	59	104	830	343	358	345	3	2015-07-11 09:45:47.927594+02	2015-07-11 09:45:47.927594+02
+337	0	automatic	t	59	104	830	355	359	347	2	2015-07-11 09:45:47.930699+02	2015-07-11 09:45:47.930699+02
+339	0	automatic	t	59	103	827	358	335	349	1	2015-07-11 09:45:47.933838+02	2015-07-11 09:45:47.933838+02
+341	0	automatic	t	59	103	827	363	337	351	2	2015-07-11 09:45:47.937081+02	2015-07-11 09:45:47.937081+02
+342	0	automatic	t	59	103	827	368	334	352	150	2015-07-11 09:45:47.938788+02	2015-07-11 09:45:47.938788+02
+256	0	automatic	f	59	95	818	286	338	235	3	2015-07-11 09:45:47.734921+02	2015-07-11 09:45:47.734921+02
+257	0	automatic	f	59	101	824	327	338	235	2	2015-07-11 09:45:47.738118+02	2015-07-11 09:45:47.738118+02
+258	0	automatic	f	59	103	827	365	338	235	1	2015-07-11 09:45:47.740921+02	2015-07-11 09:45:47.740921+02
+259	0	automatic	f	59	97	819	300	338	235	1	2015-07-11 09:45:47.743327+02	2015-07-11 09:45:47.743327+02
+260	0	automatic	f	59	104	830	350	338	235	5	2015-07-11 09:45:47.745321+02	2015-07-11 09:45:47.745321+02
+261	0	automatic	f	59	104	830	356	338	235	4	2015-07-11 09:45:47.747603+02	2015-07-11 09:45:47.747603+02
+300	0	automatic	f	59	101	824	321	334	295	140	2015-07-11 09:45:47.859679+02	2015-07-11 09:45:47.859679+02
+301	0	automatic	f	59	102	828	336	338	295	1	2015-07-11 09:45:47.862186+02	2015-07-11 09:45:47.862186+02
+302	0	automatic	f	59	97	819	301	338	295	1	2015-07-11 09:45:47.864392+02	2015-07-11 09:45:47.864392+02
+303	0	automatic	f	59	102	828	339	344	303		2015-07-11 09:45:47.86652+02	2015-07-11 09:45:47.86652+02
+304	0	automatic	f	59	103	827	366	344	303		2015-07-11 09:45:47.869614+02	2015-07-11 09:45:47.869614+02
+305	0	automatic	f	59	101	824	328	344	303		2015-07-11 09:45:47.871848+02	2015-07-11 09:45:47.871848+02
+306	0	automatic	f	59	100	825	318	344	303		2015-07-11 09:45:47.873604+02	2015-07-11 09:45:47.873604+02
+315	0	automatic	f	59	102	828	335	338	315	1	2015-07-11 09:45:47.891171+02	2015-07-11 09:45:47.891171+02
+319	0	automatic	f	59	97	819	303	338	318	1	2015-07-11 09:45:47.898001+02	2015-07-11 09:45:47.898001+02
+324	0	automatic	f	59	100	825	316	338	335	5	2015-07-11 09:45:47.906378+02	2015-07-11 09:45:47.906378+02
+325	0	automatic	f	59	100	825	317	334	336	100	2015-07-11 09:45:47.908017+02	2015-07-11 09:45:47.908017+02
+326	0	automatic	f	59	104	830	348	344	337		2015-07-11 09:45:47.909929+02	2015-07-11 09:45:47.909929+02
+327	0	automatic	f	59	100	825	319	337	338	0.25	2015-07-11 09:45:47.911529+02	2015-07-11 09:45:47.911529+02
+330	0	automatic	f	59	104	830	346	341	341	150	2015-07-11 09:45:47.919607+02	2015-07-11 09:45:47.919607+02
+331	0	automatic	f	59	103	827	367	341	341	300	2015-07-11 09:45:47.921414+02	2015-07-11 09:45:47.921414+02
+332	0	automatic	f	59	102	828	338	341	341	100	2015-07-11 09:45:47.923051+02	2015-07-11 09:45:47.923051+02
+338	0	automatic	f	59	104	830	352	335	348	1	2015-07-11 09:45:47.932272+02	2015-07-11 09:45:47.932272+02
+340	0	automatic	f	59	103	827	361	347	350	1	2015-07-11 09:45:47.935421+02	2015-07-11 09:45:47.935421+02
+343	0	automatic	f	59	103	827	370	336	353	1	2015-07-11 09:45:47.940361+02	2015-07-11 09:45:47.940361+02
+336	0	automatic	f	59	104	830	345	338	346	1	2015-07-11 09:45:47.929133+02	2015-07-11 09:45:47.929133+02
+\.
+
+
+--
+-- Name: shopping_list_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: thm0001m
+--
+
+SELECT pg_catalog.setval('shopping_list_items_id_seq', 344, true);
+
+
+--
+-- Data for Name: shopping_list_items_units; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY shopping_list_items_units (shopping_list_item_id, unit_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: shopping_lists; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY shopping_lists (id, menu_id, status, title, description, created_at, updated_at) FROM stdin;
+55	43	open	Shopping list for menu 13.07.2015 15.07.2015 testo	testo	2015-07-10 07:10:48.972061+02	2015-07-10 07:10:48.972061+02
+59	44	open	Shopping list for menu 11.07.2015 17.07.2015 KW 28 + 29		2015-07-11 09:45:47.716037+02	2015-07-11 09:45:47.716037+02
+\.
+
+
+--
+-- Name: shopping_lists_id_seq; Type: SEQUENCE SET; Schema: public; Owner: thm0001m
+--
+
+SELECT pg_catalog.setval('shopping_lists_id_seq', 59, true);
+
+
+--
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY tags (id, name, description, created_at, updated_at) FROM stdin;
+334	Hülsenfrüchte	Gerichte mit Hülsenfrüchten	2015-06-21 15:49:41.568867+02	2015-06-21 15:49:41.568867+02
+335	Tofu	Gerichte mit Tofu	2015-06-21 15:49:41.571688+02	2015-06-21 15:49:41.571688+02
+336	Seitan	Gerichte mit Seitan	2015-06-21 15:49:41.573683+02	2015-06-21 15:49:41.573683+02
+337	Reis	Gerichte mit Reis	2015-06-21 15:49:41.574853+02	2015-06-21 15:49:41.574853+02
+338	Kohlenhydrate	Gerichte mit Kohlenhydraten	2015-06-21 15:49:41.576135+02	2015-06-21 15:49:41.576135+02
+339	Eiweiß	Gerichte mit Eiweiß	2015-06-21 15:49:41.577281+02	2015-06-21 15:49:41.577281+02
+340	Sommerlich	Sommerliche Gerichte	2015-06-21 15:49:41.578239+02	2015-06-21 15:49:41.578239+02
+341	Suppe	Suppen	2015-06-21 15:49:41.57919+02	2015-06-21 15:49:41.57919+02
+342	Süß	Süß	2015-06-21 15:49:41.580147+02	2015-06-21 15:49:41.580147+02
+345	Hirse	\N	2015-06-29 22:11:15.441346+02	2015-06-29 22:11:15.441346+02
+346	Salziger Kuchen	\N	2015-06-29 22:11:22.478938+02	2015-06-29 22:11:22.478938+02
+348	Babychef	\N	2015-07-10 21:37:00.448139+02	2015-07-10 21:37:00.448139+02
+\.
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: thm0001m
+--
+
+SELECT pg_catalog.setval('tags_id_seq', 348, true);
+
+
+--
+-- Data for Name: units; Type: TABLE DATA; Schema: public; Owner: thm0001m
+--
+
+COPY units (id, name, short_name, description, created_at, updated_at) FROM stdin;
+334	Gramm	g	\N	2015-06-21 15:49:41.535213+02	2015-06-21 15:49:41.535213+02
+335	Stück	St.	\N	2015-06-21 15:49:41.536412+02	2015-06-21 15:49:41.536412+02
+336	Messerspitze	Msp.	\N	2015-06-21 15:49:41.537502+02	2015-06-21 15:49:41.537502+02
+337	Teelöffel	TL	\N	2015-06-21 15:49:41.538633+02	2015-06-21 15:49:41.538633+02
+338	Esslöffel	EL	\N	2015-06-21 15:49:41.539728+02	2015-06-21 15:49:41.539728+02
+340	Tasse	Tasse	\N	2015-06-21 15:49:41.541911+02	2015-06-21 15:49:41.541911+02
+341	Milliliter	ml	\N	2015-06-21 15:49:41.543017+02	2015-06-21 15:49:41.543017+02
+342	Liter	l	\N	2015-06-21 15:49:41.544066+02	2015-06-21 15:49:41.544066+02
+339	Kilogramm	kg		2015-06-21 15:49:41.540806+02	2015-06-29 06:47:14.174057+02
+344	Nach Geschmack	nach Geschm.		2015-06-29 22:12:55.803529+02	2015-06-29 22:13:06.151219+02
+345	Zweig	Zweig		2015-06-29 22:45:26.071175+02	2015-06-29 22:45:26.071175+02
+346	Handvoll	Handvoll		2015-06-29 22:45:33.794112+02	2015-06-29 22:45:33.794112+02
+347	Bund	Bund		2015-06-29 22:48:42.375283+02	2015-06-29 22:48:42.375283+02
+348	Paar	Paar		2015-07-02 22:07:31.005749+02	2015-07-02 22:10:02.010481+02
+349	Packung	Packung		2015-07-02 22:34:46.923331+02	2015-07-02 22:35:26.821061+02
+350	Prise	Prise		2015-07-02 22:45:55.95309+02	2015-07-02 22:45:55.95309+02
+355	Laib	Laib		2015-07-10 21:20:05.279295+02	2015-07-10 21:20:05.279295+02
+358	Zehen	Zehen		2015-07-11 09:35:33.099532+02	2015-07-11 09:35:33.099532+02
+359	Zentimeter	cm		2015-07-11 09:38:34.653892+02	2015-07-11 09:38:34.653892+02
+357	Glas	Glas		2015-07-10 21:55:14.080828+02	2015-07-13 06:40:19.377836+02
+356	Scheibe	Scheibe		2015-07-10 21:48:57.388849+02	2015-07-13 06:40:29.665561+02
+\.
+
+
+--
+-- Name: units_id_seq; Type: SEQUENCE SET; Schema: public; Owner: thm0001m
+--
+
+SELECT pg_catalog.setval('units_id_seq', 361, true);
+
+
+--
+-- Name: ingredient_quantities_ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY ingredient_quantities_ingredients
+    ADD CONSTRAINT ingredient_quantities_ingredients_pkey PRIMARY KEY (ingredient_id, ingredient_quantities_id);
+
+
+--
+-- Name: ingredient_quantities_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY ingredient_quantities
+    ADD CONSTRAINT ingredient_quantities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ingredient_quantities_recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY ingredient_quantities_recipes
+    ADD CONSTRAINT ingredient_quantities_recipes_pkey PRIMARY KEY (ingredient_quantities_id, recipe_id);
+
+
+--
+-- Name: ingredient_quantities_shopping_list_items_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY ingredient_quantities_shopping_list_items
+    ADD CONSTRAINT ingredient_quantities_shopping_list_items_pkey PRIMARY KEY (ingredient_quantity_id, shopping_list_item_id);
+
+
+--
+-- Name: ingredient_quantities_units_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY ingredient_quantities_units
+    ADD CONSTRAINT ingredient_quantities_units_pkey PRIMARY KEY (ingredient_quantities_id, unit_id);
+
+
+--
+-- Name: ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY ingredients
+    ADD CONSTRAINT ingredients_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ingredients_recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY ingredients_recipes
+    ADD CONSTRAINT ingredients_recipes_pkey PRIMARY KEY (ingredient_id, recipe_id);
+
+
+--
+-- Name: ingredients_shopping_list_items_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY ingredients_shopping_list_items
+    ADD CONSTRAINT ingredients_shopping_list_items_pkey PRIMARY KEY (ingredient_id, shopping_list_item_id);
+
+
+--
+-- Name: menu_items_menus_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY menu_items_menus
+    ADD CONSTRAINT menu_items_menus_pkey PRIMARY KEY (menu_id, menu_items_id);
+
+
+--
+-- Name: menu_items_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY menu_items
+    ADD CONSTRAINT menu_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: menu_items_recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY menu_items_recipes
+    ADD CONSTRAINT menu_items_recipes_pkey PRIMARY KEY (menu_items_id, recipe_id);
+
+
+--
+-- Name: menu_items_shopping_list_items_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY menu_items_shopping_list_items
+    ADD CONSTRAINT menu_items_shopping_list_items_pkey PRIMARY KEY (menu_item_id, shopping_list_item_id);
+
+
+--
+-- Name: menus_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY menus
+    ADD CONSTRAINT menus_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY recipes
+    ADD CONSTRAINT recipes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recipes_shopping_list_items_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY recipes_shopping_list_items
+    ADD CONSTRAINT recipes_shopping_list_items_pkey PRIMARY KEY (recipe_id, shopping_list_item_id);
+
+
+--
+-- Name: recipes_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY recipes_tags
+    ADD CONSTRAINT recipes_tags_pkey PRIMARY KEY (recipe_id, tag_id);
+
+
+--
+-- Name: shopping_list_items_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY shopping_list_items
+    ADD CONSTRAINT shopping_list_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shopping_list_items_units_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY shopping_list_items_units
+    ADD CONSTRAINT shopping_list_items_units_pkey PRIMARY KEY (shopping_list_item_id, unit_id);
+
+
+--
+-- Name: shopping_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY shopping_lists
+    ADD CONSTRAINT shopping_lists_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: units_pkey; Type: CONSTRAINT; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+ALTER TABLE ONLY units
+    ADD CONSTRAINT units_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ingredient_quantities_amount_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredient_quantities_amount_index ON ingredient_quantities USING btree (amount);
+
+
+--
+-- Name: ingredient_quantities_ingredient_id_portions_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredient_quantities_ingredient_id_portions_index ON ingredient_quantities USING btree (ingredient_id, portions);
+
+
+--
+-- Name: ingredient_quantities_ingredient_id_portions_unit_id_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredient_quantities_ingredient_id_portions_unit_id_index ON ingredient_quantities USING btree (ingredient_id, portions, unit_id);
+
+
+--
+-- Name: ingredient_quantities_ingredients_ingredient_quantities_id_ingr; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredient_quantities_ingredients_ingredient_quantities_id_ingr ON ingredient_quantities_ingredients USING btree (ingredient_quantities_id, ingredient_id);
+
+
+--
+-- Name: ingredient_quantities_recipe_id_ingredient_id_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredient_quantities_recipe_id_ingredient_id_index ON ingredient_quantities USING btree (recipe_id, ingredient_id);
+
+
+--
+-- Name: ingredient_quantities_recipe_id_ingredient_id_unit_id_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredient_quantities_recipe_id_ingredient_id_unit_id_index ON ingredient_quantities USING btree (recipe_id, ingredient_id, unit_id);
+
+
+--
+-- Name: ingredient_quantities_recipe_id_unit_id_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredient_quantities_recipe_id_unit_id_index ON ingredient_quantities USING btree (recipe_id, unit_id);
+
+
+--
+-- Name: ingredient_quantities_recipes_recipe_id_ingredient_quantities_i; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredient_quantities_recipes_recipe_id_ingredient_quantities_i ON ingredient_quantities_recipes USING btree (recipe_id, ingredient_quantities_id);
+
+
+--
+-- Name: ingredient_quantities_shopping_list_items_shopping_list_item_id; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredient_quantities_shopping_list_items_shopping_list_item_id ON ingredient_quantities_shopping_list_items USING btree (shopping_list_item_id, ingredient_quantity_id);
+
+
+--
+-- Name: ingredient_quantities_units_unit_id_ingredient_quantities_id_in; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredient_quantities_units_unit_id_ingredient_quantities_id_in ON ingredient_quantities_units USING btree (unit_id, ingredient_quantities_id);
+
+
+--
+-- Name: ingredients_recipes_recipe_id_ingredient_id_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredients_recipes_recipe_id_ingredient_id_index ON ingredients_recipes USING btree (recipe_id, ingredient_id);
+
+
+--
+-- Name: ingredients_shopping_list_items_shopping_list_item_id_ingredien; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredients_shopping_list_items_shopping_list_item_id_ingredien ON ingredients_shopping_list_items USING btree (shopping_list_item_id, ingredient_id);
+
+
+--
+-- Name: ingredients_title_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX ingredients_title_index ON ingredients USING btree (title);
+
+
+--
+-- Name: menu_items_day_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX menu_items_day_index ON menu_items USING btree (day);
+
+
+--
+-- Name: menu_items_menus_menu_items_id_menu_id_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX menu_items_menus_menu_items_id_menu_id_index ON menu_items_menus USING btree (menu_items_id, menu_id);
+
+
+--
+-- Name: menu_items_recipes_recipe_id_menu_items_id_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX menu_items_recipes_recipe_id_menu_items_id_index ON menu_items_recipes USING btree (recipe_id, menu_items_id);
+
+
+--
+-- Name: menu_items_shopping_list_items_shopping_list_item_id_menu_item_; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX menu_items_shopping_list_items_shopping_list_item_id_menu_item_ ON menu_items_shopping_list_items USING btree (shopping_list_item_id, menu_item_id);
+
+
+--
+-- Name: menu_items_type_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX menu_items_type_index ON menu_items USING btree (type);
+
+
+--
+-- Name: menus_date_range_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX menus_date_range_index ON menus USING btree (date_range);
+
+
+--
+-- Name: menus_name_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX menus_name_index ON menus USING btree (name);
+
+
+--
+-- Name: recipes_shopping_list_items_shopping_list_item_id_recipe_id_ind; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX recipes_shopping_list_items_shopping_list_item_id_recipe_id_ind ON recipes_shopping_list_items USING btree (shopping_list_item_id, recipe_id);
+
+
+--
+-- Name: recipes_tags_tag_id_recipe_id_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX recipes_tags_tag_id_recipe_id_index ON recipes_tags USING btree (tag_id, recipe_id);
+
+
+--
+-- Name: recipes_title_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX recipes_title_index ON recipes USING btree (title);
+
+
+--
+-- Name: recipes_type_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX recipes_type_index ON recipes USING btree (type);
+
+
+--
+-- Name: shopping_list_items_units_unit_id_shopping_list_item_id_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX shopping_list_items_units_unit_id_shopping_list_item_id_index ON shopping_list_items_units USING btree (unit_id, shopping_list_item_id);
+
+
+--
+-- Name: shopping_lists_status_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX shopping_lists_status_index ON shopping_lists USING btree (status);
+
+
+--
+-- Name: tags_name_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX tags_name_index ON tags USING btree (name);
+
+
+--
+-- Name: units_name_index; Type: INDEX; Schema: public; Owner: thm0001m; Tablespace: 
+--
+
+CREATE INDEX units_name_index ON units USING btree (name);
+
+
+--
+-- Name: ingredient_quantities_ingredient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities
+    ADD CONSTRAINT ingredient_quantities_ingredient_id_fkey FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: ingredient_quantities_ingredients_ingredient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities_ingredients
+    ADD CONSTRAINT ingredient_quantities_ingredients_ingredient_id_fkey FOREIGN KEY (ingredient_id) REFERENCES ingredients(id);
+
+
+--
+-- Name: ingredient_quantities_ingredients_ingredient_quantities_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities_ingredients
+    ADD CONSTRAINT ingredient_quantities_ingredients_ingredient_quantities_id_fkey FOREIGN KEY (ingredient_quantities_id) REFERENCES ingredient_quantities(id);
+
+
+--
+-- Name: ingredient_quantities_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities
+    ADD CONSTRAINT ingredient_quantities_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES recipes(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: ingredient_quantities_recipes_ingredient_quantities_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities_recipes
+    ADD CONSTRAINT ingredient_quantities_recipes_ingredient_quantities_id_fkey FOREIGN KEY (ingredient_quantities_id) REFERENCES ingredient_quantities(id);
+
+
+--
+-- Name: ingredient_quantities_recipes_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities_recipes
+    ADD CONSTRAINT ingredient_quantities_recipes_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES recipes(id);
+
+
+--
+-- Name: ingredient_quantities_shopping_list__shopping_list_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities_shopping_list_items
+    ADD CONSTRAINT ingredient_quantities_shopping_list__shopping_list_item_id_fkey FOREIGN KEY (shopping_list_item_id) REFERENCES shopping_list_items(id);
+
+
+--
+-- Name: ingredient_quantities_shopping_list_ingredient_quantity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities_shopping_list_items
+    ADD CONSTRAINT ingredient_quantities_shopping_list_ingredient_quantity_id_fkey FOREIGN KEY (ingredient_quantity_id) REFERENCES ingredient_quantities(id);
+
+
+--
+-- Name: ingredient_quantities_unit_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities
+    ADD CONSTRAINT ingredient_quantities_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES units(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: ingredient_quantities_units_ingredient_quantities_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities_units
+    ADD CONSTRAINT ingredient_quantities_units_ingredient_quantities_id_fkey FOREIGN KEY (ingredient_quantities_id) REFERENCES ingredient_quantities(id);
+
+
+--
+-- Name: ingredient_quantities_units_unit_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredient_quantities_units
+    ADD CONSTRAINT ingredient_quantities_units_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES units(id);
+
+
+--
+-- Name: ingredients_recipes_ingredient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredients_recipes
+    ADD CONSTRAINT ingredients_recipes_ingredient_id_fkey FOREIGN KEY (ingredient_id) REFERENCES ingredients(id);
+
+
+--
+-- Name: ingredients_recipes_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredients_recipes
+    ADD CONSTRAINT ingredients_recipes_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES recipes(id);
+
+
+--
+-- Name: ingredients_shopping_list_items_ingredient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredients_shopping_list_items
+    ADD CONSTRAINT ingredients_shopping_list_items_ingredient_id_fkey FOREIGN KEY (ingredient_id) REFERENCES ingredients(id);
+
+
+--
+-- Name: ingredients_shopping_list_items_shopping_list_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY ingredients_shopping_list_items
+    ADD CONSTRAINT ingredients_shopping_list_items_shopping_list_item_id_fkey FOREIGN KEY (shopping_list_item_id) REFERENCES shopping_list_items(id);
+
+
+--
+-- Name: menu_items_menu_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY menu_items
+    ADD CONSTRAINT menu_items_menu_id_fkey FOREIGN KEY (menu_id) REFERENCES menus(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: menu_items_menus_menu_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY menu_items_menus
+    ADD CONSTRAINT menu_items_menus_menu_id_fkey FOREIGN KEY (menu_id) REFERENCES menus(id);
+
+
+--
+-- Name: menu_items_menus_menu_items_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY menu_items_menus
+    ADD CONSTRAINT menu_items_menus_menu_items_id_fkey FOREIGN KEY (menu_items_id) REFERENCES menu_items(id);
+
+
+--
+-- Name: menu_items_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY menu_items
+    ADD CONSTRAINT menu_items_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES recipes(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: menu_items_recipes_menu_items_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY menu_items_recipes
+    ADD CONSTRAINT menu_items_recipes_menu_items_id_fkey FOREIGN KEY (menu_items_id) REFERENCES menu_items(id);
+
+
+--
+-- Name: menu_items_recipes_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY menu_items_recipes
+    ADD CONSTRAINT menu_items_recipes_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES recipes(id);
+
+
+--
+-- Name: menu_items_shopping_list_items_menu_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY menu_items_shopping_list_items
+    ADD CONSTRAINT menu_items_shopping_list_items_menu_item_id_fkey FOREIGN KEY (menu_item_id) REFERENCES menu_items(id);
+
+
+--
+-- Name: menu_items_shopping_list_items_shopping_list_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY menu_items_shopping_list_items
+    ADD CONSTRAINT menu_items_shopping_list_items_shopping_list_item_id_fkey FOREIGN KEY (shopping_list_item_id) REFERENCES shopping_list_items(id);
+
+
+--
+-- Name: recipes_shopping_list_items_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY recipes_shopping_list_items
+    ADD CONSTRAINT recipes_shopping_list_items_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES recipes(id);
+
+
+--
+-- Name: recipes_shopping_list_items_shopping_list_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY recipes_shopping_list_items
+    ADD CONSTRAINT recipes_shopping_list_items_shopping_list_item_id_fkey FOREIGN KEY (shopping_list_item_id) REFERENCES shopping_list_items(id);
+
+
+--
+-- Name: recipes_tags_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY recipes_tags
+    ADD CONSTRAINT recipes_tags_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES recipes(id);
+
+
+--
+-- Name: recipes_tags_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY recipes_tags
+    ADD CONSTRAINT recipes_tags_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES tags(id);
+
+
+--
+-- Name: shopping_list_items_ingredient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_list_items
+    ADD CONSTRAINT shopping_list_items_ingredient_id_fkey FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shopping_list_items_ingredient_quantity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_list_items
+    ADD CONSTRAINT shopping_list_items_ingredient_quantity_id_fkey FOREIGN KEY (ingredient_quantity_id) REFERENCES ingredient_quantities(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shopping_list_items_menu_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_list_items
+    ADD CONSTRAINT shopping_list_items_menu_item_id_fkey FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shopping_list_items_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_list_items
+    ADD CONSTRAINT shopping_list_items_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES recipes(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shopping_list_items_shopping_list_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_list_items
+    ADD CONSTRAINT shopping_list_items_shopping_list_id_fkey FOREIGN KEY (shopping_list_id) REFERENCES shopping_lists(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shopping_list_items_unit_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_list_items
+    ADD CONSTRAINT shopping_list_items_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES units(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shopping_list_items_units_shopping_list_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_list_items_units
+    ADD CONSTRAINT shopping_list_items_units_shopping_list_item_id_fkey FOREIGN KEY (shopping_list_item_id) REFERENCES shopping_list_items(id);
+
+
+--
+-- Name: shopping_list_items_units_unit_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_list_items_units
+    ADD CONSTRAINT shopping_list_items_units_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES units(id);
+
+
+--
+-- Name: shopping_lists_menu_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: thm0001m
+--
+
+ALTER TABLE ONLY shopping_lists
+    ADD CONSTRAINT shopping_lists_menu_id_fkey FOREIGN KEY (menu_id) REFERENCES menus(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: thm0001m
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM thm0001m;
+GRANT ALL ON SCHEMA public TO thm0001m;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

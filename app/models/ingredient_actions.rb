@@ -20,11 +20,22 @@ module MTMD
       end
 
       def create
+        ingredient_type_id = process_ingredient_type
+        ingredient_params[:ingredient_type_id] = ingredient_type_id
         MTMD::FamilyCookBook::Ingredient.new(ingredient_params).save
+      end
+
+      def process_ingredient_type
+        ingredient_type_raw = ingredient_params.fetch('ingredient_type_id', nil)
+        return if ingredient_type_raw.blank?
+        return add_ingredient_type(ingredient_type_raw) if ingredient_type_raw.to_i == 0
+        return ingredient_type_raw.to_i
       end
 
       def update
         ingredient = check_id
+        ingredient_type_id = process_ingredient_type
+        ingredient_params[:ingredient_type_id] = ingredient_type_id
         return true if ingredient.update(ingredient_params)
       end
 

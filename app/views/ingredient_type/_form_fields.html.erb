@@ -2,20 +2,3 @@
 
 <%= error_messages { f.error_messages } %>
 <%= form_group(f, :title) %>
-<%= form_group(f, :type) %>
-<%= form_group(f, :description, { :input_type => :text_area, :form_group => { :class => 'hidden' } }) %>
-
-<div class="form-group">
-  <label class="col-sm-2" for="ingredient-description">Description: </label>
-  <div class="col-sm-9">
-    <div id="ingredient-description" class="wysiwyg-editor"></div>
-  </div>
-</div>
-
-<script type="text/javascript">
-$(document).ready(
-  function () {
-    WysiwygEditor.prototype.initialize('ingredient', 'mtmd_family_cook_book_ingredient_description', 'ingredient-description');
-  }
-);
-</script>

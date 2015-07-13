@@ -24,6 +24,12 @@ module MTMD
              :recipes               => :nullify,
              :ingredient_quantities => :nullify
 
+      def type
+        ingredient_type = MTMD::FamilyCookBook::IngredientType[ingredient_type_id]
+        return unless ingredient_type
+        ingredient_type.title
+      end
+
     end
   end
 end

@@ -63,6 +63,13 @@ module MTMD
         unit.id
       end
 
+      def add_ingredient_type(title)
+        ingredient_type = MTMD::FamilyCookBook::IngredientType.new(
+          :title => title
+        ).save
+        ingredient_type.id
+      end
+
     end
   end
 end

@@ -5,6 +5,7 @@ Sequel.migration do
       distinct(:type).
       where(Sequel.~(:type => nil), Sequel.~(:type => '')).
       select_map(:type)
+
     existing_types.each do |type|
       Sequel::Model.db[:ingredient_types].insert(
         :title      => type,
@@ -13,11 +14,28 @@ Sequel.migration do
       )
     end
 
+    ingredients = Sequel::Model.db[:ingredients].all
+    ingredients.each do |ingredient|
+      Sequel::Model.db[:ingredients].
+        where(:id => ingredient[:id]).
+        update(
+          :ingredient_type_id => Sequel::Model.db[:ingredient_types].
+            select(:id).
+            where(:title => ingredient[:type])
+        )
+    end
+
+    alter_table(:ingredients) do
+      drop_column(:type)
+    end
+
   end
 
   down do
 
-    #drop_table(:ingredient_types)
+    alter_table(:ingredients) do
+      add_column :type, String
+    end
 
   end
 end

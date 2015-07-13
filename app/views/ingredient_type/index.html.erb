@@ -1,4 +1,4 @@
-<%- actions({ 'Add ingredient' => url(:ingredient, :new) }) %>
+<%- actions({ 'Add ingredient type' => url(:ingredient_type, :new) }) %>
 
 <table class="table">
     <thead>
@@ -6,23 +6,17 @@
         Title
     </th>
     <th>
-        Type
-    </th>
-    <th>
         Action
     </th>
     </thead>
     <tbody>
-    <% @items.each do |ingredient| %>
+    <% @items.each do |ingredient_type| %>
         <tr>
             <td>
-                <%= link_to ingredient.title, url(:ingredient, :edit, id: ingredient.id) %>
+                <%= link_to ingredient_type.title, url(:ingredient_type, :edit, id: ingredient_type.id) %>
             </td>
             <td>
-                <%= ingredient.type %>
-            </td>
-            <td>
-                <%= link_to 'Delete ingredient', url(:ingredient, :destroy, :id => ingredient.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient?' %>
+                <%= link_to 'Delete ingredient type', url(:ingredient_type, :destroy, :id => ingredient_type.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient type?' %>
             </td>
         </tr>
     <% end %>

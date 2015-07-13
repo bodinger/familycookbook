@@ -2,7 +2,20 @@
 
 <%= error_messages { f.error_messages } %>
 <%= form_group(f, :title) %>
-<%= form_group(f, :type) %>
+<div class="form-group">
+    <label class="col-sm-2" for="ingredient-ingredient-type-id">Type: </label>
+    <div class="col-sm-9">
+        <%= select_tag :ingredient_type_id,
+                       :options => ingredient_types_options,
+                       :include_blank => true,
+                       :id => "ingredient-ingredient-type-id",
+                       :name => 'mtmd_family_cook_book_ingredient[ingredient_type_id]',
+                       :selected => @ingredient.ingredient_type_id,
+                       :class => 'form-inline ingredient_type_typeahead_selector' %>
+
+    </div>
+</div>
+
 <%= form_group(f, :description, { :input_type => :text_area, :form_group => { :class => 'hidden' } }) %>
 
 <div class="form-group">
@@ -16,6 +29,7 @@
 $(document).ready(
   function () {
     WysiwygEditor.prototype.initialize('ingredient', 'mtmd_family_cook_book_ingredient_description', 'ingredient-description');
+    FancySelector.prototype.initialize('.ingredient_type_typeahead_selector', '/familycookbook/ingredient_type/as_array', 'Select an ingredient type');
   }
 );
 </script>
