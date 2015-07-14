@@ -3,7 +3,7 @@ module MTMD
     class ShoppingListActions
       include MTMD::FamilyCookBook::SharedActions
 
-      TITLE_SUFFIX = 'Shopping list for menu '
+      TITLE_SUFFIX = ''
 
       def initialize(params)
         @params = params
@@ -49,7 +49,7 @@ module MTMD
 
         shopping_list = MTMD::FamilyCookBook::ShoppingList.new(
           :menu_id     => menu.id,
-          :title       => TITLE_SUFFIX+menu.range_begin.to_s+' '+menu.range_end.to_s+' '+menu.name,
+          :title       => menu.name,
           :description => menu.description
         ).save
         process_list(shopping_list, menu)

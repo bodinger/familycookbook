@@ -1,0 +1,15 @@
+<%- unless @ingredient.blank? && @ingredient.used_in_recipes.any? %>
+<div class="clearfix"><br/></div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h4>Verwendet in:</h4>
+        <ul>
+        <%- @ingredient.used_in_recipes.each do |recipe| %>
+            <li>
+                <%= link_to recipe.title, url(:recipe, :show, :id => recipe.id) %>
+            </li>
+        <% end %>
+        </ul>
+    </div>
+</div>
+<% end %>

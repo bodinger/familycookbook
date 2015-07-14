@@ -30,6 +30,13 @@ module MTMD
         ingredient_type.title
       end
 
+      def used_in_recipes
+        MTMD::FamilyCookBook::Recipe.
+          select.
+          where(:id => MTMD::FamilyCookBook::IngredientQuantity.distinct.select(:recipe_id).where(:ingredient_id => id)).
+          all
+      end
+
     end
   end
 end

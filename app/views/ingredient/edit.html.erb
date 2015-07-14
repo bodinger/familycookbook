@@ -5,3 +5,4 @@
   <%= f.submit 'Update', :class => 'btn btn-primary' %>
 <% end %>
 
+<%= render_partial 'ingredient/list_used_in', :object => @ingredient, :locals => { :action => :edit } %>

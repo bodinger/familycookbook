@@ -29,6 +29,7 @@ module MTMD
           update(
             :ingredient_id => ingredient.id,
             :unit_id       => unit.id,
+            :portions      => @params.fetch('portions', nil),
             :amount        => @params.fetch('amount', nil),
             :description   => @params.fetch('description', nil)
           )
