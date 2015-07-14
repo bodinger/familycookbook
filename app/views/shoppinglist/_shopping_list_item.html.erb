@@ -1,4 +1,4 @@
-<div class="list-item-action-<%= action %> list-item-active-<%= item.active %>">
+<div class="row list-item-action-<%= action %> list-item-active-<%= item.active %> shopping-list-item-<%= item.color_code %>">
     <%- if action == :edit_single %>
         <%= link_to 'Delete', url(:shoppinglist, :destroy_single_item, :id => shopping_list.id, :item_id => item.id), :method => :delete, :class => 'btn btn-danger btn-xs pull-left mg-right', :confirm => 'Do you really want to delete this shopping list item?' %>
     <% end %>
@@ -25,4 +25,3 @@
         <strong><%= item.ingredient_name %></strong> (<%= item.amount %> <%= item.unit_title %>)
     </div>
 </div>
-<div class="clearfix"></div>

@@ -175,3 +175,15 @@ button.recipe-remove-tag {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     color: #ffffff;
 }
+
+.shopping-list-item-vegetable, .shopping-list-item-fruit {
+    background-color: #dff0d8;
+}
+
+.shopping-list-item-cold {
+    background-color: #d9edf7;
+}
+
+.shopping-list-item-dried, .shopping-list-item-nuts {
+    background-color: #fcf8e3;
+}

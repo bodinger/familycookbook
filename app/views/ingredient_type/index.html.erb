@@ -6,6 +6,9 @@
         Title
     </th>
     <th>
+        Color code
+    </th>
+    <th>
         Action
     </th>
     </thead>
@@ -14,6 +17,9 @@
         <tr>
             <td>
                 <%= link_to ingredient_type.title, url(:ingredient_type, :edit, id: ingredient_type.id) %>
+            </td>
+            <td>
+                <%= ingredient_type.color_code %>
             </td>
             <td>
                 <%= link_to 'Delete ingredient type', url(:ingredient_type, :destroy, :id => ingredient_type.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient type?' %>

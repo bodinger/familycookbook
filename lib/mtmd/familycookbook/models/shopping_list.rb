@@ -20,7 +20,8 @@ module MTMD
             item.ingredient_id,
             item.unit_id,
             item.amount,
-            item.active
+            item.active,
+            item.color_code
           )
           list_item.id = item.id
           items << list_item
@@ -37,7 +38,8 @@ module MTMD
             tupel.ingredient_id,
             tupel.unit_id,
             amount,
-            tupel.active
+            tupel.active,
+            tupel.color_code
           )
         end
         items
@@ -60,15 +62,17 @@ module MTMD
           where(:ingredient_id    => ingredient_id).
           where(:unit_id          => unit_id).
           where(:shopping_list_id => id).
+          order(:shopping_order).
           all
       end
 
       def ingredients_units_tupel
         MTMD::FamilyCookBook::ShoppingListItem.
           distinct.
-          select(:ingredient_id, :unit_id, :active).
+          select(:ingredient_id, :unit_id, :active, :shopping_order, :color_code).
           where(:shopping_list_id => id).
-          group(:ingredient_id, :unit_id, :active).
+          group(:ingredient_id, :unit_id, :active, :shopping_order, :color_code).
+          order(:shopping_order).
           all
       end
 

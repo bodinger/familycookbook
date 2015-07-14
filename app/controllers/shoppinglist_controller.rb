@@ -69,7 +69,7 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
       flash[:error] = "Please provide a valid menu id!"
       redirect_to url(:shoppinglist, :index)
     end
-    render 'shoppinglist/show'
+    redirect_to url(:shoppinglist, :show, @shopping_list.id)
   end
 
   delete :destroy, :with => :id do

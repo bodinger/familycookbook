@@ -9,15 +9,17 @@ module MTMD
                   :unit_title,
                   :active,
                   :type,
+                  :color_code,
                   :amount
 
-      def initialize(ingredient_id, unit_id, amount, active)
+      def initialize(ingredient_id, unit_id, amount, active, color_code)
         @ingredient_id   = ingredient_id
         @ingredient_name = Ingredient[ingredient_id].title
         @unit_id         = unit_id
         @unit_title      = Unit[unit_id].name
         @active          = active
         @amount          = amount
+        @color_code      = color_code
       end
 
       def id=(id)

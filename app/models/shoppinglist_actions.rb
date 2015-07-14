@@ -65,10 +65,17 @@ module MTMD
             active = item.active
           end
 
+          ingredient = Ingredient[item[:ingredient_id]]
+          ingredient_type = IngredientType[ingredient.ingredient_type_id]
+          color_code = nil
+          color_code = ingredient_type[:color_code] unless ingredient_type.blank?
+
           options = {
             :shopping_list_id => shopping_list.id,
             :type             => 'automatic',
-            :active           => active
+            :active           => active,
+            :shopping_order   => ingredient[:ingredient_type_id] || 0,
+            :color_code       => color_code
           }
           item_data = prepare_item(item, options)
           MTMD::FamilyCookBook::ShoppingListItem::new(item_data).save
@@ -79,6 +86,7 @@ module MTMD
         {
           :shopping_list_id       => opts.fetch(:shopping_list_id, 0),
           :shopping_order         => opts.fetch(:shopping_order, 0),
+          :color_code             => opts.fetch(:color_code, 0),
           :type                   => opts.fetch(:type, 'automatic'),
           :active                 => opts.fetch(:active, true),
           :recipe_id              => item[:recipe_id],
