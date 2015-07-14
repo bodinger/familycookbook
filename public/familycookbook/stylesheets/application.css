@@ -156,3 +156,22 @@ button.recipe-remove-tag {
 .list-item-action-show.list-item-active-false {
     display: none;
 }
+
+.menuplanner-row {
+    background-color: #efefef;
+    border-radius: 1em;
+    border-color: #dfdfdf;
+    border-with: 1px;
+    margin: 0 0 .5em 0;
+    padding: 1em 0 1em 0;
+}
+
+.menuplanner-day-slots {
+    border-left: 1px solid #cccccc;
+}
+
+.menuplanner-day-label h3 {
+    margin: 0;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: #ffffff;
+}

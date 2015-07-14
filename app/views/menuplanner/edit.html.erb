@@ -6,77 +6,21 @@
     <%= link_to 'Done', url(:menuplanner, :show, :id => @menu.id),
                 :class => 'btn btn-primary',
                 :confirm => 'Are you sure to finish editing? You may have unsaved changes.' %>
+
 <div class="panel panel-small">
+    <div class="panel-body">
     <%- @menu.range_days.each do |day| %>
-        <div class="panel-body">
-            <h3><span class="label label-info col-md-12"><%= day.strftime('%d.%m.%Y %A') %></span></h3>
-            <%- menu_item_slots.each do |slot_id| %>
-                <div class="col-md-4 slot slot-<%= menu_item_slot_normalized_name(slot_id) %>">
-                    <h3 class="slot-title-<%= menu_item_slot_normalized_name(slot_id) %>"><span><%= menu_item_slot_normalized_name(slot_id) %></span></h3>
-                <select class="recipe_typeahead_selector col-md-12" name="mtmd_family_cook_book_menu[new_item][<%= parse_date(day).to_s+'-'+slot_id.to_s %>][recipe_id]"></select>
-                    <%= label_tag "shopping-list-#{parse_date(day).to_s+'-'+slot_id.to_s}", :caption => ' Add to shopping list' do
-                      check_box_tag(:shopping_list,
-                                    :id      => "shopping-list-#{parse_date(day).to_s+'-'+slot_id.to_s}",
-                                    :checked => :checked,
-                                    :class   => 'pull-left checkbox-shopping-cart',
-                                    :name    => "mtmd_family_cook_book_menu[new_item][#{parse_date(day).to_s+'-'+slot_id.to_s}][shopping_list]"
-                      )
-                    end %>
-                    <%= hidden_field_tag :slot,
-                                         :name  => "mtmd_family_cook_book_menu[new_item][#{parse_date(day).to_s+'-'+slot_id.to_s}][slot]",
-                                         :value => slot_id
-                    %>
-                    <%= hidden_field_tag :day,
-                                         :name  => "mtmd_family_cook_book_menu[new_item][#{parse_date(day).to_s+'-'+slot_id.to_s}][day]",
-                                         :value => parse_date(day)
-                    %>
-                    <div class="clearfix"><hr></div>
-
-                    <%- if @menu.menu_items_for_day_and_slot(day, slot_id) %>
-                        <%- @menu.menu_items_for_day_and_slot(day, slot_id).each do |menu_item| %>
-                            <%= render_partial 'menu_item/planner_form', :locals => { :action => :edit, :menu_item => menu_item, :menu => @menu, :slot_id => slot_id, :day => day } %>
-                        <% end %>
-                    <% end %>
-
-                </div>
-            <% end %>
-        </div>
+        <%= render_partial 'menuplanner/range_day', :locals => { :action => :edit, :menu => @menu, :day => day } %>
     <% end %>
+    </div>
 </div>
+
 <% end %>
 
 <script type="text/javascript">
 $(document).ready(
   function () {
-    $(".recipe_typeahead_selector").select2({
-      theme: 'classic',
-      placeholder: 'Select a recipe to add to this slot',
-      language: "de",
-      ajax: {
-        url: "/familycookbook/recipe/as_array",
-        dataType: 'json',
-        delay: 250,
-        data: function (params) {
-          return {
-            q: params.term, // search term
-            page: params.page
-          };
-        },
-        processResults: function (data, page) {
-          // parse the results into the format expected by Select2.
-          // since we are using custom formatting functions we do not need to
-          // alter the remote JSON data
-          return {
-            results: data
-          };
-        },
-        cache: true
-      },
-      escapeMarkup: function (markup) { return markup; } //, // let our custom formatter work
-      // minimumInputLength: 1  //,
-      //templateResult: formatRepo, // omitted for brevity, see the source of this page
-      //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-    })
+    FancySelector.prototype.initialize('.recipe_typeahead_selector', '/familycookbook/recipe/as_array', 'Select a recipe to add to this slot');
     DatePicker.prototype.initialize('daterangepicker-left', '<%= @range[:begin] %>');
     DatePicker.prototype.initialize('daterangepicker-right', '<%= @range[:end] %>');
     DatePicker.prototype.linkPickers('daterangepicker-left', 'daterangepicker-right');

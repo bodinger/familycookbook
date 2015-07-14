@@ -9,44 +9,9 @@
 </div>
 
 <div class="panel panel-small">
-<%- @menu.range_days.each do |day| %>
-  <div class="panel-body">
-    <div class="col-md-2"><strong><%= day.strftime('%d.%m.%Y %A') %></strong></div>
-    <div class="col-md-10">
-        <%- menu_item_slots.each do |slot_id| %>
-            <div class="col-md-2">
-            <%= menu_item_slot_normalized_name(slot_id) %>
-            </div>
-            <div class="col-md-10">
-            <%- if @menu.menu_items_for_day_and_slot(day, slot_id) %>
-                <%- @menu.menu_items_for_day_and_slot(day, slot_id).each do |menu_item| %>
-                    <%= render_partial 'menu_item/planner_form', :locals => { :action => :show, :menu_item => menu_item, :menu => @menu, :slot_id => slot_id, :day => day } %>
-                <% end %>
-            </div>
-            <% end %>
-            <div class="clearfix"></div>
-            <hr>
-        <% end %>
-    </div>
-  </div>
-
-
-  <div class="panel-body hidden">
-    <h3><span class="label label-info col-md-12"><%= day.strftime('%d.%m.%Y %A') %></span></h3>
-      <%- menu_item_slots.each do |slot_id| %>
-        <div class="col-md-4 slot slot-<%= menu_item_slot_normalized_name(slot_id) %>">
-            <h3 class="slot-title-<%= menu_item_slot_normalized_name(slot_id) %>"><span><%= menu_item_slot_normalized_name(slot_id) %></span></h3>
-            <div class="clearfix"><hr></div>
-
-        <%- if @menu.menu_items_for_day_and_slot(day, slot_id) %>
-          <%- @menu.menu_items_for_day_and_slot(day, slot_id).each do |menu_item| %>
-            <%= render_partial 'menu_item/planner_form', :locals => { :action => :show, :menu_item => menu_item, :menu => @menu, :slot_id => slot_id, :day => day } %>
-          <% end %>
-        <% end %>
-
-        </div>
+    <div class="panel-body">
+    <%- @menu.range_days.each do |day| %>
+      <%= render_partial 'menuplanner/range_day', :locals => { :action => :show, :menu => @menu, :day => day } %>
     <% end %>
-
-  </div>
-<% end %>
+    </div>
 </div>

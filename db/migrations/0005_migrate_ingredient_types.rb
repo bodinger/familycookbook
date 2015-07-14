@@ -21,7 +21,7 @@ Sequel.migration do
         update(
           :ingredient_type_id => Sequel::Model.db[:ingredient_types].
             select(:id).
-            where(:title => ingredient[:type])
+            where(:title => ingredient[:type]).limit(1)
         )
     end
 

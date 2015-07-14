@@ -1,7 +1,11 @@
+<% button_class = 'btn-lg' %>
+<%- if action == :edit %>
+    <% button_class = 'btn-sm' %>
+<% end %>
 <%- menu_item.recipes.each do |recipe_for_item| %>
     <div class="btn-group menu-item">
-        <button type="button" class="btn btn-info btn-sm dropdown-toggle recipe-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-recipe-id="<%= recipe_for_item.id %>" data-action="<%= action %>">
-            <%- if menu_item.shopping_list == true %>
+        <button type="button" class="btn btn-info <%= button_class %> dropdown-toggle recipe-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-recipe-id="<%= recipe_for_item.id %>" data-action="<%= action %>">
+            <%- if menu_item.shopping_list == true && action == :edit %>
                 <%= shopping_cart_icon(recipe_for_item.title, {}) %>
             <% else %>
                 <%= recipe_for_item.title %>

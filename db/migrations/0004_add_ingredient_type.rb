@@ -4,7 +4,8 @@ Sequel.migration do
     create_table(:ingredient_types) do
       primary_key :id
 
-      column :title,       String, :null => false
+      column :title,      String, :null => false
+      column :color_code, String
       column :created_at, :timestamptz
       column :updated_at, :timestamptz
 
