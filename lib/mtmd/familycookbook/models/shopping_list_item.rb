@@ -45,6 +45,55 @@ module MTMD
              :units                 => :nullify,
              :ingredients           => :nullify
 
+      private
+
+      def before_save
+        remove_associations
+        super
+      end
+
+      def after_save
+        super
+        add_associations
+      end
+
+      def add_associations
+        unless recipe_id.blank?
+          add_recipe(Recipe[recipe_id])
+        end
+        unless menu_item_id.blank?
+          add_menu_item(MenuItem[menu_item_id])
+        end
+        unless ingredient_quantity_id.blank?
+          add_ingredient_quantity(IngredientQuantity[ingredient_quantity_id])
+        end
+        unless unit_id.blank?
+          add_unit(Unit[unit_id])
+        end
+        unless ingredient_id.blank?
+          add_ingredient(Ingredient[ingredient_id])
+        end
+      end
+
+      def remove_associations
+        return if id.blank?
+        unless recipe_id.blank?
+          remove_recipe(Recipe[recipe_id])
+        end
+        unless menu_item_id.blank?
+          remove_menu_item(MenuItem[menu_item_id])
+        end
+        unless ingredient_quantity_id.blank?
+          remove_ingredient_quantity(IngredientQuantity[ingredient_quantity_id])
+        end
+        unless unit_id.blank?
+          remove_unit(Unit[unit_id])
+        end
+        unless ingredient_id.blank?
+          remove_ingredient(Ingredient[ingredient_id])
+        end
+      end
+
     end
   end
 end

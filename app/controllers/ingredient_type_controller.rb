@@ -44,10 +44,15 @@ MTMD::FamilyCookBook::App.controllers :ingredient_type do
   end
 
   delete :destroy, :with => :id do
-    ingredient = @logic_class.check_id
+    ingredient_type = @logic_class.check_id
 
-    unless ingredient
+    unless ingredient_type
       flash[:error] = "Please provide a valid ingredient type!"
+      redirect_to url(:ingredient_type, :index)
+    end
+
+    if ingredient_type.has_dependant_objects?
+      flash[:error] = "The ingredient type \"#{ingredient_type.title}\" has dependant objects and cannot be deleted!"
       redirect_to url(:ingredient_type, :index)
     end
 

@@ -21,10 +21,6 @@ module MTMD
       end
 
       def update_single(ingredient_quantity, ingredient, unit)
-        ingredient_quantity.remove_all_units
-        ingredient_quantity.remove_all_ingredients
-        ingredient_quantity.add_ingredient(ingredient)
-        ingredient_quantity.add_unit(unit)
         return true if ingredient_quantity.
           update(
             :ingredient_id => ingredient.id,
@@ -32,7 +28,7 @@ module MTMD
             :portions      => @params.fetch('portions', nil),
             :amount        => @params.fetch('amount', nil),
             :description   => @params.fetch('description', nil)
-          )
+          ).save
       end
 
       def destroy
@@ -63,9 +59,6 @@ module MTMD
           :unit_id       => unit_id,
           :recipe_id     => @params.fetch('id', nil)
         ).save
-        ingredient_quantity.add_recipe(MTMD::FamilyCookBook::Recipe[ingredient_quantity.recipe_id])
-        ingredient_quantity.add_ingredient(MTMD::FamilyCookBook::Ingredient[ingredient_quantity.ingredient_id])
-        ingredient_quantity.add_unit(MTMD::FamilyCookBook::Unit[ingredient_quantity.unit_id])
       end
 
       def process_ingredient
