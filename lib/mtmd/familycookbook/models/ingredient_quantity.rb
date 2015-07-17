@@ -38,6 +38,12 @@ module MTMD
         super
       end
 
+      def before_destroy
+        remove_associations
+        remove_dependant_associations
+        super
+      end
+
       def after_save
         super
         add_associations
@@ -57,27 +63,29 @@ module MTMD
       end
 
       def add_dependant_associations
-        puts "-----------------------------"
-        puts __method__
-        puts "-----------------------------"
         return if recipe_id.blank? || ingredient_id.blank?
-        puts "INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE "
-        puts __method__
-        puts "INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE "
-        Recipe[recipe_id].add_ingredient(Ingredient[ingredient_id])
+        recipe = Recipe[recipe_id]
+
+        # Don't add it if it is already existing
+        existing = recipe.ingredients_dataset
+        existing.each do |ingredient|
+          return if ingredient.id == ingredient_id
+        end
+
+        recipe.add_ingredient(Ingredient[ingredient_id])
       end
 
       def remove_dependant_associations
-        puts "-----------------------------"
-        puts __method__
-        puts "-----------------------------"
-        puts "INGREDIENT_ID:        #{ingredient_id}"
-        puts "INGREDIENT_ID (this): #{this.ingredient_id}"
-        raise "DEBUGIGNG"
-        return if id.blank? || recipe_id.blank? || ingredient_id.blank?
-        puts "INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE "
-        puts "INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE INSIDE "
-        Recipe[recipe_id].remove_ingredient(Ingredient[ingredient_id])
+        puts "-------------------------------------"
+        puts "Also treat if an ingredient was used multiple times!!!!!"
+        puts "-------------------------------------"
+        return if this.first.blank?
+        old_ingredient_id = this.first[:ingredient_id]
+        if old_ingredient_id.blank?
+          old_ingredient_id = ingredient_id
+        end
+        return if id.blank? || recipe_id.blank?
+        Recipe[recipe_id].remove_ingredient(Ingredient[old_ingredient_id])
       end
 
       def remove_associations
