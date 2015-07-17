@@ -13,7 +13,7 @@ module MTMD
       end
 
       def single_shopping_list
-        all_items = shopping_list_items.all
+        all_items = shopping_list_items.order(:shopping_order).all
         items = []
         all_items.each do |item|
           list_item = MTMD::FamilyCookBook::AggregatedShoppingListItem.new(

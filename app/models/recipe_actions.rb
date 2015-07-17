@@ -28,7 +28,7 @@ module MTMD
             :portions      => @params.fetch('portions', nil),
             :amount        => @params.fetch('amount', nil),
             :description   => @params.fetch('description', nil)
-          ).save
+          )
       end
 
       def destroy

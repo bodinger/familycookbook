@@ -180,6 +180,14 @@ module MTMD
           )
       end
 
+      def toggle_single_item_active(shopping_list_item)
+        current = @params.fetch('current', false)
+        return true if shopping_list_item.
+          update(
+            :active => !cast_to_bool(current)
+          )
+      end
+
     end
   end
 end

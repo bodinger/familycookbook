@@ -187,3 +187,23 @@ button.recipe-remove-tag {
 .shopping-list-item-dried, .shopping-list-item-nuts {
     background-color: #fcf8e3;
 }
+
+.shopping-list-item-spice {
+    background-color: #aaddaa;
+}
+
+.shopping-list-item-noodles {
+    background-color: #f7ecb5;
+}
+
+.shopping-list-item-flours {
+    background-color: #faf2cc;
+}
+
+.shopping-list-item-conserved {
+    background-color: #f7e1b5;
+}
+
+.shopping-list-item-default {
+    background-color: #eeeeee;
+}

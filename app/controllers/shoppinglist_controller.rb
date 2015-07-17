@@ -145,6 +145,28 @@ MTMD::FamilyCookBook::App.controllers :shoppinglist do
     redirect_to url(:shoppinglist, :edit, shopping_list.id)
   end
 
+  put :toggle_single_item_active, :with => [:id, :shopping_list_item_id] do
+    shopping_list = @logic_class.check_shopping_list_id('id')
+    unless shopping_list
+      flash[:error] = "Please provide a valid shopping list!"
+      redirect_to url(:shoppinglist, :index)
+    end
+
+    shopping_list_item = @logic_class.check_shopping_list_item_id('shopping_list_item_id')
+    unless shopping_list_item
+      flash[:error] = "Please provide a valid item!"
+      redirect_to url(:shoppinglist, :edit_single, shopping_list.id)
+    end
+
+    status = @logic_class.toggle_single_item_active(shopping_list_item)
+    if status == true
+      flash[:success] = "Item has been hidden on shopping list."
+    else
+      flash[:message] = "Nothing has been saved/changed!"
+    end
+    redirect_to url(:shoppinglist, :edit_single, shopping_list.id)
+  end
+
 
 
 end

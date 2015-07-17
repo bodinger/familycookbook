@@ -76,16 +76,25 @@ module MTMD
       end
 
       def remove_dependant_associations
-        puts "-------------------------------------"
-        puts "Also treat if an ingredient was used multiple times!!!!!"
-        puts "-------------------------------------"
         return if this.first.blank?
         old_ingredient_id = this.first[:ingredient_id]
         if old_ingredient_id.blank?
           old_ingredient_id = ingredient_id
         end
         return if id.blank? || recipe_id.blank?
-        Recipe[recipe_id].remove_ingredient(Ingredient[old_ingredient_id])
+
+        # Check for the same ingredient in the same recipe
+        amount_of_this_for_recipe = IngredientQuantity.
+          select(:ingredient_id).
+          where(
+            :recipe_id     => recipe_id,
+            :ingredient_id => old_ingredient_id
+          ).
+          count
+
+        if amount_of_this_for_recipe == 1
+          Recipe[recipe_id].remove_ingredient(Ingredient[old_ingredient_id])
+        end
       end
 
       def remove_associations
