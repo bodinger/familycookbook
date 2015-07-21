@@ -5,11 +5,14 @@
     </div>
     <div class="col-md-10 menuplanner-day-slots">
         <%- menu_item_slots.each do |slot_id| %>
+        <%- items = menu.menu_items_for_day_and_slot(day, slot_id) %>
+            <%- if action == :edit || items.any? %>
             <div class="col-md-1">
-                <%= menu_item_slot_normalized_name(slot_id) %>
+                <div class="pos-abs">
+                    <div class="overflow-hidden slot-title-<%= menu_item_slot_normalized_name(slot_id) %>"><%= menu_item_slot_normalized_name(slot_id) %></div>
+                </div>
             </div>
             <div class="col-md-11">
-
                 <%- if action == :edit %>
                     <select class="recipe_typeahead_selector col-md-12" name="mtmd_family_cook_book_menu[new_item][<%= parse_date(day).to_s+'-'+slot_id.to_s %>][recipe_id]"></select>
                     <%= label_tag "shopping-list-#{parse_date(day).to_s+'-'+slot_id.to_s}", :caption => ' Add to shopping list' do
@@ -30,16 +33,13 @@
                     %>
                     <div class="clearfix"></div>
                 <% end %>
-
-
-                <%- if menu.menu_items_for_day_and_slot(day, slot_id) %>
-                    <%- menu.menu_items_for_day_and_slot(day, slot_id).each do |menu_item| %>
+                    <%- items.each do |menu_item| %>
                         <%= render_partial 'menu_item/planner_form', :locals => { :action => action, :menu_item => menu_item, :menu => menu, :slot_id => slot_id, :day => day } %>
                     <% end %>
                     </div>
-                <% end %>
                 <div class="clearfix"></div>
                 <hr>
+            <% end %>
         <% end %>
     </div>
 </div>

@@ -91,22 +91,37 @@ button.recipe-remove-tag {
     text-space-collapse: preserve;
 }
 
+.pos-abs {
+    position: absolute;
+    overflow: visible;
+    height: 1px;
+    width: 1px;
+    border: 1px solid red;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
 .slot-title-breakfast,
 .slot-title-dinner,
 .slot-title-lunch {
-    background-color: #efefef;
+    background-color: transparent;
     border-radius: 0.25em;
-    border-color: #dfdfdf;
+    border-color: #00ff00;
     border-with: 1px;
-    padding: 0.25em 1em 0.25em 0.25em;
+    padding: 0;
     font-weight: bold;
-    font-stretch: expanded;
-    text-align: right;
+    font-size: 5em;
+    position: relative;
+    width: 5em;
+    opacity: .15;
+    line-height: 1em;
 }
 
-.slot-title-breakfast span,
-.slot-title-dinner span,
-.slot-title-lunch span {
+.slot-title-breakfast,
+.slot-title-dinner,
+.slot-title-lunch {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 

@@ -30,7 +30,7 @@ module MTMD
       end
 
       def menus
-        MTMD::FamilyCookBook::Menu.order(Sequel.function(:lower, :date_range)).all
+        MTMD::FamilyCookBook::Menu.order(Sequel.function(:lower, :date_range).desc).all
       end
 
       def new
