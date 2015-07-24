@@ -132,6 +132,9 @@ module MTMD
 
         return false if ingredient_id.blank? || unit_id.blank?
 
+        ingredient      = MTMD::FamilyCookBook::Ingredient[ingredient_id]
+        ingredient_type = MTMD::FamilyCookBook::IngredientType[ingredient.ingredient_type_id]
+
         item_data = prepare_item({
             :ingredient_id => ingredient_id,
             :unit_id       => unit_id,
@@ -139,6 +142,8 @@ module MTMD
           },
           {
             :shopping_list_id => shopping_list.id,
+            :shopping_order   => ingredient.ingredient_type_id,
+            :color_code       => ingredient_type.color_code,
             :type             => 'manual'
           }
         )

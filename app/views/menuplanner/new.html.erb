@@ -5,6 +5,7 @@
   <%= f.submit 'Create', :class => 'btn btn-primary' %>
 <% end %><script type="text/javascript">
 $(document).ready(
+  function(){
     FancySelector.prototype.initialize('.recipe_typeahead_selector', '/familycookbook/recipe/as_array', 'Select a recipe to add to this slot');
     DatePicker.prototype.initialize('daterangepicker-left', '<%= @range[:begin] %>');
     DatePicker.prototype.initialize('daterangepicker-right', '<%= @range[:end] %>');
