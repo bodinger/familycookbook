@@ -16,6 +16,6 @@ test:
   <<: *default
   database:
     host: 127.0.0.1
-    db: fcb_test
+    name: fcb_test
     user: thm0001m
 

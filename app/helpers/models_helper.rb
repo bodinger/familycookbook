@@ -10,6 +10,12 @@ module MTMD
           select_map([:title, :id])
       end
 
+      def ingredients_string_options
+        MTMD::FamilyCookBook::Ingredient.
+            order(:title).
+            select_map([:title, :title])
+      end
+
       def ingredient_types_options
         MTMD::FamilyCookBook::IngredientType.
           order(:title).

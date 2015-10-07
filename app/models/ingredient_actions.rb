@@ -65,6 +65,19 @@ module MTMD
         query
       end
 
+      def ingredient_string_options
+        query = MTMD::FamilyCookBook::Ingredient.
+          select(:title___id, :title___text).
+          order(:title)
+        if @params && @params['q']
+          query_string = @params['q']
+          return query if query_string.blank?
+          return query.
+            where(Sequel.ilike(:title, "#{query_string}%"))
+        end
+        query
+      end
+
     end
   end
 end

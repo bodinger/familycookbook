@@ -10,6 +10,12 @@ MTMD::FamilyCookBook::App.controllers :ingredient do
     @logic_class.ingredient_options.to_json
   end
 
+  get :as_array_with_string_values, :with => '(:q)' do
+    content_type 'application/json;charset=utf8'
+
+    @logic_class.ingredient_string_options.to_json
+  end
+
   get :index  do
     @items = @logic_class.ingredients
     render 'ingredient/index'

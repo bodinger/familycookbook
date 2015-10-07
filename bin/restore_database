@@ -2,4 +2,4 @@
 BACKUP_FOLDER='db/backups/'
 BACKUP_FILE=$(date "+%Y-%m-%d-%H%M%S-fcb-backup.gz")
 
-psql fcb < ARGH
+psql fcb < $BACKUP_FOLDER$BACKUP_FILE
