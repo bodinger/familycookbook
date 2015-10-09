@@ -32,6 +32,11 @@ module MTMD
           end
         end
 
+        def row_class(index)
+          return 'even' if index.to_i % 2 == 1
+          'odd'
+        end
+
         def remove_icon(text, opts = {})
           html = ''.html_safe
           content_tag(:span, opts) do

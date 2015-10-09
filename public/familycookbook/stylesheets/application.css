@@ -222,3 +222,11 @@ button.recipe-remove-tag {
 .shopping-list-item-default {
     background-color: #eeeeee;
 }
+
+.row-odd {
+    background-color: #ffffff;
+}
+
+.row-even {
+    background-color: #eeeeee;
+}

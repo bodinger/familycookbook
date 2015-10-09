@@ -80,6 +80,10 @@ module MTMD
         icon('trash', text, opts)
       end
 
+      def exclamation_icon(text, opts = {})
+        icon('exclamation-sign', text, opts)
+      end
+
     end
   end
 end
