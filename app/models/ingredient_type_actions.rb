@@ -20,7 +20,9 @@ module MTMD
       end
 
       def create
-        MTMD::FamilyCookBook::IngredientType.new(ingredient_type_params).save
+        item_params = ingredient_type_params
+        item_params[:color_code] = 'default' if item_params[:color_code].blank?
+        MTMD::FamilyCookBook::IngredientType.new(item_params).save
       end
 
       def update

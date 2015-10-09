@@ -8,6 +8,10 @@ module MTMD
         false
       end
 
+      def self.default_type
+        self.where(:color_code => 'default').first
+      end
+
     end
   end
 end

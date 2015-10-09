@@ -21,9 +21,7 @@ module MTMD
       end
 
       def config_params
-        huha = loader.load_config
-        puts "===========> #{huha}"
-        huha
+        loader.load_config
       end
 
       def app_config

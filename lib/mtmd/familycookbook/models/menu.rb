@@ -58,10 +58,7 @@ module MTMD
       def cleanup_menu_items
         old_daterange = Menu[self.id][:date_range]
         new_daterange = date_range
-        puts new_daterange.begin
-        puts new_daterange.end
         (old_daterange.begin.to_date..old_daterange.end.to_date).each do |day|
-          puts day
           next if new_daterange.cover?(day)
           invalid_menu_items = menu_items_for_day(day).all
           invalid_menu_items.each do |menu_item|

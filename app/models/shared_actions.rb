@@ -50,7 +50,8 @@ module MTMD
 
       def add_ingredient(title)
         ingredient = MTMD::FamilyCookBook::Ingredient.new(
-            :title => title
+          :title => title,
+          :ingredient_type_id => MTMD::FamilyCookBook::IngredientType.default_type[:id]
         ).save
         ingredient.id
       end

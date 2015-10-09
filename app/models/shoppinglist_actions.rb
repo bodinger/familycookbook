@@ -133,9 +133,6 @@ module MTMD
         return false if ingredient_id.blank? || unit_id.blank?
 
         ingredient      = MTMD::FamilyCookBook::Ingredient[ingredient_id]
-        puts "======================="
-        puts ingredient_id
-        puts "======================="
         ingredient_type = MTMD::FamilyCookBook::IngredientType[ingredient.ingredient_type_id]
         if ingredient_type.nil?
           ingredient_type = MTMD::FamilyCookBook::IngredientType.where(:color_code => 'default').first

@@ -116,10 +116,7 @@ module MTMD
         if menu_item_id.blank? || recipe_id.blank?
           return nil
         end
-        result = MTMD::FamilyCookBook::MenuItem[menu_item_id].recipes_dataset.select(:id).where(:recipe_id => recipe_id)
-        puts result.sql
-        puts result
-        result
+        MTMD::FamilyCookBook::MenuItem[menu_item_id].recipes_dataset.select(:id).where(:recipe_id => recipe_id)
       end
 
       def toggle_shopping_list(menu_item)
