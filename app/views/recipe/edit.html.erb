@@ -12,7 +12,8 @@
 <%- end %>
 
 <% form_tag url(:recipe, action, :id => @recipe.id), :method => :post, :class => 'form-inline' do %>
-<div class="page-header">
+<div id="recipe-ingredient-quantities" class="page-header">
+  <%= flash_messages %>
   <div class="page-title">Ingredients for <%= input_tag :portions, :name => :portions, :value => portions_value(@recipe), :class => 'form-inline', :style => 'width:2.5em;' %> persons</div>
 </div>
 

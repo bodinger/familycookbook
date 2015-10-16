@@ -47,10 +47,7 @@ module MTMD
         MTMD::FamilyCookBook::Recipe.order(:title).all
       end
 
-      def add_amount_and_ingredient
-        ingredient_id = process_ingredient
-        unit_id       = process_unit
-
+      def add_amount_and_ingredient(ingredient_id, unit_id)
         ingredient_quantity = MTMD::FamilyCookBook::IngredientQuantity.new(
           :amount        => @params.fetch('amount', nil),
           :portions      => @params.fetch('portions', nil),

@@ -39,6 +39,7 @@
         <br/>
         <div class="clearfix"></div>
 
+        <%- unless @recipe.tips_and_tricks.blank? %>
         <div class="panel panel-default recipe-tipandtricks">
             <div class="panel-body">
                 <h5><strong>Tipps und Tricks</strong></h5>
@@ -46,13 +47,15 @@
 
             </div>
         </div>
+      <% end %>
     </div>
 </div>
 
-
+<%- if @recipe.tags.any? %>
 <div class="tags">
     <%= partial 'tag/list', :object => @recipe.tags %>
 </div>
+<% end %>
 
 
 <table class="table">

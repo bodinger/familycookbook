@@ -57,6 +57,11 @@ MTMD::FamilyCookBook::App.controllers :ingredient do
       redirect_to url(:ingredient, :index)
     end
 
+    if ingredient.used_in_recipes.any?
+      flash[:error] = "The ingredient is still used in recipes! Please remove the references first!"
+      redirect_to url(:ingredient, :index)
+    end
+
     status = @logic_class.destroy
 
     if status == true

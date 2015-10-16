@@ -150,7 +150,21 @@ MTMD::FamilyCookBook::App.controllers :recipe do
       redirect_to url(:recipe, :index)
     end
 
-    @logic_class.add_amount_and_ingredient
+    ingredient_id = @logic_class.process_ingredient
+    unless ingredient_id
+      flash[:error] = "Please provide a valid ingredient!"
+      #redirect_to url(:recipe, :edit, recipe.id)
+      redirect_to request.referer + '#recipe-ingredient-quantities'
+    end
+
+    unit_id = @logic_class.process_unit
+    unless unit_id
+      flash[:error] = "Please provide a valid unit!"
+      #redirect_to url(:recipe, :edit, recipe.id)
+      redirect_to request.referer + '#recipe-ingredient-quantities'
+    end
+
+    @logic_class.add_amount_and_ingredient(ingredient_id, unit_id)
     redirect_to url(:recipe, :edit, recipe.id)
   end
 
