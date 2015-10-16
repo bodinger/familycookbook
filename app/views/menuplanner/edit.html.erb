@@ -10,7 +10,7 @@
 <div class="panel panel-small">
     <div class="panel-body">
     <%- @menu.range_days.each do |day| %>
-        <%= render_partial 'menuplanner/range_day', :locals => { :action => :edit, :menu => @menu, :day => day } %>
+        <%= render_partial 'menuplanner/range_day', :locals => { :action => :edit, :menu => @menu, :day => day, :form => f } %>
     <% end %>
     </div>
 </div>

@@ -165,7 +165,7 @@ MTMD::FamilyCookBook::App.controllers :recipe do
     end
 
     @logic_class.add_amount_and_ingredient(ingredient_id, unit_id)
-    redirect_to url(:recipe, :edit, recipe.id)
+    redirect_to request.referer + '#recipe-ingredient-quantities'
   end
 
   delete :remove_ingredient_quantity, :with => :id do

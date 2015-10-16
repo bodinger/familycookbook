@@ -4,7 +4,7 @@
 <%# form_group(f, :title) %>
 
 <div class="form-group">
-    <label class="col-sm-2" for="mtmd-family-cook-book-ingredient-title">Type: </label>
+    <label class="col-sm-2" for="mtmd-family-cook-book-ingredient-title">Name: </label>
     <div class="col-sm-9">
         <%= select_tag :ingredient_title,
                        :options => ingredients_string_options,
@@ -44,7 +44,7 @@
 $(document).ready(
   function () {
     WysiwygEditor.prototype.initialize('ingredient', 'mtmd_family_cook_book_ingredient_description', 'ingredient-description');
-    FancySelector.prototype.initialize('.ingredient_typeahead_selector', '/familycookbook/ingredient/as_array_with_string_values', 'Buhu');
+    FancySelector.prototype.initialize('.ingredient_typeahead_selector', '/familycookbook/ingredient/as_array_with_string_values', 'Type to add a new or find existing ingredient');
     FancySelector.prototype.initialize('.ingredient_type_typeahead_selector', '/familycookbook/ingredient_type/as_array', 'Select an ingredient type');
   }
 );
