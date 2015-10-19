@@ -2,8 +2,11 @@
     <div class="col-md-2 menuplanner-day-label">
         <h3><%= day.strftime('%A') %></h3>
         <strong><%= day.strftime('%d.%m.%Y') %></strong>
+
         <div>
-        <%= form.submit 'Update', :class => 'btn btn-success' %>
+        <%- unless form.nil? %>
+          <%= form.submit 'Update', :class => 'btn btn-success' %>
+        <% end %>
         </div>
     </div>
     <div class="col-md-10 menuplanner-day-slots">
