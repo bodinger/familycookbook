@@ -40,6 +40,18 @@ $(document).ready(
       }
       $(location).attr('href', "/familycookbook/recipe/show/"+$(this).data('recipe-id'));
     });
+
+
+    $('.menu-planner-anchorsubmit').bind('click', function(){
+      if ($(this).data('domid') == '') {
+        return;
+      }
+      $('#mtmd_family_cook_book_menu_anchor').val($(this).data('domid'));
+    });
+
+    if (typeof $('#mtmd_family_cook_book_shopping_list_focus') != 'undefined') {
+      $('#mtmd_family_cook_book_shopping_list_focus').focus();
+    }
   }
 );
 

@@ -37,6 +37,15 @@ module MTMD
           all
       end
 
+      def used_in_shopping_lists
+        MTMD::FamilyCookBook::ShoppingList.where(:id =>
+          MTMD::FamilyCookBook::ShoppingListItem.
+            where(:ingredient_id => id).
+            select_map(:shopping_list_id)
+          ).
+          all
+      end
+
     end
   end
 end

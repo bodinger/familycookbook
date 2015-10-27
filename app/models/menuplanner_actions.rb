@@ -3,8 +3,11 @@ module MTMD
     class MenuplannerActions
       include MTMD::FamilyCookBook::SharedActions
 
+      attr_reader :anchor
+
       def initialize(params)
         @params = params
+        @anchor = nil
       end
 
       def range
@@ -90,6 +93,7 @@ module MTMD
 
         range_begin_raw = parsed_params.delete('range_begin')
         range_end_raw   = parsed_params.delete('range_end')
+        @anchor         = parsed_params.delete('anchor')
 
         range_begin = DateTime.parse(range_begin_raw) unless range_begin_raw.blank?
         range_end   = DateTime.parse(range_end_raw)   unless range_end_raw.blank?

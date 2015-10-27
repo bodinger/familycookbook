@@ -1,15 +1,31 @@
-<%- unless @ingredient.blank? && @ingredient.used_in_recipes.any? %>
+<%- if @ingredient.used_in_shopping_lists.any? || @ingredient.used_in_recipes.any? %>
 <div class="clearfix"><br/></div>
 <div class="panel panel-default">
     <div class="panel-body">
-        <h4>Verwendet in:</h4>
-        <ul>
-        <%- @ingredient.used_in_recipes.each do |recipe| %>
-            <li>
-                <%= link_to recipe.title, url(:recipe, :show, :id => recipe.id) %>
-            </li>
+        <%- unless @ingredient.blank? && @ingredient.used_in_recipes.any? %>
+        <div class="col-md-6">
+            <h4>Verwendet in Rezepten:</h4>
+            <ul>
+            <%- @ingredient.used_in_recipes.each do |recipe| %>
+                <li>
+                    <%= link_to recipe.title, url(:recipe, :show, :id => recipe.id) %>
+                </li>
+            <% end %>
+            </ul>
+        </div>
         <% end %>
-        </ul>
+        <%- unless @ingredient.blank? && @ingredient.used_in_shopping_lists.any? %>
+        <div class="col-md-6">
+            <h4>Verwendet in Einkaufslisten:</h4>
+            <ul>
+                <%- @ingredient.used_in_shopping_lists.each do |shopping_list| %>
+                  <li>
+                      <%= link_to shopping_list.title, url(:shoppinglist, :show, :id => shopping_list.id) %>
+                  </li>
+                <% end %>
+            </ul>
+        </div>
+        <% end %>
     </div>
 </div>
 <% end %>

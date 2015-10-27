@@ -1,11 +1,12 @@
-<div class="row menuplanner-row">
+<%- current_slot_id = "slot-title-#{day.strftime('%Y-%m-%d')}" %>
+<div class="row menuplanner-row" id="<%= current_slot_id %>">
     <div class="col-md-2 menuplanner-day-label">
         <h3><%= day.strftime('%A') %></h3>
         <strong><%= day.strftime('%d.%m.%Y') %></strong>
 
         <div>
         <%- unless form.nil? %>
-          <%= form.submit 'Update', :class => 'btn btn-success' %>
+          <%= form.submit 'Update', :class => 'btn btn-success menu-planner-anchorsubmit', 'data-domid' => current_slot_id %>
         <% end %>
         </div>
     </div>

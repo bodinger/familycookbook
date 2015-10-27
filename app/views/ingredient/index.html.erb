@@ -10,7 +10,7 @@
     <div class="col-md-6"><%= link_to ingredient.title, url(:ingredient, :edit, id: ingredient.id) %></div>
     <div class="col-md-3"><%= ingredient.type %></div>
     <div class="col-md-3">
-      <%- if ingredient.used_in_recipes.any? %>
+      <%- if ingredient.used_in_recipes.any? || ingredient.used_in_shopping_lists.any? %>
         <%= exclamation_icon('Can not delete a referenced ingredient', :class => 'btn btn-info btn-xs') %>
       <% else %>
         <%= link_to 'Delete ingredient', url(:ingredient, :destroy, :id => ingredient.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient?' %>

@@ -1,6 +1,8 @@
 <%- f = form_fields %>
 
 <%= error_messages { f.error_messages } %>
+<%= f.hidden_field(:anchor) %>
+
 <%= form_group(f, :name) %>
 <%= form_group(f, :description) %>
 
@@ -22,6 +24,3 @@
     </div>
   </div>
 </div>
-
-
-

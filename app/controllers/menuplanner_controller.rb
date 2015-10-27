@@ -82,6 +82,11 @@ MTMD::FamilyCookBook::App.controllers :menuplanner do
     else
       flash[:message] = "Nothing has been saved/changed!"
     end
+
+    if @logic_class.anchor
+      redirect_to request.referer + "##{@logic_class.anchor}"
+    end
+
     redirect_to url(:menuplanner, :edit, menu.id)
   end
 
