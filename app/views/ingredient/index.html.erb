@@ -1,4 +1,7 @@
 <%- actions({ 'Add ingredient' => url(:ingredient, :new) }) %>
+
+<%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
+
 <div class="panel panel-default">
   <div class="row">
       <div class="col-md-6"><strong>Title</strong></div>

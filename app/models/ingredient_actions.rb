@@ -4,7 +4,7 @@ module MTMD
       include MTMD::FamilyCookBook::SharedActions
 
       def initialize(params)
-        @params = params
+        @params = params.with_indifferent_access
       end
 
       def check_id
@@ -48,8 +48,12 @@ module MTMD
         @params[:mtmd_family_cook_book_ingredient] ||= {}.with_indifferent_access
       end
 
-      def ingredients
-        MTMD::FamilyCookBook::Ingredient.order(:title).all
+      def ingredients(pagination = nil)
+        query = MTMD::FamilyCookBook::Ingredient.order(:title)
+        if pagination
+          query = query.limit(pagination.page_size).offset(pagination.page_number)
+        end
+        query.all
       end
 
       def ingredient_options

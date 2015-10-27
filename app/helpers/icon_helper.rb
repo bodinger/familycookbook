@@ -12,6 +12,22 @@ module MTMD
         end
       end
 
+      def last_icon(text, opts = {})
+        icon('fast-forward', text, opts)
+      end
+
+      def next_icon(text, opts = {})
+        icon('step-forward', text, opts)
+      end
+
+      def previous_icon(text, opts = {})
+        icon('step-backward', text, opts)
+      end
+
+      def first_icon(text, opts = {})
+        icon('fast-backward', text, opts)
+      end
+
       def remove_icon(text, opts = {})
         icon('remove', text, opts)
       end

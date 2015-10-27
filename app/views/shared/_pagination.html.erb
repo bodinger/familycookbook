@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="pull-left">
+        <%= first_icon('', :class => 'btn btn-default btn-lg') %>
+        <%= previous_icon('', :class => 'btn btn-default btn-lg') %>
+    </div>
+    <div class="pull-right">
+        <%= next_icon('', :class => 'btn btn-default btn-lg') %>
+        <%= last_icon('', :class => 'btn btn-default btn-lg') %>
+    </div>
+    <div class="text-center"><strong>Seite <%= @pagination.page_number %></strong></div>
+</div>

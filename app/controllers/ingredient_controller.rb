@@ -16,8 +16,10 @@ MTMD::FamilyCookBook::App.controllers :ingredient do
     @logic_class.ingredient_string_options.to_json
   end
 
-  get :index  do
-    @items = @logic_class.ingredients
+  get :index, :with => '(:page, :limit)'  do
+    @pagination = pagination_from_params(@logic_class.params)
+    @items     = @logic_class.ingredients(@pagination)
+
     render 'ingredient/index'
   end
 

@@ -1,6 +1,7 @@
 module MTMD
   module FamilyCookBook
     module SharedActions
+      attr_reader :params
 
       def check_shopping_list_id(key)
         check_model_existence(MTMD::FamilyCookBook::ShoppingList, key)
