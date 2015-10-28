@@ -1,5 +1,13 @@
 <div class="row">
     <div class="pull-left">
+        <%- if @pagination.first && @pagination.page_number != 1 %>
+        <a href="<%= "#{request.path.chomp('/')}?page=#{@pagination.first}" %>">first</a>
+        <% end %>
+        <%- if @pagination.first && @pagination.page_number != 1 %>
+        <a href="<%= "#{request.path.chomp('/')}?page=#{@pagination.previous}" %>">previous</a>
+        <% end %>
+        <a href="<%= "#{request.path.chomp('/')}?page=#{@pagination.next}" %>">next</a>
+        <a href="<%= "#{request.path.chomp('/')}?page=#{@pagination.last}" %>">last</a>
         <%= first_icon('', :class => 'btn btn-default btn-lg') %>
         <%= previous_icon('', :class => 'btn btn-default btn-lg') %>
     </div>

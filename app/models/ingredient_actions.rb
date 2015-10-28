@@ -51,7 +51,8 @@ module MTMD
       def ingredients(pagination = nil)
         query = MTMD::FamilyCookBook::Ingredient.order(:title)
         if pagination
-          query = query.limit(pagination.page_size).offset(pagination.page_number)
+          pagination.total = query.count
+          query = query.limit(pagination.page_size).offset(pagination.offset)
         end
         query.all
       end
