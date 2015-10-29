@@ -12,20 +12,35 @@ module MTMD
         end
       end
 
-      def last_icon(text, opts = {})
-        icon('fast-forward', text, opts)
+      def link(css_name, text, opts)
+        html = ''.html_safe
+        direction = opts.delete(:direction) || 'right'
+        content_tag(:a, opts) do
+          if direction == 'right'
+            html << text
+          end
+          html << content_tag(:span, :class => "glyphicon glyphicon-#{css_name}") {}
+          if direction == 'left'
+            html << text
+          end
+          html
+        end
       end
 
-      def next_icon(text, opts = {})
-        icon('step-forward', text, opts)
+      def last_link(text, opts = {})
+        link('fast-forward', text, opts.merge({:direction => 'right'}))
       end
 
-      def previous_icon(text, opts = {})
-        icon('step-backward', text, opts)
+      def next_link(text, opts = {})
+        link('step-forward', text, opts.merge({:direction => 'right'}))
       end
 
-      def first_icon(text, opts = {})
-        icon('fast-backward', text, opts)
+      def previous_link(text, opts = {})
+        link('step-backward', text, opts.merge({:direction => 'left'}))
+      end
+
+      def first_link(text, opts = {})
+        link('fast-backward', text, opts.merge({:direction => 'left'}))
       end
 
       def remove_icon(text, opts = {})
