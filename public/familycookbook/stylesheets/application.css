@@ -230,3 +230,7 @@ button.recipe-remove-tag {
 .row-even {
     background-color: #eeeeee;
 }
+
+.opacity-66 {
+    opacity: .66 !important;
+}

@@ -17,11 +17,11 @@ module MTMD
         direction = opts.delete(:direction) || 'right'
         content_tag(:a, opts) do
           if direction == 'right'
-            html << text
+            html << text + ' '
           end
           html << content_tag(:span, :class => "glyphicon glyphicon-#{css_name}") {}
           if direction == 'left'
-            html << text
+            html << ' ' + text
           end
           html
         end

@@ -271,11 +271,11 @@ FancySelector.prototype = {
     this.options.placeholder = this.placeholderText;
     this.options.ajax.url = this.dataUrl;
 
-    this.setUpSelect();
+    return this.setUpSelect();
   },
 
   setUpSelect: function() {
-    this.getSelect().select2(this.options);
+    return this.getSelect().select2(this.options);
   },
 
   setDataUrl: function(url) {

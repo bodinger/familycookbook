@@ -2,6 +2,12 @@
 
 <%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
 
+<div class="clearfix">
+    <div class="row">
+
+    </div>
+</div>
+
 <div class="panel panel-default">
   <div class="row">
       <div class="col-md-6"><strong>Title</strong></div>
@@ -22,3 +28,16 @@
   </div>
   <% end %>
 </div>
+
+
+<script type="text/javascript">
+  $(document).ready(
+      function () {
+        selector = FancySelector.prototype.initialize('.ingredient_typeahead_selector', '/familycookbook/ingredient/as_array', 'Type to find existing ingredient');
+        selector.select2('open');
+        selector.change("select2-selecting", function(e) {
+          $(location).attr('href', '<%= url(:ingredient, :edit) %>' + e.delegateTarget.value);
+        });
+      }
+  );
+</script>

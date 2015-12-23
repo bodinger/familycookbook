@@ -1,19 +1,30 @@
-<div class="row">
-    <div class="text-center"><strong>Seite <%= @pagination.page_number %> von <%= @pagination.last %></strong></div>
-    <div class="lg-col-3 pull-left">
-        <%- if @pagination.first && @pagination.page_number != 1 %>
-          <%= first_link('Erste',        :href => "#{request.path.chomp('/')}?page=#{@pagination.first}", :class => 'btn btn-default btn-sm') %>
-        <% end %>
-        <%- if @pagination.previous && @pagination.page_number != 1 %>
-          <%= previous_link('Vorherige', :href => "#{request.path.chomp('/')}?page=#{@pagination.previous}", :class => 'btn btn-default btn-sm') %>
-        <% end %>
-    </div>
-    <div class="lg-col-3 pull-right">
-        <%- if @pagination.next && @pagination.page_number != @pagination.last %>
-          <%= next_link('Nächste', :href => "#{request.path.chomp('/')}?page=#{@pagination.next}", :class => 'btn btn-default btn-sm') %>
-        <% end %>
-        <%- if @pagination.last && @pagination.page_number != @pagination.last %>
-          <%= last_link('Letzte',  :href => "#{request.path.chomp('/')}?page=#{@pagination.last}", :class => 'btn btn-default btn-sm') %>
-        <% end %>
-    </div>
+<div class="clearfix">
+  <div class="row">
+      <div class="text-center opacity-66">
+          <%= select_tag :ingredient_title,
+                         :options => ingredients_options,
+                         :include_blank => true,
+                         :id => "mtmd-family-cook-book-ingredient-title",
+                         :name => 'mtmd_family_cook_book_ingredient[title]',
+                         :selected => '',
+                         :class => 'form-inline ingredient_typeahead_selector opacity-66' %>
+      </div>
+      <div class="text-center"><strong>Seite <%= @pagination.page_number %> von <%= @pagination.last %></strong></div>
+      <div class="lg-col-3 pull-left">
+          <%- if @pagination.first && @pagination.page_number != 1 %>
+            <%= first_link('Erste', :href => "#{request.path.chomp('/')}?page=#{@pagination.first}", :class => 'btn btn-default btn-sm') %>
+          <% end %>
+          <%- if @pagination.previous && @pagination.page_number != 1 %>
+            <%= previous_link('Vorherige', :href => "#{request.path.chomp('/')}?page=#{@pagination.previous}", :class => 'btn btn-default btn-sm') %>
+          <% end %>
+      </div>
+      <div class="lg-col-3 pull-right">
+          <%- if @pagination.next && @pagination.page_number != @pagination.last %>
+            <%= next_link('Nächste', :href => "#{request.path.chomp('/')}?page=#{@pagination.next}", :class => 'btn btn-default btn-sm') %>
+          <% end %>
+          <%- if @pagination.last && @pagination.page_number != @pagination.last %>
+            <%= last_link('Letzte', :href => "#{request.path.chomp('/')}?page=#{@pagination.last}", :class => 'btn btn-default btn-sm') %>
+          <% end %>
+      </div>
+  </div>
 </div>
