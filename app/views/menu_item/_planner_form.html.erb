@@ -17,14 +17,14 @@
         <%- if action == :edit %>
         <ul class="dropdown-menu">
             <li>&nbsp;<strong>&nbsp;Action</strong></li>
-            <li><%= link_to remove_icon('Remove recipe from this slot', :class => 'btn-sm'), url(:menuplanner, :remove_menu_item_recipe, :id => menu.id, :menu_item_id => menu_item.id, :recipe_id => recipe_for_item.id),
+            <li><%= remove_link('Remove recipe from this slot', :class => 'btn-sm', :href => url(:menuplanner, :remove_menu_item_recipe, :id => menu.id, :menu_item_id => menu_item.id, :recipe_id => recipe_for_item.id),
                                                        :method => :delete,
                                                        :class => 'btn-sm ',
-                                                       :confirm => 'Do you really want to delete the recipe from this menu slot?' %></li>
-            <li><%= link_to list_icon('Toggle shopping list', :class => 'btn-sm'), url(:menuplanner, :toggle_shopping_list, :id => menu.id, :menu_item_id => menu_item.id),
+                                                       :confirm => 'Do you really want to delete the recipe from this menu slot?') %></li>
+            <li><%= list_link('Toggle shopping list', :class => 'btn-sm', :href=> url(:menuplanner, :toggle_shopping_list, :id => menu.id, :menu_item_id => menu_item.id),
                             :method => :put,
                             :class => 'btn-sm ',
-                            :confirm => 'Do you really want to remove the ingredients of this recipe from the shopping list?' %></li>
+                            :confirm => 'Do you really want to remove the ingredients of this recipe from the shopping list?') %></li>
         </ul>
         <% end %>
     </div>

@@ -18,11 +18,11 @@
             <td>
                 <%= link_to ingredient_type.title, url(:ingredient_type, :edit, id: ingredient_type.id) %>
             </td>
-            <td>
+            <td class="shopping-list-item-<%= ingredient_type.color_code %>">
                 <%= ingredient_type.color_code %>
             </td>
             <td>
-                <%= link_to 'Delete ingredient type', url(:ingredient_type, :destroy, :id => ingredient_type.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient type?' %>
+                <%= remove_link('Delete ingredient type', :href => url(:ingredient_type, :destroy, :id => ingredient_type.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient type?') %>
             </td>
         </tr>
     <% end %>

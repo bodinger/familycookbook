@@ -16,10 +16,21 @@ module MTMD
           end
         end
 
-        def actions(hash)
+        def actions(actions)
           html = ''.html_safe
-          hash.each do |k,v|
+          actions.each do |k,v|
             html << link_to(k, v, :class => 'btn btn-default')
+          end
+          content_for(:actions) do
+            html
+          end
+        end
+
+        def actions2(actions_array)
+          actions_array = Array(actions_array)
+          html = ''.html_safe
+          actions_array.each do |action|
+            html << action
           end
           content_for(:actions) do
             html

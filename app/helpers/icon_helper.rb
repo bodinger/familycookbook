@@ -43,13 +43,55 @@ module MTMD
         link('fast-backward', text, opts.merge({:direction => 'left'}))
       end
 
-      def remove_icon(text, opts = {})
-        icon('remove', text, opts)
+      def remove_link(text, opts = {})
+        link('remove', text, opts.merge({:direction => 'left'}))
       end
 
-      def checked_icon(text, opts = {})
-        icon('ok', text, opts)
+      def list_link(text, opts = {})
+        link('list-alt', text, opts.merge({:direction => 'left'}))
       end
+
+      def eye_closed_link(text, opts = {})
+        link('eye-close', text, opts.merge({:direction => 'left'}))
+      end
+
+      def eye_open_link(text, opts = {})
+        link('eye-open', text, opts.merge({:direction => 'left'}))
+      end
+
+      def trash_link(text, opts = {})
+        link('trash', text, opts.merge({:direction => 'left'}))
+      end
+
+      def checked_link(text, opts = {})
+        link('ok', text, opts.merge({:direction => 'left'}))
+      end
+
+      def edit_link(text, opts = {})
+        link('pencil', text, opts.merge({:direction => 'left'}))
+      end
+
+      def plus_link(text, opts = {})
+        link('plus', text, opts.merge({:direction => 'left'}))
+      end
+
+      def minus_link(text, opts = {})
+        link('minus', text, opts.merge({:direction => 'left'}))
+      end
+
+      def exclamation_link(text, opts = {})
+        link('exclamation-sign', text, opts.merge({:direction => 'left'}))
+      end
+
+
+
+      # def remove_icon(text, opts = {})
+      #   icon('remove', text, opts)
+      # end
+
+      # def checked_icon(text, opts = {})
+      #   icon('ok', text, opts)
+      # end
 
       def clock_icon(text, opts = {})
         icon('time', text, opts)
@@ -67,13 +109,9 @@ module MTMD
         icon('heart-empty', text, opts)
       end
 
-      def list_icon(text, opts = {})
-        icon('list-alt', text, opts)
-      end
-
-      def eye_open_icon(text, opts = {})
-        icon('eye-open', text, opts)
-      end
+      # def eye_open_icon(text, opts = {})
+      #   icon('eye-open', text, opts)
+      # end
 
       def plus_icon(text, opts = {})
         icon('plus', text, opts)
@@ -87,9 +125,9 @@ module MTMD
         icon('pencil', text, opts)
       end
 
-      def eye_closed_icon(text, opts = {})
-        icon('eye-close', text, opts)
-      end
+      # def eye_closed_icon(text, opts = {})
+      #   icon('eye-close', text, opts)
+      # end
 
       def menu_icon(text, opts = {})
         icon('exclamation-sign', text, opts)
@@ -107,9 +145,9 @@ module MTMD
         icon('shopping-cart', text, opts)
       end
 
-      def trash_icon(text, opts = {})
-        icon('trash', text, opts)
-      end
+      # def trash_icon(text, opts = {})
+      #   icon('trash', text, opts)
+      # end
 
       def exclamation_icon(text, opts = {})
         icon('exclamation-sign', text, opts)

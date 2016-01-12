@@ -224,11 +224,11 @@ button.recipe-remove-tag {
 }
 
 .row-odd {
-    background-color: #ffffff;
+    background-color: #eeeeee;
 }
 
 .row-even {
-    background-color: #eeeeee;
+    background-color: #ffffff;
 }
 
 .opacity-66 {

@@ -1,8 +1,14 @@
-<%- actions({ 'Cancel' => url(:ingredient, :index) }) %>
+<%- actions2([
+  remove_link('Cancel', :href => url(:ingredient, :index), :class => 'btn btn-danger'),
+  '&nbsp;'.html_safe,
+  checked_link('Update', :href => '#', :id => 'ingredient-form-'+@ingredient.id.to_s+'-button', :class => 'btn btn-success')
+]) %>
 
 <%- form_for :ingredient, url(:ingredient, :update, :id => @ingredient.id), :method => :put, :class => 'form-horizontal', :id => 'ingredient' do |f| %>
   <%= render_partial 'ingredient/form_fields', :object => f %>
-  <%= f.submit 'Update', :class => 'btn btn-primary' %>
+  <%= f.submit 'Update', :class => 'btn btn-primary hidden', :id => 'ingredient-form-'+@ingredient.id.to_s+'-submit' %>
 <% end %>
 
 <%= render_partial 'ingredient/list_used_in', :object => @ingredient, :locals => { :action => :edit } %>
+
+<%= render_partial 'shared/js_bind_submit', :object => @ingredient, :locals => { :object_name => 'ingredient', :object => @ingredient, :action => :edit } %>

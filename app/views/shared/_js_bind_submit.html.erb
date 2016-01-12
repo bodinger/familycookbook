@@ -1,0 +1,9 @@
+<script type="text/javascript">
+  $(document).ready(
+      function () {
+        $('#<%= object_name+'-form-'+@ingredient.id.to_s+'-button' %>').bind('click', function(){
+          $('#<%= object_name+'-form-'+@ingredient.id.to_s+'-submit' %>').click();
+        })
+      }
+  );
+</script>

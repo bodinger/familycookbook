@@ -14,7 +14,7 @@
         <th>
             Date & Name
         </th>
-        <th width="20%">
+        <th width="35%">
             Action
         </th>
     </thead>
@@ -36,12 +36,12 @@
             </td>
             <td>
                 <%- if item[:type] == 'MTMD::FamilyCookBook::Menu' %>
-                    <%= link_to 'Create from menu plan', url(:shoppinglist, :create_from_menu, :menu_id => item[:id]), :class => 'btn btn-warning btn-xs pull-left mg-right' %>
+                    <%= plus_link('Create from menu plan', :href => url(:shoppinglist, :create_from_menu, :menu_id => item[:id]), :class => 'btn btn-warning btn-xs pull-left mg-right') %>
                 <% else %>
-                    <%= link_to 'Edit', url(:shoppinglist, :edit, :id => item[:id]), :class => 'btn btn-primary btn-xs pull-left mg-right' %>
-                    <%= link_to 'Show', url(:shoppinglist, :show, :id => item[:id]), :class => 'btn btn-success btn-xs pull-left mg-right' %>
-                    <%= link_to 'Delete', url(:shoppinglist, :destroy, :id => item[:id]), :method => :delete, :class => 'btn btn-danger btn-xs pull-left mg-right', :confirm => 'Do you really want to delete this shopping list? Any edited list items will be deleted!' %>
-                    <%= link_to 'Single edit', url(:shoppinglist, :edit_single, :id => item[:id]), :class => 'btn btn-info btn-xs pull-left' %>
+                    <%= edit_link('Edit', :href => url(:shoppinglist, :edit, :id => item[:id]), :class => 'btn btn-primary btn-xs pull-left mg-right') %>
+                    <%= eye_open_link('Show', :href => url(:shoppinglist, :show, :id => item[:id]), :class => 'btn btn-success btn-xs pull-left mg-right') %>
+                    <%= trash_link('Delete', :href => url(:shoppinglist, :destroy, :id => item[:id]), :method => :delete, :class => 'btn btn-danger btn-xs pull-left mg-right', :confirm => 'Do you really want to delete this shopping list? Any edited list items will be deleted!') %>
+                    <%= edit_link('Single edit', :href => url(:shoppinglist, :edit_single, :id => item[:id]), :class => 'btn btn-info btn-xs pull-left') %>
                 <% end %>
 
 

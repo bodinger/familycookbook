@@ -29,6 +29,12 @@ MTMD::FamilyCookBook::App.controllers :ingredient do
   end
 
   post :create do
+    if @logic_class.ingredient_params[:title].blank?
+      flash[:error] = "Please provide a valid title!"
+      redirect_to url(:ingredient, :new)
+      return
+    end
+
     ingredient = @logic_class.create
 
     unless ingredient

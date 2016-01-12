@@ -1,32 +1,45 @@
-<%- actions({ 'Add ingredient' => url(:ingredient, :new) }) %>
+<%- actions2(plus_link('Add ingredient', :href => url(:ingredient, :new), :class => 'btn btn-success')) %>
+
+<div class="clearfix">
+  <div class="row">
+    <div class="text-center opacity-66">
+      <%= select_tag :ingredient_title,
+                     :options => ingredients_options,
+                     :include_blank => true,
+                     :id => "mtmd-family-cook-book-ingredient-title",
+                     :name => 'mtmd_family_cook_book_ingredient[title]',
+                     :selected => '',
+                     :class => 'form-inline ingredient_typeahead_selector opacity-66' %>
+    </div>
+  </div>
+</div>
 
 <%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
 
-<div class="clearfix">
+
+<div class="panel">
+  <div class="panel-heading">
     <div class="row">
-
-    </div>
-</div>
-
-<div class="panel panel-default">
-  <div class="row">
-      <div class="col-md-6"><strong>Title</strong></div>
+      <div class="col-md-6"><strong>Title</strong><br/></div>
       <div class="col-md-3"><strong>Type</strong></div>
       <div class="col-md-3"><strong>Action</strong></div>
-  </div>
-  <% @items.each_with_index do |ingredient, index| %>
-  <div class="row row-<%= row_class(index) %>">
-    <div class="col-md-6"><%= link_to ingredient.title, url(:ingredient, :edit, id: ingredient.id) %></div>
-    <div class="col-md-3"><%= ingredient.type %></div>
-    <div class="col-md-3">
-      <%- if ingredient.used_in_recipes.any? || ingredient.used_in_shopping_lists.any? %>
-        <%= exclamation_icon('Can not delete a referenced ingredient', :class => 'btn btn-info btn-xs') %>
-      <% else %>
-        <%= link_to 'Delete ingredient', url(:ingredient, :destroy, :id => ingredient.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient?' %>
-      <% end %>
     </div>
   </div>
-  <% end %>
+  <div class="panel-body">
+    <% @items.each_with_index do |ingredient, index| %>
+    <div class="row row-<%= row_class(index) %>">
+      <div class="col-md-6"><%= link_to ingredient.title, url(:ingredient, :edit, id: ingredient.id) %></div>
+      <div class="col-md-3"><%= ingredient.type %></div>
+      <div class="col-md-3">
+        <%- if ingredient.used_in_recipes.any? || ingredient.used_in_shopping_lists.any? %>
+          <%= exclamation_link('Can not delete a referenced ingredient', :class => 'btn btn-info btn-xs') %>
+        <% else %>
+          <%= trash_link('Delete ingredient', :href => url(:ingredient, :destroy, :id => ingredient.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient?') %>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+  </div>
 </div>
 
 

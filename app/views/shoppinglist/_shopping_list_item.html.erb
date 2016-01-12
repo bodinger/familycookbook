@@ -1,34 +1,41 @@
 <div class="row list-item-action-<%= action %> list-item-active-<%= item.active %> shopping-list-item-<%= item.color_code || 'default' %>">
     <%- if action == :edit_single %>
-        <%= link_to trash_icon('', :class => 'btn btn-danger'),
-                    url(:shoppinglist, :destroy_single_item, :id => shopping_list.id, :item_id => item.id),
+        <%= trash_link('', :class => 'btn btn-danger',
+                    :href => url(:shoppinglist, :destroy_single_item, :id => shopping_list.id, :item_id => item.id),
                     :method => :delete,
-                    :confirm => 'Do you really want to delete this shopping list item?' %>
+                    :confirm => 'Do you really want to delete this shopping list item?') %>
     <% end %>
     <div class="col-md-0 pull-left">
         <%- if item.active == true %>
             <%- if action == :edit %>
-                <%= link_to checked_icon('', :class => 'btn btn-success'),
-                            url(:shoppinglist, :toggle_item_active, :id => shopping_list.id, :ingredient_id => item.ingredient_id, :unit_id => item.unit_id, :current => item.active),
-                            :method => :put %>
+                <%= checked_link('', :class => 'btn btn-success',
+                            :href => url(:shoppinglist, :toggle_item_active, :id => shopping_list.id, :ingredient_id => item.ingredient_id, :unit_id => item.unit_id, :current => item.active),
+                            :method => :put) %>
             <% elsif action == :edit_single %>
-                <%= link_to eye_open_icon('', :class => 'btn btn-success'),
-                            url(:shoppinglist, :toggle_single_item_active, :id => shopping_list.id, :shopping_list_item_id => item.id, :current => item.active),
-                            :method => :put %>
+                <%= eye_open_link('', :class => 'btn btn-success',
+                            :href => url(:shoppinglist, :toggle_single_item_active, :id => shopping_list.id, :shopping_list_item_id => item.id, :current => item.active),
+                            :method => :put) %>
             <% else %>
-                <%= checked_icon('', { :class => 'btn btn-success' }) %>
+                <%= checked_link('', :class => 'btn btn-success') %>
             <% end %>
         <% else %>
             <%- if action == :edit %>
-                <%= link_to remove_icon('', :class => 'btn btn-danger'),
-                            url(:shoppinglist, :toggle_item_active, :id => shopping_list.id, :ingredient_id => item.ingredient_id, :unit_id => item.unit_id, :current => item.active),
-                            :method => :put %>
+                <%= remove_link(
+                      '',
+                      :class => 'btn btn-danger',
+                      :href => url(:shoppinglist, :toggle_item_active, :id => shopping_list.id, :ingredient_id => item.ingredient_id, :unit_id => item.unit_id, :current => item.active),
+                      :method => :put
+                    )
+                %>
             <% elsif action == :edit_single %>
-                <%= link_to eye_closed_icon('', :class => 'btn btn-danger'),
-                            url(:shoppinglist, :toggle_single_item_active, :id => shopping_list.id, :shopping_list_item_id => item.id, :current => item.active),
-                            :method => :put %>
+                <%= eye_closed_link(
+                  '',
+                  :class => 'btn btn-danger',
+                  :href => url(:shoppinglist, :toggle_single_item_active, :id => shopping_list.id, :shopping_list_item_id => item.id, :current => item.active),
+                  :method => :put
+                ) %>
             <% else %>
-                <%= remove_icon('', { :class => 'btn btn-danger' }) %>
+                <%= remove_link('', { :class => 'btn btn-danger' }) %>
             <% end %>
         <% end %>
     </div>
