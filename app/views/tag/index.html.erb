@@ -1,31 +1,26 @@
-<%- actions({ 'Add tag' => url(:tag, :new) }) %>
+<%- actions2(plus_link('Add tag', :href => url(:tag, :new), :class => 'btn btn-success')) %>
 
-<table class="table">
-    <thead>
-    <th>
-        Name
-    </th>
-    <th>
-        Description
-    </th>
-    <th>
-        Action
-    </th>
-    </thead>
-    <tbody>
-    <% @items.each do |tag| %>
-        <tr>
-            <td>
-                <%= link_to tag.name, url(:tag, :show, id: tag.id) %>
-            </td>
-            <td>
-                <%= tag.description %>
-            </td>
-            <td>
-                <%= link_to 'Delete tag', url(:tag, :destroy, :id => tag.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this tag?' %>
-            </td>
-        </tr>
+<div class="panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-3"><strong>Name</strong><br/></div>
+            <div class="col-md-6"><strong>Description</strong></div>
+            <div class="col-md-3"><strong>Action</strong></div>
+        </div>
+    </div>
+    <div class="panel-body">
+    <% @items.each_with_index do |tag, index| %>
+        <div class="row row-pd row-<%= row_class(index) %>">
+            <div class="col col-md-3"><%= link_to tag.name, url(:tag, :edit, id: tag.id) %></div>
+            <div class="col col-md-6"><%= tag.description %></div>
+            <div class="col col-md-3">
+                <%- if tag.recipes.any? %>
+                  <%= exclamation_link('Can not delete a referenced tag', :class => 'btn btn-info btn-xs') %>
+                <% else %>
+                  <%= trash_link('Delete tag', :href => url(:tag, :destroy, :id => tag.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this tag?') %>
+                <% end %>
+            </div>
+        </div>
     <% end %>
-    </tbody>
-</table>
-
+    </div>
+</div>

@@ -231,6 +231,10 @@ button.recipe-remove-tag {
     background-color: #ffffff;
 }
 
+.row-pd .col {
+    padding: .2em .2em .2em .6em;
+}
+
 .opacity-66 {
     opacity: .66 !important;
 }

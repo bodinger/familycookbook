@@ -27,10 +27,10 @@
   </div>
   <div class="panel-body">
     <% @items.each_with_index do |ingredient, index| %>
-    <div class="row row-<%= row_class(index) %>">
-      <div class="col-md-6"><%= link_to ingredient.title, url(:ingredient, :edit, id: ingredient.id) %></div>
-      <div class="col-md-3"><%= ingredient.type %></div>
-      <div class="col-md-3">
+    <div class="row row-pd row-<%= row_class(index) %>">
+      <div class="col col-md-6"><%= link_to ingredient.title, url(:ingredient, :edit, id: ingredient.id) %></div>
+      <div class="col col-md-3"><%= ingredient.type %></div>
+      <div class="col col-md-3">
         <%- if ingredient.used_in_recipes.any? || ingredient.used_in_shopping_lists.any? %>
           <%= exclamation_link('Can not delete a referenced ingredient', :class => 'btn btn-info btn-xs') %>
         <% else %>

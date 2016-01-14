@@ -1,8 +1,10 @@
-<%- actions({ 'Show all' => url(:shoppinglist, :index)}, ) %>
+<%- actions2([
+  list_link('Show all', :href => url(:shoppinglist, :index), :class => 'btn btn-success')
+]) %>
 
-<%= link_to 'Single edit', url(:shoppinglist, :edit_single, :id => @shopping_list.id), :class => 'btn btn-info btn-xs pull-right' %>
-<%= link_to 'Delete', url(:shoppinglist, :destroy, :id => @shopping_list.id), :method => :delete, :class => 'btn btn-danger btn-xs pull-right mg-right', :confirm => 'Do you really want to delete this shopping list? Any edited list items will be deleted!' %>
-<%= link_to 'Edit', url(:shoppinglist, :edit, :id => @shopping_list.id), :class => 'btn btn-primary btn-xs pull-right mg-right' %>
+<%= edit_link('Single edit', :href => url(:shoppinglist, :edit_single, :id => @shopping_list.id), :class => 'btn btn-info btn-xs pull-right') %>
+<%= trash_link('Delete', :href => url(:shoppinglist, :destroy, :id => @shopping_list.id), :method => :delete, :class => 'btn btn-danger btn-xs pull-right mg-right', :confirm => 'Do you really want to delete this shopping list? Any edited list items will be deleted!') %>
+<%= edit_link('Edit', :href => url(:shoppinglist, :edit, :id => @shopping_list.id), :class => 'btn btn-primary btn-xs pull-right mg-right') %>
 
 <h4><%= @shopping_list.title %></h4>
 

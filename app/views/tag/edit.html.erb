@@ -1,7 +1,12 @@
-<%- actions({ 'Cancel' => url(:tag, :show, :id => @tag.id) }) %>
+<%- actions2([
+  remove_link('Cancel', :href => url(:tag, :index), :class => 'btn btn-danger'),
+  '&nbsp;'.html_safe,
+  checked_link('Update', :href => '#', :id => 'tag-form-'+@tag.id.to_s+'-button', :class => 'btn btn-success')
+]) %>
 
 <%- form_for :tag, url(:tag, :update, :id => @tag.id), :method => :put, :class => 'form-horizontal' do |f| %>
   <%= render_partial 'tag/form_fields', :object => f %>
-  <%= f.submit 'Update', :class => 'btn btn-primary' %>
+  <%= f.submit 'Update', :class => 'btn btn-primary hidden', :id => 'tag-form-'+@tag.id.to_s+'-submit' %>
+  <%= render_partial 'shared/js_bind_submit', :locals => { :object => @tag, :object_name => 'tag', :action => :new } %>
 <% end %>
 

@@ -9,4 +9,4 @@
   <%= f.submit 'Create', :class => 'btn btn-primary hidden', :id => 'ingredient-form-'+@ingredient.id.to_s+'-submit' %>
 <% end %>
 
-<%= render_partial 'shared/js_bind_submit', :object => @ingredient, :locals => { :object_name => 'ingredient', :action => :new } %>
+<%= render_partial 'shared/js_bind_submit', :locals => { :object => @ingredient, :object_name => 'ingredient', :action => :new } %>

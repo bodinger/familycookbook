@@ -85,7 +85,7 @@ MTMD::FamilyCookBook::App.controllers :tag do
     else
       flash[:message] = "Nothing has been saved/changed!"
     end
-    redirect_to url(:tag, :show, recipe.id)
+    redirect_to url(:tag, :edit, tag.id)
   end
 
 end

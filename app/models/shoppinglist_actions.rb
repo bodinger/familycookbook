@@ -14,6 +14,7 @@ module MTMD
           Sequel::Model.db[:menus].
             select(
               :menus__id___id,
+              :menus__id___menu_id,
               :date_range,
               :name,
               :description,
@@ -26,6 +27,7 @@ module MTMD
             Sequel::Model.db[:shopping_lists].
               select(
                 :shopping_lists__id___id,
+                :menu_id,
                 :menus__date_range___date_range,
                 :title___name,
                 :shopping_lists__description,
