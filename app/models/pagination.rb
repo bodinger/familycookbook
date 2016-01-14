@@ -5,8 +5,7 @@ module MTMD
       PAGE_NUMBER  = 1
 
       attr_reader :page_size,
-                  :page_number,
-                  :total
+                  :page_number
 
       attr_accessor :errors_array,
                     :total
@@ -38,7 +37,7 @@ module MTMD
 
       def last
         return nil unless total
-        (total / page_size).to_f.ceil
+        total_pages
       end
 
       def first
@@ -56,6 +55,12 @@ module MTMD
 
       def errors
         errors_array
+      end
+
+      def total_pages
+        value = total.to_f / page_size.to_f
+        return value.ceil if value < 1.0
+        value.to_i
       end
 
     end

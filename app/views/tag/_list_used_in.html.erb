@@ -1,0 +1,19 @@
+<%- if @tag.used_in_recipes.any? %>
+<div class="clearfix"><br/></div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <%- unless @tag.blank? && @tag.used_in_recipes.any? %>
+        <div class="col-md-6">
+            <h4>Verwendet in Rezepten:</h4>
+            <ul>
+            <%- @tag.used_in_recipes.each do |recipe| %>
+                <li>
+                    <%= link_to recipe.title, url(:recipe, :show, :id => recipe.id) %>
+                </li>
+            <% end %>
+            </ul>
+        </div>
+        <% end %>
+    </div>
+</div>
+<% end %>

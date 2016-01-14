@@ -1,5 +1,21 @@
 <%- actions2(plus_link('Add tag', :href => url(:tag, :new), :class => 'btn btn-success')) %>
 
+<div class="clearfix">
+    <div class="row">
+        <div class="text-center opacity-66">
+            <%= select_tag :tag_name,
+                           :options => tag_options,
+                           :include_blank => true,
+                           :id => "mtmd-family-cook-book-tag-name",
+                           :name => 'mtmd_family_cook_book_tag[name]',
+                           :selected => '',
+                           :class => 'form-inline tag_typeahead_selector opacity-66' %>
+        </div>
+    </div>
+</div>
+
+<%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
+
 <div class="panel">
     <div class="panel-heading">
         <div class="row">
@@ -24,3 +40,15 @@
     <% end %>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            selector = FancySelector.prototype.initialize('.tag_typeahead_selector', '/familycookbook/tag/as_array', 'Type to find existing tag');
+            selector.select2('open');
+            selector.change("select2-selecting", function(e) {
+                $(location).attr('href', '<%= url(:tag, :edit) %>' + e.delegateTarget.value);
+            });
+        }
+    );
+</script>

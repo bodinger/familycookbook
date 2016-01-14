@@ -21,7 +21,9 @@ MTMD::FamilyCookBook::App.controllers :tag do
   end
 
   get :index  do
-    @items = @logic_class.tags
+    @pagination = pagination_from_params(@logic_class.params)
+    @items      = @logic_class.tags(@pagination)
+
     render 'tag/index'
   end
 

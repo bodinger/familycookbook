@@ -34,23 +34,29 @@ module MTMD
       end
 
       def tag_options
-        if @params
-          return MTMD::FamilyCookBook::Tag.
-            where(Sequel.like(:name, "#{@params['q']}%")).
-            order(:name).
-            select_map(:name)
+        query = MTMD::FamilyCookBook::Tag.
+          select(:id, :name___text).
+          order(:name)
+        if @params && @params['q']
+          query_string = @params['q']
+          return query if query_string.blank?
+          return query.
+            where(Sequel.ilike(:name, "#{query_string}%"))
         end
-        MTMD::FamilyCookBook::Tag.
-          order(:name).
-          select_map(:name)
+        query
       end
 
       def tag_params
         @params[:mtmd_family_cook_book_tag] ||= {}.with_indifferent_access
       end
 
-      def tags
-        MTMD::FamilyCookBook::Tag.order(:name).all
+      def tags(pagination = nil)
+        query = MTMD::FamilyCookBook::Tag.order(:name)
+        if pagination
+          pagination.total = query.count
+          query = query.limit(pagination.page_size).offset(pagination.offset)
+        end
+        query.all
       end
 
     end

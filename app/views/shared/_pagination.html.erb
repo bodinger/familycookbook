@@ -10,14 +10,14 @@
           <br/>
       </div>
       <div class="lg-col-3 pull-right" style="width: 160px;">
-          <%- if @pagination.next && @pagination.page_number != @pagination.last %>
+          <%- if @pagination.last > 1 && @pagination.next && @pagination.page_number != @pagination.last %>
             <%= next_link('Nächste', :href => "#{request.path.chomp('/')}?page=#{@pagination.next}", :class => 'btn btn-default btn-sm') %>
           <% end %>
-          <%- if @pagination.last && @pagination.page_number != @pagination.last %>
+          <%- if @pagination.last > 1 && @pagination.last && @pagination.page_number != @pagination.last %>
             <%= last_link('Letzte', :href => "#{request.path.chomp('/')}?page=#{@pagination.last}", :class => 'btn btn-default btn-sm') %>
           <% end %>
           <br/>
       </div>
-      <div class="text-center lg-col-6"><strong>Seite <%= @pagination.page_number %> von <%= @pagination.last %></strong></div>
+      <div class="text-center lg-col-6"><strong>Seite <%= @pagination.page_number %> von <%= @pagination.total_pages %></strong></div>
   </div>
 </div>

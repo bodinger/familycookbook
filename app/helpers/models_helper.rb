@@ -30,8 +30,8 @@ module MTMD
         end
       end
 
-      def tags_options
-        MTMD::FamilyCookBook::Tag.
+      def tag_options
+        urk = MTMD::FamilyCookBook::Tag.
           order(:name).
           select_map([:name, :id])
       end

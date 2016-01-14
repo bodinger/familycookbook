@@ -18,7 +18,7 @@ MTMD::FamilyCookBook::App.controllers :ingredient do
 
   get :index, :with => '(:page, :limit)'  do
     @pagination = pagination_from_params(@logic_class.params)
-    @items     = @logic_class.ingredients(@pagination)
+    @items      = @logic_class.ingredients(@pagination)
 
     render 'ingredient/index'
   end

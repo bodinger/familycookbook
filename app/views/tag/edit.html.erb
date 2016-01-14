@@ -10,3 +10,4 @@
   <%= render_partial 'shared/js_bind_submit', :locals => { :object => @tag, :object_name => 'tag', :action => :new } %>
 <% end %>
 
+<%= render_partial 'tag/list_used_in', :object => @tag, :locals => { :action => :edit } %>

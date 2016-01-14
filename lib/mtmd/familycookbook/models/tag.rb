@@ -11,6 +11,12 @@ module MTMD
       plugin :association_dependencies,
              :recipes => :nullify
 
+
+      def used_in_recipes
+        MTMD::FamilyCookBook::Recipe.
+          where(:id => recipes_dataset.select_map(:id)).
+          all
+      end
     end
   end
 end
