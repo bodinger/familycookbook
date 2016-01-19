@@ -1,4 +1,6 @@
-<%- actions({ 'Add ingredient type' => url(:ingredient_type, :new) }) %>
+<%- actions2(plus_link('Add ingredient type', :href => url(:ingredient_type, :new), :class => 'btn btn-success')) %>
+
+<%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
 
 <table class="table">
     <thead>

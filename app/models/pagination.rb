@@ -1,7 +1,7 @@
 module MTMD
   module FamilyCookBook
     class Pagination
-      PAGE_SIZE    = 25
+      PAGE_SIZE    = 20
       PAGE_NUMBER  = 1
 
       attr_reader :page_size,
@@ -11,6 +11,7 @@ module MTMD
                     :total
 
       def initialize(options = {})
+        options       = options.symbolize_keys
         @errors_array = []
         @total        = options.fetch(:total, nil)
         @page_size    = options.fetch(:limit, PAGE_SIZE).to_i

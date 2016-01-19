@@ -20,7 +20,7 @@ MTMD::FamilyCookBook::App.controllers :tag do
     render 'show'
   end
 
-  get :index  do
+  get :index, :with => '(:page, :limit)'  do
     @pagination = pagination_from_params(@logic_class.params)
     @items      = @logic_class.tags(@pagination)
 

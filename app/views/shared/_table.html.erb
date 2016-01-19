@@ -1,0 +1,45 @@
+<div class="panel">
+
+  <%- if data.head.any? %>
+  <div class="panel-heading">
+    <div class="row">
+    <%- if data.head.each do |col| %>
+      <div class="<%= col[:class] %>"><strong><%= col[:content] %></strong><br/></div>
+    <% end %>
+    </div>
+  </div>
+  <% end %>
+
+  <%- if data.body.any? %>
+  <div class="panel-body">
+    <% data.body.each_with_index do |item, index| %>
+    <div class="row row-pd row-<%= row_class(index) %>">
+      <div class="col <%= col[:class] %>">
+          <%= col[:content] %>
+          <%- if item[:type] == 'MTMD::FamilyCookBook::ShoppingList' %>
+            <%= menu_link('Menu plan', :href => url(:menuplanner, :edit, :id => item[:menu_id]), :class => 'btn btn-primary btn-xs mg-right') %>
+            <%= list_link('Shopping List', :href => url(:shoppinglist, :show, :id => item[:id]), :class => 'btn btn-primary btn-xs pull-left mg-right') %>
+          <% else %>
+            <%= menu_link('Menu plan', :href => url(:menuplanner, :edit, :id => item[:menu_id]), :class => 'btn btn-primary btn-xs mg-right') %>
+          <% end %>
+      </div>
+      <div class="col <%= col[:class] %>">
+          <strong>
+              <%= item[:date_range].begin.strftime('%d.%m.%Y')+' - '+item[:date_range].end.strftime('%d.%m.%Y') %> <%= item[:name] %>
+          </strong>
+      </div>
+      <div class="col <%= col[:class] %>">
+          <%- if item[:type] == 'MTMD::FamilyCookBook::Menu' %>
+            <%= plus_link('Create new list from menu plan', :href => url(:shoppinglist, :create_from_menu, :menu_id => item[:id]), :class => 'btn btn-warning btn-xs pull-left mg-right') %>
+          <% else %>
+            <%= edit_link('Edit', :href => url(:shoppinglist, :edit, :id => item[:id]), :class => 'btn btn-primary btn-xs pull-left mg-right') %>
+            <%= eye_open_link('Show', :href => url(:shoppinglist, :show, :id => item[:id]), :class => 'btn btn-success btn-xs pull-left mg-right') %>
+            <%= trash_link('Delete', :href => url(:shoppinglist, :destroy, :id => item[:id]), :method => :delete, :class => 'btn btn-danger btn-xs pull-left mg-right', :confirm => 'Do you really want to delete this shopping list? Any edited list items will be deleted!') %>
+            <%= edit_link('Single edit', :href => url(:shoppinglist, :edit_single, :id => item[:id]), :class => 'btn btn-info btn-xs pull-left') %>
+          <% end %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
+</div>
