@@ -1,0 +1,19 @@
+<%- if @ingredient_type.ingredients.any? %>
+<div class="clearfix"><br/></div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <%- unless @ingredient_type.blank? && @ingredient_type.ingredients.any? %>
+        <div class="col-md-6">
+            <h4>Verwendet in Zutaten:</h4>
+            <ul>
+            <%- @ingredient_type.ingredients.each do |ingredient| %>
+                <li>
+                    <%= link_to ingredient.title, url(:ingredient, :show, :id => ingredient.id) %>
+                </li>
+            <% end %>
+            </ul>
+        </div>
+        <% end %>
+    </div>
+</div>
+<% end %>

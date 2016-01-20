@@ -20,9 +20,15 @@ module MTMD
                   :key         => :id,
                   :primary_key => :ingredient_id
 
+      one_to_many :ingredient_types,
+                  :class       => 'MTMD::FamilyCookBook::IngredientType',
+                  :key         => :id,
+                  :primary_key => :ingredient_type_id
+
       plugin :association_dependencies,
              :recipes               => :nullify,
-             :ingredient_quantities => :nullify
+             :ingredient_quantities => :nullify,
+             :ingredient_types      => :nullify
 
       def type
         ingredient_type = MTMD::FamilyCookBook::IngredientType[ingredient_type_id]

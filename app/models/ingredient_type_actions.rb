@@ -39,8 +39,13 @@ module MTMD
         @params[:mtmd_family_cook_book_ingredient_type] ||= {}.with_indifferent_access
       end
 
-      def ingredients
-        MTMD::FamilyCookBook::IngredientType.order(:title).all
+      def ingredient_types(pagination = nil)
+        query = MTMD::FamilyCookBook::IngredientType.order(:title)
+        if pagination
+          pagination.total = query.count
+          query = query.limit(pagination.page_size).offset(pagination.offset)
+        end
+        query.all
       end
 
       def ingredient_type_options
