@@ -55,7 +55,6 @@ $(document).ready(
   }
 );
 
-
 function AutoCompleter() {}
 AutoCompleter.prototype = {
   inputSelector:      '',
@@ -219,6 +218,14 @@ WysiwygEditor.prototype = {
 
   setUpEditor: function() {
     this.getEditor().summernote(this.editorOptions);
+    $.summernote.pluginEvents['tab'] = function(event, editor, layoutInfo){
+      console.log('Find a solution to prevent tab input and instead go to next tabindex element');
+      $.tabNext();
+    };
+    $.summernote.pluginEvents['untab'] = function(event, editor, layoutInfo){
+      console.log('Find a solution to prevent tab input and instead go to previous tabindex element');
+      $.tabPrev();
+    };
   },
 
   setInitialValue: function() {
