@@ -7,7 +7,8 @@
 <%- form_for :ingredient_type, url(:ingredient_type, :update, :id => @ingredient_type.id), :method => :put, :class => 'form-horizontal', :id => 'ingredient_type' do |f| %>
   <%= render_partial 'ingredient_type/form_fields', :object => f %>
   <%= f.submit 'Update', :class => 'btn btn-primary hidden', :id => 'ingredient-type-form-'+@ingredient_type.id.to_s+'-submit' %>
-  <%= render_partial 'shared/js_bind_submit', :locals => { :object => @ingredient_type, :object_name => 'ingredient_type', :action => :new } %>
 <% end %>
 
 <%= render_partial 'ingredient_type/list_used_in', :object => @tag, :locals => { :action => :edit } %>
+
+<%= render_partial 'shared/js_bind_submit', :locals => { :object => @ingredient_type, :object_name => 'ingredient-type', :action => :edit } %>

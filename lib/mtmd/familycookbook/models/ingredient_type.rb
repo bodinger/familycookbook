@@ -23,6 +23,7 @@ module MTMD
       def ingredients
         MTMD::FamilyCookBook::Ingredient.
           where(:id => ingredients_dataset.select_map(:id)).
+          order(:title).
           all
       end
 

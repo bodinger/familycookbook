@@ -47,6 +47,7 @@ MTMD::FamilyCookBook::App.controllers :ingredient do
   end
 
   get :edit, :with => '(:id)' do
+    @tabindex   = @logic_class.tabindex
     @ingredient = @logic_class.check_id
 
     unless @ingredient

@@ -1,11 +1,13 @@
+
+
 <%- actions2([
-  remove_link('Cancel', :href => url(:ingredient, :index), :class => 'btn btn-danger'),
+  remove_link('Cancel', :href => url(:ingredient, :index), :class => 'btn btn-danger', :tabindex => @tabindex.next_reverse),
   '&nbsp;'.html_safe,
-  checked_link('Update', :href => '#', :id => 'ingredient-form-'+@ingredient.id.to_s+'-button', :class => 'btn btn-success')
+  checked_link('Update', :href => '#', :id => 'ingredient-form-'+@ingredient.id.to_s+'-button', :class => 'btn btn-success', :tabindex => @tabindex.next_reverse)
 ]) %>
 
 <%- form_for :ingredient, url(:ingredient, :update, :id => @ingredient.id), :method => :put, :class => 'form-horizontal', :id => 'ingredient' do |f| %>
-  <%= render_partial 'ingredient/form_fields', :object => f %>
+  <%= render_partial 'ingredient/form_fields', :object => f, :locals => { :tabindex => @tabindex } %>
   <%= f.submit 'Update', :class => 'btn btn-primary hidden', :id => 'ingredient-form-'+@ingredient.id.to_s+'-submit' %>
 <% end %>
 

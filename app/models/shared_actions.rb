@@ -72,6 +72,10 @@ module MTMD
         ingredient_type.id
       end
 
+      def tabindex
+        MTMD::FamilyCookBook::Tabindices.new
+      end
+
     end
   end
 end

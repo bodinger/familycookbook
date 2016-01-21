@@ -48,6 +48,10 @@ module MTMD
           'odd'
         end
 
+        def get_tabindices
+          MTMD::FamilyCookBook::Tabindices.new
+        end
+
         def active_nav_class_for_controller(controller)
           request.controller == controller.to_s ? 'active' : ''
         end

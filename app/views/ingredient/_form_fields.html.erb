@@ -11,7 +11,9 @@
                        :id => "mtmd-family-cook-book-ingredient-title",
                        :name => 'mtmd_family_cook_book_ingredient[title]',
                        :selected => @ingredient.title,
-                       :class => 'form-inline ingredient_typeahead_selector' %>
+                       :class => 'form-inline ingredient_typeahead_selector',
+                       'tabindex' => tabindex.next
+        %>
 
     </div>
 </div>
@@ -25,7 +27,9 @@
                        :id => "ingredient-ingredient-type-id",
                        :name => 'mtmd_family_cook_book_ingredient[ingredient_type_id]',
                        :selected => @ingredient.ingredient_type_id,
-                       :class => 'form-inline ingredient_type_typeahead_selector' %>
+                       :class => 'form-inline ingredient_type_typeahead_selector',
+                       'tabindex' => tabindex.next
+        %>
 
     </div>
 </div>
@@ -35,7 +39,7 @@
 <div class="form-group">
   <label class="col-sm-2" for="ingredient-description">Description: </label>
   <div class="col-sm-9">
-    <div id="ingredient-description" class="wysiwyg-editor"></div>
+    <div id="ingredient-description" class="wysiwyg-editor" tabindex=<%= tabindex.next %>></div>
   </div>
 </div>
 

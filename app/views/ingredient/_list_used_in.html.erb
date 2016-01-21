@@ -2,7 +2,7 @@
 <div class="clearfix"><br/></div>
 <div class="panel panel-default">
     <div class="panel-body">
-        <%- unless @ingredient.blank? && @ingredient.used_in_recipes.any? %>
+        <%- unless @ingredient.used_in_recipes.blank? %>
         <div class="col-md-6">
             <h4>Verwendet in Rezepten:</h4>
             <ul>
@@ -14,7 +14,7 @@
             </ul>
         </div>
         <% end %>
-        <%- unless @ingredient.blank? && @ingredient.used_in_shopping_lists.any? %>
+        <%- unless @ingredient.used_in_shopping_lists.blank? %>
         <div class="col-md-6">
             <h4>Verwendet in Einkaufslisten:</h4>
             <ul>
