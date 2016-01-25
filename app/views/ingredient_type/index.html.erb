@@ -1,5 +1,7 @@
 <%- actions2(plus_link('Add ingredient type', :href => url(:ingredient_type, :new), :class => 'btn btn-success')) %>
 
+<%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
+
 <div class="clearfix">
     <div class="row">
         <div class="text-center opacity-66">
@@ -14,8 +16,6 @@
     </div>
 </div>
 
-<%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
-
 <div class="panel">
     <div class="panel-heading">
         <div class="row">
@@ -28,12 +28,13 @@
         <% @items.each_with_index do |ingredient_type, index| %>
           <div class="row row-pd">
               <div class="col col-md-3 shopping-list-item-<%= ingredient_type.color_code %>"><%= link_to ingredient_type.title, url(:ingredient_type, :edit, id: ingredient_type.id) %></div>
-              <div class="col col-md-3 shopping-list-item-<%= ingredient_type.color_code %>"><%= ingredient_type.color_code %></div>
-              <div class="col col-md-6 shopping-list-item-<%= ingredient_type.color_code %>">
+              <div class="col col-md-6 shopping-list-item-<%= ingredient_type.color_code %>"><%= ingredient_type.color_code %></div>
+              <div class="col col-md-3 shopping-list-item-<%= ingredient_type.color_code %>">
+                  <%= edit_link('Edit', :href => url(:ingredient_type, :edit, :id => ingredient_type.id), :class => 'btn btn-success btn-xs') %>
                   <%- if ingredient_type.ingredients.any? %>
-                    <%= exclamation_link('Can not delete a referenced ingredient type', :class => 'btn btn-info btn-xs') %>
+                    <%= exclamation_link('', :class => 'btn btn-danger btn-xs warningToolTip', :title => 'Can not delete a referenced ingredient type!') %>
                   <% else %>
-                    <%= trash_link('Delete ingredient type', :href => url(:ingredient_type, :destroy, :id => ingredient_type.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient type?') %>
+                    <%= trash_link('Delete', :href => url(:ingredient_type, :destroy, :id => ingredient_type.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient type?') %>
                   <% end %>
               </div>
           </div>
@@ -44,6 +45,8 @@
 <script type="text/javascript">
     $(document).ready(
         function () {
+            $('.warningToolTip').aToolTip();
+
             selector = FancySelector.prototype.initialize('.ingredient_type_typeahead_selector', '/familycookbook/ingredient_type/as_array', 'Type to find existing ingredient type');
             selector.select2('open');
             selector.change("select2-selecting", function(e) {

@@ -22,7 +22,7 @@ module MTMD
           select_map([:title, :id])
       end
 
-      def units_options
+      def unit_options
         units = MTMD::FamilyCookBook::Unit.
           order(:name)
         units.each_with_object([]) do |unit, agg|

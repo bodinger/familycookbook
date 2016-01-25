@@ -1,5 +1,7 @@
 <%- actions2(plus_link('Add tag', :href => url(:tag, :new), :class => 'btn btn-success')) %>
 
+<%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
+
 <div class="clearfix">
     <div class="row">
         <div class="text-center opacity-66">
@@ -13,8 +15,6 @@
         </div>
     </div>
 </div>
-
-<%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
 
 <div class="panel">
     <div class="panel-heading">
@@ -30,10 +30,11 @@
             <div class="col col-md-3"><%= link_to tag.name, url(:tag, :edit, id: tag.id) %></div>
             <div class="col col-md-6"><%= tag.description %></div>
             <div class="col col-md-3">
+                <%= edit_link('Edit', :href => url(:tag, :edit, :id => tag.id), :class => 'btn btn-success btn-xs') %>
                 <%- if tag.recipes.any? %>
-                  <%= exclamation_link('Can not delete a referenced tag', :class => 'btn btn-info btn-xs') %>
+                  <%= exclamation_link('', :class => 'btn btn-danger btn-xs warningToolTip', :title => 'Can not delete a referenced tag!') %>
                 <% else %>
-                  <%= trash_link('Delete tag', :href => url(:tag, :destroy, :id => tag.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this tag?') %>
+                  <%= trash_link('Delete', :href => url(:tag, :destroy, :id => tag.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this tag?') %>
                 <% end %>
             </div>
         </div>
@@ -44,6 +45,8 @@
 <script type="text/javascript">
     $(document).ready(
         function () {
+            $('.warningToolTip').aToolTip();
+
             selector = FancySelector.prototype.initialize('.tag_typeahead_selector', '/familycookbook/tag/as_array', 'Type to find existing tag');
             selector.select2('open');
             selector.change("select2-selecting", function(e) {

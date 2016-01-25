@@ -37,8 +37,13 @@ module MTMD
         @params[:mtmd_family_cook_book_unit] ||= {}.with_indifferent_access
       end
 
-      def units
-        MTMD::FamilyCookBook::Unit.order(:name).all
+      def units(pagination = nil)
+        query = MTMD::FamilyCookBook::Unit.order(:name)
+        if pagination
+          pagination.total = query.count
+          query = query.limit(pagination.page_size).offset(pagination.offset)
+        end
+        query.all
       end
 
       def unit_options

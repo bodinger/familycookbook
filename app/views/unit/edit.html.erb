@@ -1,7 +1,13 @@
-<%- actions({ 'Cancel' => url(:unit, :show, :id => @unit.id) }) %>
+<%- actions2([
+  remove_link('Cancel', :href => url(:unit, :index), :class => 'btn btn-danger'),
+  '&nbsp;'.html_safe,
+  checked_link('Update', :href => '#', :id => 'unit-form-'+@unit.id.to_s+'-button', :class => 'btn btn-success')
+]) %>
 
 <%- form_for :unit, url(:unit, :update, :id => @unit.id), :method => :put, :class => 'form-horizontal' do |f| %>
   <%= render_partial 'unit/form_fields', :object => f %>
-  <%= f.submit 'Update', :class => 'btn btn-primary' %>
+  <%= f.submit 'Update', :class => 'btn btn-primary hidden', :id => 'unit-form-'+@unit.id.to_s+'-submit' %>
+  <%= render_partial 'shared/js_bind_submit', :locals => { :object => @unit, :object_name => 'unit', :action => :edit } %>
 <% end %>
 
+<%= render_partial 'unit/list_used_in', :object => @unit, :locals => { :action => :edit } %>

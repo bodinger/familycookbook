@@ -1,5 +1,7 @@
 <%- actions2(plus_link('Add ingredient', :href => url(:ingredient, :new), :class => 'btn btn-success')) %>
 
+<%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
+
 <div class="clearfix">
   <div class="row">
     <div class="text-center opacity-66">
@@ -13,8 +15,6 @@
     </div>
   </div>
 </div>
-
-<%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
 
 <div class="panel">
   <div class="panel-heading">
@@ -30,8 +30,9 @@
       <div class="col col-md-6"><%= link_to ingredient.title, url(:ingredient, :edit, id: ingredient.id) %></div>
       <div class="col col-md-3"><%= ingredient.type %></div>
       <div class="col col-md-3">
+        <%= edit_link('Edit', :href => url(:ingredient, :edit, :id => ingredient.id), :class => 'btn btn-success btn-xs') %>
         <%- if ingredient.used_in_recipes.any? || ingredient.used_in_shopping_lists.any? %>
-          <%= exclamation_link('Can not delete a referenced ingredient', :class => 'btn btn-info btn-xs') %>
+          <%= exclamation_link('', :class => 'btn btn-danger btn-xs warningToolTip', :title => 'Can not delete a referenced ingredient!') %>
         <% else %>
           <%= trash_link('Delete ingredient', :href => url(:ingredient, :destroy, :id => ingredient.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this ingredient?') %>
         <% end %>
@@ -45,6 +46,8 @@
 <script type="text/javascript">
   $(document).ready(
       function () {
+        $('.warningToolTip').aToolTip();
+
         selector = FancySelector.prototype.initialize('.ingredient_typeahead_selector', '/familycookbook/ingredient/as_array', 'Type to find existing ingredient');
         selector.select2('open');
         selector.change("select2-selecting", function(e) {

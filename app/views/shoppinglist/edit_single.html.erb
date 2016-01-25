@@ -1,6 +1,7 @@
 <h3>Single edit</h3>
-
-<%- actions({ 'Cancel' => url(:shoppinglist, :show, :id => @shopping_list.id) }) %>
+<%- actions2([
+  remove_link('Cancel', :href => url(:shoppinglist, :show, :id => @shopping_list.id), :class => 'btn btn-danger')
+]) %>
 
 <%= render_partial 'shoppinglist/shopping_list_single', :object => @shopping_list, :locals => { :action => :edit_single } %>
 

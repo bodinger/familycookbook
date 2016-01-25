@@ -1,4 +1,4 @@
-<%- if @ingredient.used_in_shopping_lists.any? || @ingredient.used_in_recipes.any? %>
+<%- if !@ingredient.used_in_shopping_lists.blank? || !@ingredient.used_in_recipes.blank? %>
 <div class="clearfix"><br/></div>
 <div class="panel panel-default">
     <div class="panel-body">

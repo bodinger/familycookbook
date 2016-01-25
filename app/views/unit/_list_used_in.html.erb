@@ -1,0 +1,31 @@
+<%- if !@unit.used_in_recipes.blank? || !@unit.used_in_shopping_lists.blank? %>
+  <div class="clearfix"><br/></div>
+  <div class="panel panel-default">
+      <div class="panel-body">
+          <%- unless @unit.used_in_recipes.blank? %>
+            <div class="col-md-6">
+                <h4>Verwendet in den Rezepten:</h4>
+                <ul>
+                    <%- @unit.used_in_recipes.each do |recipe| %>
+                      <li>
+                          <%= link_to recipe.title, url(:recipe, :show, :id => recipe.id) %>
+                      </li>
+                    <% end %>
+                </ul>
+            </div>
+          <% end %>
+          <%- unless @unit.used_in_shopping_lists.blank? %>
+            <div class="col-md-6">
+                <h4>Verwendet in Einkaufslisten:</h4>
+                <ul>
+                    <%- @unit.used_in_shopping_lists.each do |shopping_list| %>
+                      <li>
+                          <%= link_to shopping_list.title, url(:shoppinglist, :show, :id => shopping_list.id) %>
+                      </li>
+                    <% end %>
+                </ul>
+            </div>
+          <% end %>
+      </div>
+  </div>
+<% end %>

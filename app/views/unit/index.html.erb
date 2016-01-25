@@ -1,37 +1,59 @@
-<%- actions({ 'Add unit' => url(:unit, :new) }) %>
+<%- actions2(plus_link('Add unit', :href => url(:unit, :new), :class => 'btn btn-success')) %>
 
-<table class="table">
-    <thead>
-    <th>
-        Name
-    </th>
-    <th>
-        Short name
-    </th>
-    <th>
-        Description
-    </th>
-    <th>
-        Action
-    </th>
-    </thead>
-    <tbody>
-    <% @items.each do |unit| %>
-        <tr>
-            <td>
-                <%= link_to unit.name, url(:unit, :show, id: unit.id) %>
-            </td>
-            <td>
-                <%= unit.short_name %>
-            </td>
-            <td>
-                <%= unit.description %>
-            </td>
-            <td>
-                <%= link_to 'Delete unit', url(:unit, :destroy, :id => unit.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this unit?' %>
-            </td>
-        </tr>
-    <% end %>
-    </tbody>
-</table>
+<%= render_partial 'shared/pagination', :object => @pagination, :locals => { :action => :index } %>
 
+<div class="clearfix">
+    <div class="row">
+        <div class="text-center opacity-66">
+            <%= select_tag :tag_name,
+                           :options => unit_options,
+                           :include_blank => true,
+                           :id => "mtmd-family-cook-book-unit-name",
+                           :name => 'mtmd_family_cook_book_unit[name]',
+                           :selected => '',
+                           :class => 'form-inline unit_typeahead_selector opacity-66' %>
+        </div>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-3"><strong>Name</strong><br/></div>
+            <div class="col-md-3"><strong>Short name</strong></div>
+            <div class="col-md-3"><strong>Description</strong></div>
+            <div class="col-md-3"><strong>Action</strong></div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <% @items.each_with_index do |unit, index| %>
+          <div class="row row-pd row-<%= row_class(index) %>">
+              <div class="col col-md-3"><%= link_to unit.name, url(:unit, :edit, id: unit.id) %></div>
+              <div class="col col-md-3"><%= unit.short_name %></div>
+              <div class="col col-md-3"><%= unit.description %></div>
+              <div class="col col-md-3">
+                  <%= edit_link('Edit', :href => url(:unit, :edit, :id => unit.id), :class => 'btn btn-success btn-xs') %>
+                  <%- if unit.ingredient_quantities.any? || unit.shopping_list_items.any? %>
+                    <%= exclamation_link('', :class => 'btn btn-danger btn-xs warningToolTip', :title => 'Can not delete a referenced unit!') %>
+                  <% else %>
+                    <%= trash_link('Delete', :href => url(:unit, :destroy, :id => unit.id), :method => :delete, :class => 'btn btn-danger btn-xs', :confirm => 'Do you really want to delete this unit?') %>
+                  <% end %>
+              </div>
+          </div>
+        <% end %>
+    </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(
+      function () {
+        $('.warningToolTip').aToolTip();
+
+        selector = FancySelector.prototype.initialize('.unit_typeahead_selector', '/familycookbook/unit/as_array', 'Type to find existing unit');
+        selector.select2('open');
+        selector.change("select2-selecting", function(e) {
+          $(location).attr('href', '<%= url(:unit, :edit) %>' + e.delegateTarget.value);
+        });
+      }
+  );
+</script>

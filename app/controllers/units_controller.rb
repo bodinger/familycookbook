@@ -22,7 +22,9 @@ MTMD::FamilyCookBook::App.controllers :unit do
   end
 
   get :index  do
-    @items = @logic_class.units
+    @pagination = pagination_from_params(@logic_class.params)
+    @items      = @logic_class.units(@pagination)
+
     render 'unit/index'
   end
 
@@ -86,7 +88,7 @@ MTMD::FamilyCookBook::App.controllers :unit do
     else
       flash[:message] = "Nothing has been saved/changed!"
     end
-    redirect_to url(:unit, :show, unit.id)
+    redirect_to url(:unit, :edit, unit.id)
   end
 
 end
