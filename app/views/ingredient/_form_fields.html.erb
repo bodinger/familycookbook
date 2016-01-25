@@ -47,6 +47,13 @@
 $(document).ready(
   function () {
     WysiwygEditor.prototype.initialize('ingredient', 'mtmd_family_cook_book_ingredient_description', 'ingredient-description');
+
+    // Setup editor to focus "Update button" on pressing tab within editor.
+    $.summernote.pluginEvents['tab'] = function(event, editor, layoutInfo){
+      event.preventDefault();
+      $('#ingredient-form-<%= @ingredient.id.to_s %>-button').focus();
+    };
+
     FancySelector.prototype.initialize('.ingredient_typeahead_selector', '/familycookbook/ingredient/as_array_with_string_values', 'Type to add a new or find existing ingredient');
     FancySelector.prototype.initialize('.ingredient_type_typeahead_selector', '/familycookbook/ingredient_type/as_array', 'Select an ingredient type');
   }

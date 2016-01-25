@@ -210,22 +210,15 @@ WysiwygEditor.prototype = {
     this.setTarget(targetDomId);
     this.setEditor(editorDomId);
 
-    this.setUpEditor();
+    editor = this.setUpEditor();
     this.setInitialValue();
     this.setUpFormBinding();
     self = this;
+    return editor;
   },
 
   setUpEditor: function() {
-    this.getEditor().summernote(this.editorOptions);
-    $.summernote.pluginEvents['tab'] = function(event, editor, layoutInfo){
-      console.log('Find a solution to prevent tab input and instead go to next tabindex element');
-      $.tabNext();
-    };
-    $.summernote.pluginEvents['untab'] = function(event, editor, layoutInfo){
-      console.log('Find a solution to prevent tab input and instead go to previous tabindex element');
-      $.tabPrev();
-    };
+    return this.getEditor().summernote(this.editorOptions);
   },
 
   setInitialValue: function() {
