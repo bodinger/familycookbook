@@ -1,25 +1,25 @@
 <%- f = form_fields %>
 
 <%= error_messages { f.error_messages } %>
-<%= form_group(f, :title) %>
+<%= form_group(f, :title, :tabindex => @tabindex.next) %>
 <%= form_group(f, :description, { :input_type => :text_area, :form_group => { :class => 'hidden' } }) %>
 
 <div class="form-group">
     <label class="col-sm-2" for="recipe-description">Description: </label>
     <div class="col-sm-9">
-        <div id="recipe-description" class="wysiwyg-editor"></div>
+        <div id="recipe-description" class="wysiwyg-editor" tabindex=<%= @tabindex.next %>></div>
     </div>
 </div>
 
-<%= form_group(f, :type) %>
+<%= form_group(f, :type, :tabindex => @tabindex.next) %>
 
-<%= form_group(f, :difficulty) %>
-<%= form_group(f, :duration_cooking) %>
-<%= form_group(f, :duration_preparation) %>
-<%= form_group(f, :cookware_amount) %>
-<%= form_group(f, :calorie_indication) %>
+<%= form_group(f, :difficulty, :tabindex => @tabindex.next) %>
+<%= form_group(f, :duration_cooking, :tabindex => @tabindex.next) %>
+<%= form_group(f, :duration_preparation, :tabindex => @tabindex.next) %>
+<%= form_group(f, :cookware_amount, :tabindex => @tabindex.next) %>
+<%= form_group(f, :calorie_indication, :tabindex => @tabindex.next) %>
 
-<%= form_group(f, :tips_and_tricks) %>
+<%= form_group(f, :tips_and_tricks, :tabindex => @tabindex.next) %>
 
 
 
@@ -30,6 +30,14 @@
 $(document).ready(
   function () {
     WysiwygEditor.prototype.initialize('recipe', 'mtmd_family_cook_book_recipe_description', 'recipe-description');
+
+    $('.note-editable').attr('tabindex', 12);
+
+    // Setup editor to focus "Update button" on pressing tab within editor.
+    $.summernote.pluginEvents['tab'] = function(event, editor, layoutInfo){
+      event.preventDefault();
+      $.tabNext();
+    };
   }
 );
 </script>

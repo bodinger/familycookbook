@@ -58,10 +58,12 @@ module MTMD
 
         def form_group(form, attr, opts = {})
           input_type = opts.fetch(:input_type, :text_field)
+          tabindex = opts.delete(:tabindex)
           html = ''.html_safe
           html << form.label(opts.fetch(:label, attr), :class => 'col-sm-2')
           html << content_tag(:div, :class => 'col-sm-9') do
             text_field_opts = { :class => 'form-control' }
+            text_field_opts.merge!({ :tabindex => tabindex }) if tabindex
             text_field_opts.merge!(opts.slice(:value))
             form.send(input_type, attr, text_field_opts)
           end
