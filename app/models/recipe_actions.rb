@@ -43,8 +43,13 @@ module MTMD
         @params[:mtmd_family_cook_book_recipe] ||= {}.with_indifferent_access
       end
 
-      def recipes
-        MTMD::FamilyCookBook::Recipe.order(:title).all
+      def recipes(pagination = nil)
+        query = MTMD::FamilyCookBook::Recipe.order(:title)
+        if pagination
+          pagination.total = query.count
+          query = query.limit(pagination.page_size).offset(pagination.offset)
+        end
+        query.all
       end
 
       def add_amount_and_ingredient(ingredient_id, unit_id)
@@ -100,7 +105,7 @@ module MTMD
           query_string = @params['q']
           return query if query_string.blank?
           return query.
-            where(Sequel.ilike(:title, "#{query_string}%"))
+            where(Sequel.ilike(:title, "%#{query_string}%"))
         end
         query
       end

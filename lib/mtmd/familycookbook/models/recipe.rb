@@ -20,15 +20,31 @@ module MTMD
                    :left_key   => :recipe_id,
                    :right_key  => :tag_id
 
-      many_to_one :shopping_lists,
-                  :class       => 'MTMD::FamilyCookBook::ShoppingList',
-                  :key         => :id,
+      many_to_many :menu_items,
+                   :class     => 'MTMD::FamilyCookBook::MenuItem',
+                   :left_key  => :recipe_id,
+                   :right_key => :menu_items_id
+
+      many_to_many :shopping_list_items,
+                  :class       => 'MTMD::FamilyCookBook::ShoppingListItem',
+                  :key         => :shopping_list_item_id,
                   :primary_key => :recipe_id
 
       plugin :association_dependencies,
              :tags                  => :nullify,
              :ingredients           => :nullify,
-             :ingredient_quantities => :nullify
+             :ingredient_quantities => :nullify,
+             :shopping_list_items   => :nullify
+
+      def used_in_menus
+        menu_item_ids = menu_items_dataset.select_map(:menu_items_id)
+        menu_ids = MTMD::FamilyCookBook::MenuItem.
+          where(:id => menu_item_ids).
+          distinct(:menu_id).
+          select_map(:menu_id)
+
+        MTMD::FamilyCookBook::Menu.where(:id => menu_ids).all
+      end
 
     end
   end

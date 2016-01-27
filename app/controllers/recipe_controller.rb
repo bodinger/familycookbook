@@ -23,6 +23,10 @@ MTMD::FamilyCookBook::App.controllers :recipe do
 
   get :index  do
     @items = @logic_class.recipes
+
+    @pagination = pagination_from_params(@logic_class.params)
+    @items      = @logic_class.recipes(@pagination)
+
     render 'recipe/index'
   end
 

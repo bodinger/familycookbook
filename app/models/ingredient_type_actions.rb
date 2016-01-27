@@ -56,7 +56,7 @@ module MTMD
           query_string = @params['q']
           return query if query_string.blank?
           return query.
-            where(Sequel.ilike(:title, "#{query_string}%"))
+            where(Sequel.ilike(:title, "%#{query_string}%"))
         end
         query
       end

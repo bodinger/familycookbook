@@ -14,6 +14,7 @@ gem 'pry', '~> 0.10.1'
 
 gem 'capistrano', '~> 2.15.5'
 gem 'rvm-capistrano', '~> 1.5.3', :require => false
+gem 'rack-mini-profiler', '~> 0.9.8'
 
 
 # Test requirements
