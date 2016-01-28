@@ -4,39 +4,32 @@
     <%- params[:ingredient_id] = ingredient_quantity.ingredient_id %>
     <%- params[:description] = ingredient_quantity.description %>
 <% end %>
-<tr>
-    <td width="10%">
-        <%= input_tag :amount, :name => :amount, :value => params[:amount], :class => 'form-inline', :style => 'width: 5em;' %>
-    </td>
-    <td width="10%">
-        <div class="">
-            <%= select_tag :unit_id,
-                           :options => unit_options,
-                           :include_blank => true,
-                           :selected => params[:unit_id],
-                           :class => 'form-inline unit_typeahead_selector' %>
-        </div>
-    </td>
-    <td width="10%">
-            <%= select_tag :ingredient_id,
-                           :options => ingredients_options,
-                           :include_blank => true,
-                           :selected => params[:ingredient_id],
-                           :class => 'form-inline ingredient_typeahead_selector' %>
-    </td>
-    <td width="10%">
-        <%= input_tag :description, :name => :description, :class => 'form-inline', :value => params[:description] %>
-    </td>
-    <td class="text-right">
-        <%- unless ingredient_quantity.blank? %>
+
+<div class="row row-pd bg-info">
+  <div class="col-md-2"><%= input_tag :amount, :name => :amount, :value => params[:amount], :class => 'form-inline', :style => 'width: 5em;' %></div>
+  <div class="col-md-3"><%= select_tag :unit_id,
+                                       :options => unit_options,
+                                       :include_blank => true,
+                                       :selected => params[:unit_id],
+                                       :class => 'form-inline unit_typeahead_selector' %>
+  </div>
+  <div class="col-md-3"><%= select_tag :ingredient_id,
+                                       :options => ingredients_options,
+                                       :include_blank => true,
+                                       :selected => params[:ingredient_id],
+                                       :class => 'form-inline ingredient_typeahead_selector' %>
+  </div>
+  <div class="col-md-2"><%= input_tag :description, :name => :description, :class => 'form-inline', :value => params[:description] %></div>
+  <div class="col-md-2">
+      <%- unless ingredient_quantity.blank? %>
         <%= hidden_field_tag :ingredient_quantity_id, :name => :ingredient_quantity_id, :value => ingredient_quantity.id %>
         <button type="submit" class="btn btn-xs btn-success">
             <span class="glyphicon glyphicon-ok"></span>
         </button>
-        <% else %>
+      <% else %>
         <button type="submit" class="btn btn-xs btn-success">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
-        <% end %>
-    </td>
-</tr>
+      <% end %>
+  </div>
+</div>

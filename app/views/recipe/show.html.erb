@@ -1,4 +1,10 @@
-<%- actions({ 'Show all' => url(:recipe, :index) }) %>
+<%- actions2([
+  list_link('Show all', :href => url(:recipe, :index), :class => 'btn btn-info'),
+  '&nbsp;'.html_safe,
+  remove_link('Delete', :href => url(:recipe, :destroy, :id => @recipe.id), :class => 'btn btn-danger', :method => :delete, confirm: 'Are you sure that you want to delete this delicious recipe??'),
+  '&nbsp;'.html_safe,
+  edit_link('Edit', :href => url(:recipe, :edit, :id => @recipe.id), :id => 'recipe-form-'+@recipe.id.to_s+'-button', :class => 'btn btn-success')
+]) %>
 
 <div class="panel panel-default">
     <div class="panel-body">
@@ -57,23 +63,8 @@
 </div>
 <% end %>
 
-
-<table class="table">
-    <tbody>
-    <tr>
-        <td>
-            <%= link_to 'Edit', url(:recipe, :edit, id: @recipe.id), class: 'btn btn-primary' %>
-        </td>
-        <td>
-            <div class="pull-right">
-            <%= link_to 'Delete', url(:recipe, :destroy, id: @recipe.id), class: 'btn btn-danger', :method => :delete, confirm: 'Are you sure?' %>
-            </div>
-        </td>
-    </tr>
-                    </tbody>
-</table>
-
-
 <div class="ingredient-quantities">
   <%= partial 'ingredient_quantity/list', :object => @recipe.ingredient_quantities, :switch => 'show' %>
 </div>
+
+<%= render_partial 'shared/js_bind_submit', :locals => { :object => @recipe, :object_name => 'recipe', :action => :show } %>

@@ -31,7 +31,9 @@ MTMD::FamilyCookBook::App.controllers :recipe do
   end
 
   get :new do
-    @recipe = @logic_class.new
+    @recipe   = @logic_class.new
+    @tabindex = @logic_class.tabindex
+
     render 'recipe/new'
   end
 
@@ -62,7 +64,8 @@ MTMD::FamilyCookBook::App.controllers :recipe do
   end
 
   get :edit_single, :with => [:id, :ingredient_quantity_id] do
-    @recipe = @logic_class.check_recipe_id('id')
+    @recipe   = @logic_class.check_recipe_id('id')
+    @tabindex = @logic_class.tabindex
 
     unless @recipe
       flash[:error] = "Please provide a valid recipe!"
