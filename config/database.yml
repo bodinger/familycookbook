@@ -12,6 +12,18 @@ development: &default
     host: 127.0.0.1:6379
     database: 3
 
+heroku: &default
+  database:
+    host: ec2-54-195-252-202.eu-west-1.compute.amazonaws.com
+    name: dd1b55oadpuje1
+    user: jqrbssragjaxpg
+    password: 0kC3PnzpBwjm62pCRBUT5jhGcE
+  max_connections: 10
+  pg_options:
+    tcp_keepalives_idle: 60
+    tcp_keepalives_interval: 60
+    tcp_keepalives_count: 100
+
 test:
   <<: *default
   database:
