@@ -1,9 +1,20 @@
+<%#
+This template will bind a click event on the form buttons and fake a click
+on the submit button of the form.
+Let us hope this works in all browsers...
+%>
 <script type="text/javascript">
   $(document).ready(
-      function () {
-        $('#<%= object_name+'-form-'+object.id.to_s+'-button' %>').bind('click', function(){
-          $('#<%= object_name+'-form-'+object.id.to_s+'-submit' %>').click();
-        })
-      }
+    function () {
+      <%- if object %>
+      $('#<%= object_name+'-form-'+object.id.to_s+'-button' %>').bind('click', function(){
+        $('#<%= object_name+'-form-'+object.id.to_s+'-submit' %>').click();
+      })
+      <% else %>
+      $('#<%= object_name+'-form-button' %>').bind('click', function(){
+        $('#<%= object_name+'-form-submit' %>').click();
+      })
+      <% end %>
+    }
   );
 </script>

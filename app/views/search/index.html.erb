@@ -1,0 +1,25 @@
+<div class="panel">
+  <!--div class="panel-heading">
+    <div class="row">
+      <div class="col-md-6"><strong>Title</strong><br/></div>
+      <div class="col-md-3"><strong>Type</strong></div>
+      <div class="col-md-3"><strong>Action</strong></div>
+    </div>
+  </div-->
+  <div class="panel-body">
+    <div class="row row-pd">
+      <div class="col col-md-12">
+        <h3>Search recipe by ingredient</h3>
+        <%= partial 'search/search', :locals => { :type => :recipe_by_ingredient } %>
+      </div>
+    </div>
+
+    <div class="row row-pd">
+        <div class="col col-md-12">
+            <h3>Search recipe by tag</h3>
+            <%= partial 'search/search', :locals => { :type => :recipe_by_tag } %>
+        </div>
+    </div>
+  </div>
+</div>
+

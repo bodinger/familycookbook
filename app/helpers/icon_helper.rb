@@ -87,6 +87,10 @@ module MTMD
         link('exclamation-sign', text, opts.merge({:direction => 'left'}))
       end
 
+      def search_link(text, opts = {})
+        link('search', text, opts.merge({:direction => 'left'}))
+      end
+
 
 
       # def remove_icon(text, opts = {})

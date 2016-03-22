@@ -1,0 +1,13 @@
+<%- form_for MTMD::FamilyCookBook::SearchModel, url(:search, type), :method => :post, :class => 'form-horizontal', :id => 'search_'+type.to_s do |f| %>
+  <%= error_messages { f.error_messages } %>
+  <div class="form-group">
+      <label class="col-sm-2" for="search_<%= type.to_s %>_searchstring">Search: </label>
+      <div class="col-sm-9">
+          <%= input_tag :searchstring, :name => :searchstring, :value => params[:searchstring], :class => 'form-inline', :style => 'width: 5em;' %>
+      </div>
+  </div>
+  <%= search_link('Search', :href => '#', :id => 'search_' + type.to_s + '-form-button', :class => 'btn btn-success') %>
+  <%= f.submit 'Search', :class => 'btn btn-primary hidden', :id => 'search_' + type.to_s + '-form-submit' %>
+<% end %>
+
+<%= render_partial 'shared/js_bind_submit', :locals => { :object_name => 'search_'+type.to_s, :object => nil, :action => type } %>
