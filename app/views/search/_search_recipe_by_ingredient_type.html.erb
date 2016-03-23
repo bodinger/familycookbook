@@ -1,0 +1,30 @@
+<%- form_for MTMD::FamilyCookBook::SearchModel, url(:search, type), :method => :post, :class => 'form-horizontal', :id => 'search_'+type.to_s do |f| %>
+  <%= error_messages { f.error_messages } %>
+  <div class="form-group">
+    <div class="col-sm-2">
+      <%= select_tag :searchstring,
+                     :options       => ingredient_types_options,
+                     :include_blank => true,
+                     :id            => "ingredient-ingredient-type-id",
+                     :name          => 'searchstring',
+                     :selected      => nil,
+                     :class         => 'form-inline ingredient_type_typeahead_selector',
+                     :tabindex      => @tabindex.next
+      %>
+    </div>
+    <div class="col-sm-7">
+      <%= search_link('Search', :href => '#', :id => 'search_' + type.to_s + '-form-button', :class => 'btn btn-success', :tabindex => @tabindex.next) %>
+    </div>
+  </div>
+  <%= f.submit 'Search', :class => 'btn btn-primary hidden', :id => 'search_' + type.to_s + '-form-submit' %>
+<% end %>
+
+<%= render_partial 'shared/js_bind_submit', :locals => { :object_name => 'search_'+type.to_s, :object => nil, :action => type } %>
+
+<script type="text/javascript">
+  $(document).ready(
+    function () {
+      FancySelector.prototype.initialize('.ingredient_type_typeahead_selector', '/familycookbook/ingredient_type/as_array', 'Select an ingredient type');
+    }
+  );
+</script>

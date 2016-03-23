@@ -1,25 +1,27 @@
 <div class="panel">
-  <!--div class="panel-heading">
-    <div class="row">
-      <div class="col-md-6"><strong>Title</strong><br/></div>
-      <div class="col-md-3"><strong>Type</strong></div>
-      <div class="col-md-3"><strong>Action</strong></div>
-    </div>
-  </div-->
+
   <div class="panel-body">
     <div class="row row-pd">
       <div class="col col-md-12">
         <h3>Search recipe by ingredient</h3>
-        <%= partial 'search/search', :locals => { :type => :recipe_by_ingredient } %>
+        <%= partial 'search/search', :locals => { :type => :recipe_by_ingredient, :tabindex => @tabindex } %>
       </div>
     </div>
 
     <div class="row row-pd">
         <div class="col col-md-12">
             <h3>Search recipe by tag</h3>
-            <%= partial 'search/search', :locals => { :type => :recipe_by_tag } %>
+            <%= partial 'search/search_recipe_by_tag', :locals => { :type => :recipe_by_tag, :tabindex => @tabindex } %>
+        </div>
+    </div>
+
+    <div class="row row-pd">
+        <div class="col col-md-12">
+            <h3>Search recipe by ingredient type</h3>
+            <%= partial 'search/search_recipe_by_ingredient_type', :locals => { :type => :recipe_by_ingredient_type, :tabindex => @tabindex } %>
         </div>
     </div>
   </div>
+
 </div>
 

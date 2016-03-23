@@ -2,7 +2,15 @@
   <%= error_messages { f.error_messages } %>
   <div class="form-group">
     <div class="col-sm-2">
-      <%= input_tag :searchstring, :name => :searchstring, :value => params[:searchstring], :class => 'form-inline', :style => 'width: 5em;', :tabindex => @tabindex.next %>
+      <%= select_tag :searchstring,
+                     :options       => tag_options,
+                     :include_blank => true,
+                     :id            => "tag_options-id",
+                     :name          => 'searchstring',
+                     :selected      => nil,
+                     :class         => 'form-inline tag_options_typeahead_selector',
+                     :tabindex      => @tabindex.next
+      %>
     </div>
     <div class="col-sm-7">
       <%= search_link('Search', :href => '#', :id => 'search_' + type.to_s + '-form-button', :class => 'btn btn-success', :tabindex => @tabindex.next) %>
@@ -12,3 +20,11 @@
 <% end %>
 
 <%= render_partial 'shared/js_bind_submit', :locals => { :object_name => 'search_'+type.to_s, :object => nil, :action => type } %>
+
+<script type="text/javascript">
+  $(document).ready(
+    function () {
+      FancySelector.prototype.initialize('.tag_options_typeahead_selector', '/familycookbook/tag/as_array', 'Select a tag');
+    }
+  );
+</script>

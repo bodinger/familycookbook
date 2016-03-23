@@ -1,52 +1,24 @@
 module MTMD
   module FamilyCookBook
     module Search
-      class RecipeByTag
-        CONTROLLER   = :recipe
-        ACTION       = :show
-        TABLE_CONFIG = {
-          :header => [
-            {
-              :title => 'Title',
-              :width => 12
-            }
-          ],
-          :body => [
-            {
-              :field => :title,
-              :width => 12
-            }
-          ]
-        }
-
-        def search(phrase)
-          build_result(
-            phrase,
-            query(phrase)
-          )
-        end
+      class RecipeByTag < ::MTMD::FamilyCookBook::Search::Recipe
 
         def query(phrase)
           MTMD::FamilyCookBook::Recipe.
             where(
               :id => MTMD::FamilyCookBook::Tag.
                 association_join(:recipes).
-                where(Sequel.ilike(:tags__name, "%#{phrase}%")).
+                where(:tags__id => phrase).
                 select_map(:recipe_id)
             ).
             order(:title).
             all
         end
 
-        def build_result(phrase, results)
-          MTMD::FamilyCookBook::Search::ResultSet.new(
-            :controller   => CONTROLLER,
-            :action       => ACTION,
-            :table_config => TABLE_CONFIG,
-            :phrase       => phrase,
-            :results      => results
-          ).get
+        def transform_phrase(phrase)
+          MTMD::FamilyCookBook::Tag.where(:id => phrase).select_map(:name).first
         end
+
       end
     end
   end

@@ -1,16 +1,16 @@
-<h3>Search result for "<%= @phrase %>"</h3>
+<h3>Search result for "<%= @result.phrase %>"</h3>
 
 <div class="panel">
   <div class="panel-heading">
     <div class="row">
-        <% @table_config[:header].each_with_index do |column, index| %>
+        <% @result.table_config[:header].each_with_index do |column, index| %>
       <div class="col-md-<%= column[:width] %>"><strong><%= column[:title] %></strong><br/></div>
         <% end %>
     </div>
   </div>
   <div class="panel-body">
-    <% @items.each_with_index do |hit, index| %>
-      <%= partial 'search/result_item', :object => hit, :locals => { :item => hit, :index => index, :table_config => @table_config, :controller => @controller } %>
+    <% @result.results.each_with_index do |hit, index| %>
+      <%= partial 'search/result_item', :object => hit, :locals => { :item => hit, :index => index, :result => @result } %>
     <% end %>
   </div>
 </div>

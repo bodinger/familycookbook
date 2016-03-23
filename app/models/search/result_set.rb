@@ -25,8 +25,24 @@ module MTMD
           )
         end
 
-        def get
-          @result_set
+        def controller
+          @result_set[:controller]
+        end
+
+        def action
+          @result_set[:action]
+        end
+        
+        def table_config
+          @result_set[:table_config]
+        end
+
+        def phrase
+          @result_set[:phrase]
+        end
+
+        def results
+          @result_set[:results]
         end
       end
     end
