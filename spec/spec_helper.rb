@@ -13,6 +13,9 @@ require 'rack/test'
 require 'uri'
 require 'pry'
 require 'timecop'
+require 'sequel'
+require 'active_support'
+require 'active_support/core_ext'
 
 require 'simplecov'
 SimpleCov.start do
@@ -21,18 +24,17 @@ SimpleCov.start do
   add_filter '/vendor'
 end
 
-require 'video_api'
-require 'video_api/path_helper'
-require 'pry'
+ENV["RACK_ENV"] = RACK_ENV = "test"
 
-ENV["RACK_ENV"] = "test"
 
-require_relative '../lib/video_api/importer/config'
-CONFIG = VideoApi::Importer::Config.new('test')
+require_relative '../config/database'
+require_relative '../lib/mtmd/db'
+require_relative '../lib/mtmd/familycookbook/models'
 
-DB_CONNECTION = VideoApi.db_connect!(CONFIG.db_config)
 
-DB_CONNECTION.loggers << VideoApi::Util::Logger.instance
+require_relative '../lib/mtmd/core/config'
+CONFIG = MTMD::Core::Config.new('test')
+DB_CONNECTION = Sequel::Model.db
 
 def spec_root
   @spec_root ||= File.dirname( __FILE__ )
@@ -43,8 +45,7 @@ def project_root
 end
 
 Fabrication.configure do |config|
-  fabricator_gem_path = VideoApi::PathHelper.fabricator_relative_path_from(Dir.pwd)
-  config.fabricator_path.push(fabricator_gem_path)
+  #config.fabricator_path.push('./spec/fabricators')
 end
 
 Dir[ File.join( spec_root, 'support', '**', '*.rb' ) ].each { |f| require f }
@@ -62,13 +63,13 @@ RSpec.configure do |config|
   config.mock_with :rspec do |c|
     c.syntax = [:should, :expect]
   end
-  config.include(MockHelper)
-  config.include(WatcherHelper)
-  config.include(FixtureHelper)
-  config.include(LoggerHelper)
-  config.include(EventsHelper)
-  config.include(ElasticResourceHelper)
-  config.include(JsonResponseHelper)
+  # config.include(MockHelper)
+  # config.include(WatcherHelper)
+  # config.include(FixtureHelper)
+  # config.include(LoggerHelper)
+  # config.include(EventsHelper)
+  # config.include(ElasticResourceHelper)
+  # config.include(JsonResponseHelper)
 
   # Database Cleaner configuration
   config.before(:suite) do

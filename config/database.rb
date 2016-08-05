@@ -1,3 +1,4 @@
+require_relative '../lib/mtmd/core/path_helper'
 require_relative '../lib/mtmd/core/config_loader'
 
 module MTMD
@@ -5,7 +6,7 @@ module MTMD
     class Database
 
       def self.config
-        base_config = MTMD::Core::ConfigLoader.new(Padrino.root('config/database.yml'), RACK_ENV).load_config
+        base_config = MTMD::Core::ConfigLoader.new(::Utils::PathHelper.project_root('config/database.yml'), RACK_ENV).load_config
         base_config['database']
       end
 
