@@ -2,7 +2,7 @@ require 'fileutils'
 require 'yaml'
 
 set :stages, %w(production staging integration)
-set :default_stage, "staging"
+set :default_stage, "production"
 
 require 'capistrano/ext/multistage'
 
@@ -12,10 +12,10 @@ set :user, 'fcb'
 set :runner, 'fcbrun'
 
 # require additional recipes
-require 'cdb/deploy/recipes/config'
-require 'cdb/deploy/recipes/puma'
-require 'cdb/deploy/recipes/shared_dirs'
-require 'cdb/deploy/recipes/nginx'
+#require_relative 'deploy/recipes/config'
+#require_relative 'deploy/recipes/puma'
+#require_relative 'deploy/recipes/shared_dirs'
+#require_relative 'deploy/recipes/nginx'
 
 # =============================================================================
 # Basic variables
@@ -26,7 +26,7 @@ set :deploy_via, :copy
 
 set :copy_exclude, [ ".git", ".gitignore", "log", "tmp" ]
 
-set :shared_dirs, ["sockets"]
+#set :shared_dirs, ["sockets"]
 set :conf_templates, ["config/puma.conf"]
 
 # set :bundle_flags, "--quiet --no-cache" #only needed after ruby update, investigate why? https://github.com/bundler/bundler/issues/1454
