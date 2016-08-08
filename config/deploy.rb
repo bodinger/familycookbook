@@ -55,7 +55,7 @@ after "deploy:update", "deploy:cleanup"
 require 'rvm/capistrano'
 
 set :rvm_ruby_string, File.read('.ruby-version').strip
-set :rvm_type, :system
+set :rvm_type, :user
 
 
 # =============================================================================
